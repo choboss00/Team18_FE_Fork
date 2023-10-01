@@ -1,8 +1,10 @@
 import PropTypes, { string } from "prop-types";
 import { useState } from "react";
+import useOutsideRef from "../../hooks/useOutSideRef";
 
 const Dropdown = ({ options, selected, onSelectedChange }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const outSideRef = useOutsideRef(() => setIsOpen(false));
 
   // 로직 추가 시 이 부분을 수정하세요.
   const handleClickOption = (option) => {
@@ -11,7 +13,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   };
 
   return (
-    <div className="w-[12rem] color-green-900">
+    <div className="w-[12rem] color-green-900" ref={outSideRef}>
       <div
         className="flex w-full border-t-2 border-solid p-4 justify-between items-center border-green-700 font-semibold"
         onClick={() => setIsOpen((prev) => !prev)}
