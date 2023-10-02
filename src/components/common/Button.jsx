@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const btnColor = {
   orange: "bg-orange text-white border-orange",
   white: "bg-white text-orange border-orange",
@@ -19,13 +17,6 @@ const Button = ({ color, size, onClick, children }) => {
       {children}
     </button>
   );
-};
-
-Button.propTypes = {
-  color: PropTypes.oneOf(["orange", "white"]),
-  size: PropTypes.oneOf(["sm", "base", "lg"]),
-  onClick: PropTypes.func,
-  children: PropTypes.string,
 };
 
 export default Button;
