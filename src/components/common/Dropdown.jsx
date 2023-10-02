@@ -1,4 +1,3 @@
-import PropTypes, { string } from "prop-types";
 import { useState } from "react";
 import useOutsideRef from "../../hooks/useOutSideRef";
 
@@ -38,12 +37,6 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
       )}
     </div>
   );
-};
-
-Dropdown.propTypes = {
-  options: PropTypes.arrayOf(string),
-  selected: PropTypes.string,
-  onSelectedChange: PropTypes.func,
 };
 
 export default Dropdown;
