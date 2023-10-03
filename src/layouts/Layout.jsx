@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <div className="relative">
       <GNB />
-      <main className="pt-16 pb-16 min-h-screen bg-green-100 flex flex-col">
+      <main className="pt-20 pb-20 min-h-screen bg-green-100 flex flex-col">
         <Outlet />
       </main>
       <Footer />
