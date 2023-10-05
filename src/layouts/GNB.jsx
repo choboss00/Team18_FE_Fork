@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { useNavState } from "/src/hooks/useNavState.js";
@@ -58,6 +58,13 @@ const nav = [
 
 export default function GNB() {
   const { currentUrl, selectedmainNav, setselectedMainNav } = useNavState();
+  // 로그인 기능 생기기 전까지 임시 로그인 판단 방식
+  const [auth, setAuth] = useState(
+    window.localStorage.getItem("token") ? true : false
+  );
+  // api 기능 생기기 전까지 임시 프로필 이미지 경로
+  const profileImageUrl =
+    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
 
   useEffect(() => {
     setselectedMainNav(
@@ -73,6 +80,11 @@ export default function GNB() {
 
   const handleMainNavClick = (e) => {
     setselectedMainNav(e.target.innerText);
+  };
+
+  const handleLogOutClick = () => {
+    window.localStorage.removeItem("token");
+    setAuth(window.localStorage.getItem("token") ? true : false);
   };
 
   return (
@@ -108,8 +120,49 @@ export default function GNB() {
           </Link>
         </div>
         {/* 상단GNB - 계정 */}
-        <div className="flex-1 flex justify-end space-x-4">
-          <div>로그인</div>
+        <div className="flex-1 flex justify-end items-center space-x-4">
+          {auth ? (
+            <>
+              <div>
+                <img
+                  className="w-7 rounded-full"
+                  src={profileImageUrl}
+                  alt="기본 프로필 사진"
+                ></img>
+              </div>
+              <Link
+                className="pl-1 pr-2 py-[2px] border-2 border-orange rounded"
+                to={"/watching/videos"}
+                onClick={handleLogOutClick}
+              >
+                <span className=" flex items-center text-xs text-orange">
+                  <span className="material-symbols-outlined">logout</span>
+                  Log Out
+                </span>
+              </Link>
+            </>
+          ) : (
+            <Link
+              className="pl-1 pr-2 py-[2px] bg-orange border-2 border-orange rounded"
+              to={"/login"}
+            >
+              <span className="flex items-center text-xs text-white">
+                <span className="material-symbols-outlined">login</span>
+                <span className="px-1">Log In</span>
+              </span>
+            </Link>
+          )}
+          {/* 로그인 기능이 생기기 전까지 임시 로그인 */}
+          <div
+            className="px-2 py-1 bg-green-500 rounded text-xs text-white"
+            onClick={function () {
+              if (auth) window.localStorage.removeItem("token");
+              else window.localStorage.setItem("token", "Bearer 1234");
+              setAuth(window.localStorage.getItem("token") ? true : false);
+            }}
+          >
+            TEST
+          </div>
         </div>
       </div>
       {/* 하단 GNB(Nav) */}
