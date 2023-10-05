@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
+import { useNavState } from "/src/hooks/useNavState.js";
 
 const nav = [
   {
@@ -55,44 +57,40 @@ const nav = [
 ];
 
 export default function GNB() {
-  const location = useLocation();
-  const crruentUrl = location.pathname
-    .replace(/\d/, "")
-    .replace(/^\/+|\/+$/g, "");
-  const [seletedMainNav, setSeletedMainNav] = useState("Watching");
-
-  const handleMainNavClick = (e) => {
-    setSeletedMainNav(e.target.innerText);
-  };
-
-  const handleNavMouseLeave = (e) => {
-    setSeletedMainNav(
-      nav.find((val) => val.mainUrl === crruentUrl.split("/")[0]).mainNav
-    );
-  };
+  const { currentUrl, selectedmainNav, setselectedMainNav } = useNavState();
 
   useEffect(() => {
-    setSeletedMainNav(
-      nav.find((val) => val.mainUrl === crruentUrl.split("/")[0]).mainNav
+    setselectedMainNav(
+      nav.find((val) => val.mainUrl === currentUrl.split("/")[0]).mainNav
     );
-  }, [crruentUrl]);
+  }, [setselectedMainNav, currentUrl]);
+
+  const handleNavMouseLeave = () => {
+    setselectedMainNav(
+      nav.find((val) => val.mainUrl === currentUrl.split("/")[0]).mainNav
+    );
+  };
+
+  const handleMainNavClick = (e) => {
+    setselectedMainNav(e.target.innerText);
+  };
 
   return (
     <nav
       className="fixed top-0 w-full h-20 bg-white text-green-900"
       onMouseLeave={handleNavMouseLeave}
     >
-      {/* 상단 GNB */}
+      {/* 상단GNB */}
       <div className="h-12 px-16 border flex items-center">
-        {/* 상단 Nav */}
+        {/* 상단GNB - 상단Nav */}
         <div className="flex-1 flex justify-start space-x-4">
           {nav.map((val) => (
             <button
               key={`mainNav-${val.mainNav}`}
               className={`w-20 h-7 text-center text-sm${
-                val.mainNav === seletedMainNav ? " font-bold" : ""
-              } ${
-                crruentUrl.includes(val.mainNav.toLowerCase().replace(" ", ""))
+                val.mainNav === selectedmainNav ? " font-bold" : ""
+              }${
+                currentUrl.includes(val.mainUrl)
                   ? " border-b-2 border-orange"
                   : ""
               }`}
@@ -102,14 +100,14 @@ export default function GNB() {
             </button>
           ))}
         </div>
-        {/* 로고 */}
+        {/* 상단GNB - 로고 */}
         <div className="flex-1 flex justify-center">
           <Link className="flex items-center" to="/watching/videos">
             <span className="material-symbols-outlined">deceased</span>
             <span className="text-lg font-semibold">Garden</span>
           </Link>
         </div>
-        {/* 계정 기능 */}
+        {/* 상단GNB - 계정 */}
         <div className="flex-1 flex justify-end space-x-4">
           <div>로그인</div>
         </div>
@@ -117,12 +115,12 @@ export default function GNB() {
       {/* 하단 GNB(Nav) */}
       <div className="h-8 px-16 border space-x-4">
         {nav
-          .find((val) => val.mainNav === seletedMainNav)
+          .find((val) => val.mainNav === selectedmainNav)
           .sub.map((val) => (
             <Link
               key={`subNav-${val.subNav}`}
               className={`text-xs${
-                val.url.includes(crruentUrl) ? " text-orange font-semibold" : ""
+                val.url.includes(currentUrl) ? " text-orange font-semibold" : ""
               }`}
               to={val.url[0]}
             >
