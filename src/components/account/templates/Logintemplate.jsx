@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const LoginTemplate = () => {
   return (
     <>
-      <main className="pb-20 min-h-screen bg-green-100 justify-center items-center flex flex-col">
+      <main className="mt-20 justify-center items-center flex flex-col">
         <Title>Log In</Title>
         <LoginForm inputProps={LOGIN} />
         <div className="mt-4">
