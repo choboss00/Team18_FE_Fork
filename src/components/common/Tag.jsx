@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const tagType = {
   Sport: "bg-blue-500 text-white",
   Game: "bg-teal-500 text-white",
@@ -20,10 +18,6 @@ const Tag = ({ children, ...props }) => {
       {children}
     </span>
   );
-};
-
-Tag.propTypes = {
-  children: PropTypes.string,
 };
 
 export default Tag;

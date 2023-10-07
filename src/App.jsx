@@ -6,6 +6,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import "./App.css";
+
 import AuthCheck from "./layouts/AuthCheck.jsx";
 import Layout from "./layouts/Layout.jsx";
 import Posts from "./pages/mentoring/Posts.jsx";
