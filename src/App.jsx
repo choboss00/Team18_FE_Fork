@@ -13,6 +13,8 @@ import Post from "./pages/mentoring/Post.jsx";
 import Write from "./pages/mentoring/Write.jsx";
 import Edit from "./pages/mentoring/Edit.jsx";
 import Dashboard from "./pages/mentoring/Dashboard.jsx";
+import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
+import "./App.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,7 +30,7 @@ const router = createBrowserRouter(
         <Route path="watching/video/:videoId" element={<h1>Video</h1>} />
         <Route path="mentoring/posts" element={<Posts />} />
         <Route path="mentoring/post/:postId" element={<Post />} />
-        <Route path="chatting/rooms" element={<h1>Rooms</h1>} />
+        <Route path="chatting/rooms" element={<ChattingRoomsPage />} />
         <Route
           path="chatting/roomprofile/:roomId"
           element={<h1>RoomProfile</h1>}
