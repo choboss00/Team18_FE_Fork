@@ -16,17 +16,25 @@ import Write from "./pages/mentoring/Write.jsx";
 import Edit from "./pages/mentoring/Edit.jsx";
 import Dashboard from "./pages/mentoring/Dashboard.jsx";
 import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
-import "./App.css";
+import LoginPage from "./pages/account/LoginPage";
+import SignupPage from "./pages/account/SignupPage";
+import AccountLayout from "./layouts/AccountLayout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route index element={<Navigate to="watching/videos" />} />
-      <Route path="login" element={<h1>LogIn</h1>} />
-      <Route path="signup" element={<h1>SignUp</h1>} />
+
+      <Route element={<AccountLayout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
+      </Route>
+
       <Route element={<AuthCheck />}>
         <Route path="interest" element={<h1>Interest</h1>} />
       </Route>
+
+      {/* 공통 레이아웃 */}
       <Route element={<Layout />}>
         <Route path="watching/videos" element={<h1>Vidoes</h1>} />
         <Route path="watching/video/:videoId" element={<h1>Video</h1>} />
@@ -37,6 +45,8 @@ const router = createBrowserRouter(
           path="chatting/roomprofile/:roomId"
           element={<h1>RoomProfile</h1>}
         />
+
+        {/* 사용자 인증 레이아웃  */}
         <Route element={<AuthCheck />}>
           <Route path="watching/history" element={<h1>History</h1>} />
           <Route path="mentoring/write" element={<Write />} />
