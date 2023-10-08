@@ -17,7 +17,6 @@ import Edit from "./pages/mentoring/Edit.jsx";
 import Dashboard from "./pages/mentoring/Dashboard.jsx";
 
 import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
-import "./App.css";
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
 import AccountLayout from "./layouts/AccountLayout";
