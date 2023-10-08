@@ -21,7 +21,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
         <span className="material-symbols-outlined"> expand_more </span>
       </div>
       {isOpen ? (
-        <div className="flex flex-col gap-2 bg-green-100 w-full text-sm">
+        <div className="flex flex-col gap-2 bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm">
           {options.map((option) => (
             <button
               key={option}
