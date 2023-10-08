@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import "./community-channel-list.css";
 import OpenChannelPreview from "./OpenChannelPreview";
 import Profile from "./Profile";
 import { sendBirdSelectors, withSendBird } from "@sendbird/uikit-react";
@@ -31,9 +30,11 @@ function CommunityChannelList({
   }, [sdk]);
 
   return (
-    <div className="community-channel-list">
-      <div className="community-channel-list__title">Community Channels</div>
-      <div className="community-channel-list__list">
+    <div className="w-[264px] h-full flex flex-col overflow-y-scroll flex-1 box-border text-lg font-semibold not-italic leading-[normal] tracking-[-0.2px] text-[color:var(--gray-0)] border-b-[color:var(--gray-1)] px-6 py-5 border-b border-solid text-center font-[normal] ml-8 p-4">
+      <div className="box-border text-lg font-semibold not-italic leading-[normal] tracking-[-0.2px] text-[color:var(--gray-0)] border-b-[color:var(--gray-1)] px-6 py-5 border-b border-solid">
+        Community Channels
+      </div>
+      <div className="h-full overflow-y-scroll flex-1">
         {channels.length === 0 ? (
           "No Channels"
         ) : (
@@ -52,11 +53,11 @@ function CommunityChannelList({
             </div>
           </div>
         )}
-        <p className="community-channel-list__placeholder">
+        <p className="w-[200px] h-4 text-center text-xs font-[normal] not-italic leading-[1.33] tracking-[normal] text-[color:var(--gray-2)] ml-8">
           Preset channels developed by UI Kit
         </p>
       </div>
-      <div className="community-channel-list__footer">
+      <div className="box-border flex p-4">
         <Profile user={user} />
       </div>
     </div>

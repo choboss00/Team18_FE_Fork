@@ -1,7 +1,9 @@
 import { useState } from "react";
 
-import "./community.css";
 import "./theme.css";
+import "./community.css";
+import "@sendbird/uikit-react/dist/index.css";
+
 import {
   OpenChannel,
   OpenChannelSettings,
@@ -22,17 +24,17 @@ export default function Community({ appId, userId, theme, nickname }) {
       theme={theme}
       nickname={nickname}
     >
-      <div className="community-app">
+      <div className="flex flex-row h-[99vh]">
         <ChannelListProvider>
           <ChannelList />
         </ChannelListProvider>
-        <div className="channel-list">
+        <div className="bg-[color:var(--bg-0)] border-r-[color:var(--gray-1)] border-r border-solid">
           <CommunityChannelListWithSendBird
             currentChannelUrl={currentChannelUrl}
             setCurrentChannel={setCurrentChannel}
           />
         </div>
-        <div className="community-open-channel">
+        <div className="flex-1 bg-[color:var(--bg-0)]">
           <OpenChannel
             channelUrl={currentChannelUrl}
             onChatHeaderActionClick={() => {
