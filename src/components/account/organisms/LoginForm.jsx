@@ -1,26 +1,8 @@
-import { useState } from "react";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
+import useValidation from "../hooks/useValidation";
 
 const LoginForm = ({ inputProps, inputGroup }) => {
-  // jotai로 전역상태만 관리
-
-  //핸들러는 hook으로 빼기
-  // const [email, setEmail] = useState("");
-  // const [pw, setPw] = useState("");
-
-  // const handleChange = (event) => {
-  //   const id = event.target.id;
-  //   if (id === "email") {
-  //     setEmail(event.target.value);
-  //     console.log(event.target.value);
-  //   }
-  //   if (id === "pw") {
-  //     setPw(event.target.value);
-  //     console.log(event.target.value);
-  //   }
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -29,15 +11,23 @@ const LoginForm = ({ inputProps, inputGroup }) => {
     <>
       <form onSubmit={handleSubmit}>
         <main className="max-w-[500px]">
-          {inputProps.map((props) => (
-            <InputBox
-              key={props.id}
-              id={props.id}
-              label={props.label}
-              type={props.type}
-              placeholder={props.placeholder}
-            />
-          ))}
+          {inputProps.map((inputField) => {
+            const validationHook = useValidation("", inputField.error);
+            return (
+              <InputBox
+                key={inputField.id}
+                id={inputField.id}
+                label={inputField.label}
+                type={inputField.type}
+                placeholder={inputField.placeholder}
+                variant={inputField.variant}
+                error={validationHook.error}
+                msg={inputField.msg}
+                value={validationHook.value}
+                onChange={validationHook.handleChange}
+              />
+            );
+          })}
 
           <Button color="orange" size="xl">
             Log In
