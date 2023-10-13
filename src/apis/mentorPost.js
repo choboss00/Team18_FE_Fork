@@ -1,7 +1,9 @@
 import { instance } from "./instance.js";
 
-export async function getPostsReq(page = 0) {
-  return await instance.get(`/mentorings/post?page=${page}`);
+export async function getPostsReq(category, search, page = 0) {
+  return await instance.get(
+    `/mentorings/post?category=${category}&search=${search}&page=${page}`
+  );
 }
 
 export async function getPostReq(pid) {

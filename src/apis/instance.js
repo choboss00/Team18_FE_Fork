@@ -15,7 +15,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.err(`[API REQEST ERROR] ${error}`);
+    console.log(`[API REQEST ERROR] ${error}`);
     console.dir(error);
     return Promise.reject(error);
   }
@@ -27,7 +27,13 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.err(`[API RESPONSE ERROR] ${error}`);
+    if (error.response.status && error.message) {
+      const states = { 3: "Rredirect", 4: "Client", 5: "Server" };
+      const state = states[Math.floor(error.response.status / 100)];
+      console.log(
+        `[API RESPONSE ERROR] ${error.response.status}(${state}): ${error.message}`
+      );
+    } else console.log(`[API RESPONSE ERROR] ${error}`);
     console.dir(error);
     return Promise.reject(error);
   }
