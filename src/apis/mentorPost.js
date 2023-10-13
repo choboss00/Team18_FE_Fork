@@ -1,9 +1,14 @@
 import { instance } from "./instance.js";
 
-export async function getPostsReq(category, search, page = 0) {
-  return await instance.get(
-    `/mentorings/post?category=${category}&search=${search}&page=${page}`
-  );
+import { mockResponse, postsData } from "../components/mentoring/mock.js";
+
+export async function getPostsReq(category, search, page) {
+  // return await instance.get(
+  //   `/mentorings/post?category=${category}&search=${search}&page=${page}`
+  // );
+
+  // api 구현 전까지 mock 데이터 반환
+  return page < 2 ? mockResponse(postsData) : mockResponse({ response: [] });
 }
 
 export async function getPostReq(pid) {
