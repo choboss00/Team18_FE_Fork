@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import { useNavState } from "/src/hooks/useNavState.js";
+import { Link, useLocation } from "react-router-dom";
 
 const nav = [
   {
@@ -11,6 +9,7 @@ const nav = [
       { subNav: "Video", url: ["watching/videos", "watching/video"] },
       { subNav: "History", url: ["watching/History"] },
     ],
+    subPadding: "pl-[3.7rem]",
   },
   {
     mainNav: "Mentoring",
@@ -27,6 +26,7 @@ const nav = [
       },
       { subNav: "Dashboard", url: ["mentoring/dashboard"] },
     ],
+    subPadding: "pl-[9.5rem]",
   },
   {
     mainNav: "Chatting",
@@ -42,6 +42,7 @@ const nav = [
         ],
       },
     ],
+    subPadding: "pl-[16rem]",
   },
   {
     mainNav: "My Page",
@@ -53,34 +54,23 @@ const nav = [
         url: ["mypage/information", "mypage/information/fix"],
       },
     ],
+    subPadding: "pl-[20.7rem]",
   },
 ];
 
 export default function GNB() {
-  const { currentUrl, selectedmainNav, setselectedMainNav } = useNavState();
+  const currentUrl = useLocation()
+    .pathname.replace(/\d/, "")
+    .replace(/^\/+|\/+$/g, "");
+
   // 로그인 기능 생기기 전까지 임시 로그인 판단 방식
   const [auth, setAuth] = useState(
     window.localStorage.getItem("token") ? true : false
   );
+
   // api 기능 생기기 전까지 임시 프로필 이미지 경로
   const profileImageUrl =
     "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
-
-  useEffect(() => {
-    setselectedMainNav(
-      nav.find((val) => val.mainUrl === currentUrl.split("/")[0]).mainNav
-    );
-  }, [setselectedMainNav, currentUrl]);
-
-  const handleNavMouseLeave = () => {
-    setselectedMainNav(
-      nav.find((val) => val.mainUrl === currentUrl.split("/")[0]).mainNav
-    );
-  };
-
-  const handleMainNavClick = (e) => {
-    setselectedMainNav(e.target.innerText);
-  };
 
   const handleLogOutClick = () => {
     window.localStorage.removeItem("token");
@@ -88,28 +78,23 @@ export default function GNB() {
   };
 
   return (
-    <nav
-      className="fixed top-0 w-full h-20 bg-white text-green-900"
-      onMouseLeave={handleNavMouseLeave}
-    >
+    <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
       {/* 상단GNB */}
       <div className="h-12 px-16 border flex items-center">
         {/* 상단GNB - 상단Nav */}
         <div className="flex-1 flex justify-start space-x-4">
           {nav.map((val) => (
-            <button
+            <Link
               key={`mainNav-${val.mainNav}`}
               className={`w-20 h-7 text-center text-sm${
-                val.mainNav === selectedmainNav ? " font-bold" : ""
-              }${
                 currentUrl.includes(val.mainUrl)
-                  ? " border-b-2 border-orange"
+                  ? " border-b-2 border-orange font-bold"
                   : ""
               }`}
-              onClick={handleMainNavClick}
+              to={val.sub[0].url[0]}
             >
               {val.mainNav}
-            </button>
+            </Link>
           ))}
         </div>
         {/* 상단GNB - 로고 */}
@@ -166,9 +151,13 @@ export default function GNB() {
         </div>
       </div>
       {/* 하단 GNB(Nav) */}
-      <div className="h-8 px-16 border space-x-4">
+      <div
+        className={`h-8 ${
+          nav.find((val) => currentUrl.includes(val.mainUrl)).subPadding
+        } border space-x-4`}
+      >
         {nav
-          .find((val) => val.mainNav === selectedmainNav)
+          .find((val) => currentUrl.includes(val.mainUrl))
           .sub.map((val) => (
             <Link
               key={`subNav-${val.subNav}`}
