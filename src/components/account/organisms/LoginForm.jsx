@@ -1,40 +1,48 @@
+import React from "react";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
-import useValidation from "../hooks/useValidation";
 
-const LoginForm = ({ inputProps, inputGroup }) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
+const LoginForm = ({ inputProps }) => {
+  const methods = useForm();
+
+  const onSubmit = (data) => console.log(data);
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <main className="max-w-[500px]">
-          {inputProps.map((inputField) => {
-            const validationHook = useValidation("", inputField.error);
-            return (
-              <InputBox
-                key={inputField.id}
-                id={inputField.id}
-                label={inputField.label}
-                type={inputField.type}
-                placeholder={inputField.placeholder}
-                variant={inputField.variant}
-                error={validationHook.error}
-                msg={inputField.msg}
-                value={validationHook.value}
-                onChange={validationHook.handleChange}
-              />
-            );
-          })}
+          {inputProps.map((inputField) => (
+            <Controller
+              name={inputField.name}
+              key={inputField.name}
+              control={methods.control}
+              defaultValue=""
+              rules={inputField.rules}
+              render={({ field, fieldState }) => (
+                <InputBox
+                  {...field}
+                  id={inputField.name}
+                  label={inputField.label}
+                  variant={inputField.variant}
+                  type={inputField.type}
+                  placeholder={inputField.placeholder}
+                  error={fieldState.invalid}
+                  helperText={
+                    fieldState.invalid ? fieldState.error.message : ""
+                  }
+                  triggerValidation={methods.trigger}
+                />
+              )}
+            />
+          ))}
 
-          <Button color="orange" size="xl">
+          <Button color="orange" size="xl" type="submit">
             Log In
           </Button>
         </main>
       </form>
-    </>
+    </FormProvider>
   );
 };
 

@@ -1,40 +1,75 @@
-import React from "react";
-import { TextField, createTheme, ThemeProvider, colors } from "@mui/material";
+import React, { forwardRef } from "react";
+import { TextField, createTheme, ThemeProvider } from "@mui/material";
+import { useController } from "react-hook-form";
 
 const theme = createTheme({
   palette: {
-    //green
     primary: {
       main: "#5A906E",
       backgroundColor: "#F2F7F5",
     },
-    //orange
     secondary: {
       main: "#F9BC60",
     },
   },
+  components: {
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          "&.errorRequired": {
+            color: "#FF8C00",
+          },
+          "&.helperTextSize": {
+            fontSize: "0.8rem",
+          },
+        },
+      },
+    },
+  },
 });
 
-const InputBox = (props) => {
+const InputBox = forwardRef((props, ref) => {
+  const {
+    field: { onChange, onBlur, value },
+    fieldState: { invalid, error },
+  } = useController({
+    name: props.name,
+    control: props.control,
+    rules: props.rules,
+  });
+
+  let errorClass = "";
+  if (error) {
+    if (error?.type === "required") {
+      errorClass = "errorRequired";
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <TextField
-        variant={props.variant}
-        id={props.id}
-        key={props.id}
+        onChange={(e) => {
+          onChange(e);
+          props.triggerValidation?.(props.name);
+        }}
+        onBlur={onBlur}
+        value={value}
+        inputRef={ref}
         label={props.label}
-        value={props.value}
-        onChange={props.onChange}
-        type={props.type}
-        placeholder={props.placeholder}
+        id={props.id}
+        variant={props.variant}
+        name={props.name}
         color="secondary"
+        error={invalid}
+        helperText={error ? error.message : null}
+        FormHelperTextProps={{ className: `${errorClass} helperTextSize` }}
         sx={{
           width: "100%",
           marginTop: 3,
           marginBottom: 2,
           ...(props.variant === "filled" && {
             "& .MuiFilledInput-root": {
-              backgroundColor: `rgb(4, 180, 4, 0.02)`, //green, opacity 부여
+              backgroundColor: `rgba(4, 180, 4, 0.02)`, //green with opacity
               "&.Mui-focused": {
                 backgroundColor: theme.palette.primary.backgroundColor,
               },
@@ -43,7 +78,7 @@ const InputBox = (props) => {
           ...(props.variant === "outlined" && {
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                border: (theme) => `solid 2px ${theme.palette.primary.main}`,
+                borderColor: theme.palette.primary.main,
               },
               "&:hover fieldset": {
                 borderColor: theme.palette.secondary.main,
@@ -51,11 +86,9 @@ const InputBox = (props) => {
             },
           }),
         }}
-        error={props.error}
-        helperText={props.error ? props.msg : ""}
       />
     </ThemeProvider>
   );
-};
+});
 
 export default InputBox;
