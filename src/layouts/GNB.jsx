@@ -1,62 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const nav = [
-  {
-    mainNav: "Watching",
-    mainUrl: "watching",
-    sub: [
-      { subNav: "Video", url: ["watching/videos", "watching/video"] },
-      { subNav: "History", url: ["watching/History"] },
-    ],
-    subPadding: "pl-[3.7rem]",
-  },
-  {
-    mainNav: "Mentoring",
-    mainUrl: "mentoring",
-    sub: [
-      {
-        subNav: "List",
-        url: [
-          "mentoring/posts",
-          "mentoring/post",
-          "mentoring/write",
-          "mentoring/edit",
-        ],
-      },
-      { subNav: "Dashboard", url: ["mentoring/dashboard"] },
-    ],
-    subPadding: "pl-[9.5rem]",
-  },
-  {
-    mainNav: "Chatting",
-    mainUrl: "chatting",
-    sub: [
-      {
-        subNav: "Open Chatting",
-        url: [
-          "chatting/rooms",
-          "chatting/roomprofile",
-          "chatting/room",
-          "chatting/create",
-        ],
-      },
-    ],
-    subPadding: "pl-[16rem]",
-  },
-  {
-    mainNav: "My Page",
-    mainUrl: "mypage",
-    sub: [
-      { subNav: "Profile", url: ["mypage/profile", "mypage/profile/fix"] },
-      {
-        subNav: "Information",
-        url: ["mypage/information", "mypage/information/fix"],
-      },
-    ],
-    subPadding: "pl-[20.7rem]",
-  },
-];
+import { navStructure } from "./navStructure";
 
 export default function GNB() {
   const currentUrl = useLocation()
@@ -74,7 +19,13 @@ export default function GNB() {
 
   const handleLogOutClick = () => {
     window.localStorage.removeItem("token");
-    setAuth(window.localStorage.getItem("token") ? true : false);
+    setAuth(!!window.localStorage.getItem("token"));
+  };
+
+  const handleTestClick = () => {
+    if (auth) window.localStorage.removeItem("token");
+    else window.localStorage.setItem("token", "Bearer 1234");
+    setAuth(!!window.localStorage.getItem("token"));
   };
 
   return (
@@ -83,9 +34,9 @@ export default function GNB() {
       <div className="h-12 px-16 border flex items-center">
         {/* 상단GNB - 상단Nav */}
         <div className="flex-1 flex justify-start space-x-4">
-          {nav.map((val) => (
+          {navStructure.map((val) => (
             <Link
-              key={`mainNav-${val.mainNav}`}
+              key={val.mainNav}
               className={`w-20 h-7 text-center text-sm${
                 currentUrl.includes(val.mainUrl)
                   ? " border-b-2 border-orange font-bold"
@@ -140,11 +91,7 @@ export default function GNB() {
           {/* 로그인 기능이 생기기 전까지 임시 로그인 */}
           <div
             className="px-2 py-1 bg-green-500 rounded text-xs text-white"
-            onClick={function () {
-              if (auth) window.localStorage.removeItem("token");
-              else window.localStorage.setItem("token", "Bearer 1234");
-              setAuth(window.localStorage.getItem("token") ? true : false);
-            }}
+            onClick={handleTestClick}
           >
             TEST
           </div>
@@ -153,14 +100,15 @@ export default function GNB() {
       {/* 하단 GNB(Nav) */}
       <div
         className={`h-8 ${
-          nav.find((val) => currentUrl.includes(val.mainUrl)).subPadding
+          navStructure.find((val) => currentUrl.includes(val.mainUrl))
+            .subPadding
         } border space-x-4`}
       >
-        {nav
+        {navStructure
           .find((val) => currentUrl.includes(val.mainUrl))
           .sub.map((val) => (
             <Link
-              key={`subNav-${val.subNav}`}
+              key={val.subNav}
               className={`text-xs${
                 val.url.includes(currentUrl) ? " text-orange font-semibold" : ""
               }`}
