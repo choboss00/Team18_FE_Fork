@@ -1,4 +1,4 @@
-import { instance } from "./instance.js";
+import { instance } from "./instance";
 
 export async function getConnectiontsReq() {
   return await instance.get("/contacts");

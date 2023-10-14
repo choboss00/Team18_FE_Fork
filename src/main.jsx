@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Router from "./Router.jsx";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import Router from "./Router";
 
 import "./main.css";
 

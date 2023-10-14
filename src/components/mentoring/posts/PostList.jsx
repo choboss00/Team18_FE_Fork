@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getPostsReq } from "/src/apis/mentorPost.js";
+import { getPostsReq } from "/src/apis/mentorPost";
 
-import PostCard from "./PostCard.jsx";
-import PostCardSkeleton from "./PostCardSkeleton.jsx";
+import PostCard from "./PostCard";
+import PostCardSkeleton from "./PostCardSkeleton";
 
 export default function PostList({ category, search }) {
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =

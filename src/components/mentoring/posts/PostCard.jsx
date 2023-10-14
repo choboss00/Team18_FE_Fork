@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import Tag from "/src/components/common/Tag.jsx";
-import FlagTag from "/src/components/common/FlagTag.jsx";
+import Tag from "/src/components/common/Tag";
+import FlagTag from "/src/components/common/FlagTag";
 
 export default function PostCard({ post }) {
   return (

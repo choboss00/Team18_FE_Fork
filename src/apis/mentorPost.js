@@ -1,6 +1,5 @@
-import { instance } from "./instance.js";
-
-import { mockResponse, postsData } from "../components/mentoring/mock.js";
+import { instance } from "./instance";
+import { mockResponse, postsData } from "../components/mentoring/mock";
 
 export async function getPostsReq(category, search, page) {
   // return await instance.get(

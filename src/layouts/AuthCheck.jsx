@@ -1,4 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
+
 import { useAuthCheck } from "../hooks/useAuthCheck";
 
 export default function AuthCheck() {

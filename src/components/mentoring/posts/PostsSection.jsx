@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { atom, useAtomValue } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { useInputsRef } from "/src/hooks/useInputsRef.js";
+import { useInputsRef } from "/src/hooks/useInputsRef";
 
-import Error from "./Error.jsx";
-import Loader from "./PostCardSkeleton.jsx";
-import PostList from "./PostList.jsx";
+import Error from "./Error";
+import Loader from "./PostCardSkeleton";
+import PostList from "./PostList";
 
 const mentorAtom = atom(true);
 
