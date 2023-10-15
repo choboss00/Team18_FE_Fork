@@ -57,6 +57,7 @@ const InputBox = forwardRef((props, ref) => {
         inputRef={ref}
         label={props.label}
         id={props.id}
+        type={props.type}
         variant={props.variant}
         name={props.name}
         color="secondary"
