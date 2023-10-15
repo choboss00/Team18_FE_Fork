@@ -5,24 +5,55 @@ import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import COUNTRY from "../constants/COUNTRY";
 import CheckBox from "../atoms/CheckBox";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../store";
+import { register } from "../../../apis/user";
 
 const SignupForm = ({ inputProps }) => {
   const methods = useForm();
+  const { watch, control, handleSubmit } = methods;
+  const [user, setUser] = useAtom(userAtom);
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
+  const email = watch("email");
+  const password = watch("password");
 
-  const [selectedOption, setSelectedOption] = useState("the United States");
+  const [country, setCountry] = useState("the United States");
 
-  const handleOptionChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
+  const handleOptionChange = (country) => {
+    setCountry(country);
   };
-
-  const [selectedRole, setSelectedRole] = useState("");
+  const [role, setRole] = useState("");
 
   const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
+    setRole(event.target.value);
   };
+  const [interest, setInterest] = useState(null);
 
-  const onSubmit = (data) => {
-    console.log(data, selectedRole);
+  const onSubmit = async (data) => {
+    try {
+      const res = await register({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        country,
+        interest,
+      });
+
+      setUser({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        country,
+        interest,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
@@ -34,7 +65,7 @@ const SignupForm = ({ inputProps }) => {
               {inputProps
                 .filter(
                   (props) =>
-                    props.name === "FirstName" || props.name === "LastName"
+                    props.name === "firstName" || props.name === "lastName"
                 )
                 .map((inputField) => {
                   return (
@@ -66,8 +97,8 @@ const SignupForm = ({ inputProps }) => {
             {inputProps
               .filter(
                 (inputField) =>
-                  inputField.name !== "FirstName" &&
-                  inputField.name !== "LastName"
+                  inputField.name !== "firstName" &&
+                  inputField.name !== "lastName"
               )
               .map((inputField) => {
                 return (
@@ -96,24 +127,27 @@ const SignupForm = ({ inputProps }) => {
                 );
               })}
             <CheckBox
+              name="role"
               value="mentor"
               type="radio"
-              checked={selectedRole === "mentor"}
+              checked={role === "mentor"}
               onChange={handleRoleChange}
             >
               Mentor
             </CheckBox>
             <CheckBox
+              name="role"
               value="mentee"
               type="radio"
-              checked={selectedRole === "mentee"}
+              checked={role === "mentee"}
               onChange={handleRoleChange}
             >
               Mentee
             </CheckBox>
             <Dropdown
+              name="country"
               options={COUNTRY.map((country) => country.name)}
-              selected={selectedOption}
+              selected={country}
               onSelectedChange={handleOptionChange}
             />
             <Button color="orange" size="xl">

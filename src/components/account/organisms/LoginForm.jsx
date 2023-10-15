@@ -2,11 +2,23 @@ import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../store";
 
 const LoginForm = ({ inputProps }) => {
   const methods = useForm();
+  const { watch, control, handleSubmit } = methods;
+  const email = watch("email");
+  const password = watch("password");
 
-  const onSubmit = (data) => console.log(data);
+  const [user, setUser] = useAtom(userAtom);
+
+  const onSubmit = (data) => {
+    console.log("Email:", email);
+    console.log("Password:", password);
+
+    setUser({ email, password });
+  };
 
   return (
     <FormProvider {...methods}>
@@ -36,7 +48,6 @@ const LoginForm = ({ inputProps }) => {
               )}
             />
           ))}
-
           <Button color="orange" size="xl" type="submit">
             Log In
           </Button>
@@ -45,5 +56,4 @@ const LoginForm = ({ inputProps }) => {
     </FormProvider>
   );
 };
-
 export default LoginForm;
