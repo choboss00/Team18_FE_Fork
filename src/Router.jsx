@@ -9,14 +9,17 @@ import {
 import Layout from "./layouts/Layout.jsx";
 import AccountLayout from "./layouts/AccountLayout";
 import AuthCheck from "./layouts/AuthCheck.jsx";
+
+import LoginPage from "./pages/account/LoginPage";
+import SignupPage from "./pages/account/SignupPage";
+
 import Posts from "./pages/mentoring/Posts.jsx";
 import Post from "./pages/mentoring/Post.jsx";
 import Write from "./pages/mentoring/Write.jsx";
 import Edit from "./pages/mentoring/Edit.jsx";
 import Dashboard from "./pages/mentoring/Dashboard.jsx";
+
 import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
-import LoginPage from "./pages/account/LoginPage";
-import SignupPage from "./pages/account/SignupPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
