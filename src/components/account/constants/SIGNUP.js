@@ -1,9 +1,9 @@
 const SIGNUP = Object.freeze([
   {
-    name: "FirstName",
+    name: "firstName",
     label: "First Name",
     type: "text",
-    placeholder: "First Name",
+    placeholder: "first Name",
     variant: "filled",
     rules: {
       required: "The input box must not be empty.",
@@ -14,7 +14,7 @@ const SIGNUP = Object.freeze([
     },
   },
   {
-    name: "LastName",
+    name: "lastName",
     label: "Last Name",
     type: "text",
     placeholder: "Last Name",
