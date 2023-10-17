@@ -19,6 +19,7 @@ export default function GNB() {
 
   const handleLogOutClick = () => {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user");
     setAuth(!!window.localStorage.getItem("token"));
   };
 

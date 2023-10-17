@@ -4,8 +4,11 @@ import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../store";
+import { login } from "../../../apis/user";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ inputProps }) => {
+  const navigate = useNavigate();
   const methods = useForm();
   const { watch, control, handleSubmit } = methods;
   const email = watch("email");
@@ -13,11 +16,23 @@ const LoginForm = ({ inputProps }) => {
 
   const [user, setUser] = useAtom(userAtom);
 
-  const onSubmit = (data) => {
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const onSubmit = async () => {
+    try {
+      const response = await login({
+        email: email,
+        password: password,
+      });
 
-    setUser({ email, password });
+      if (response.data.message === "Login successful") {
+        setUser(response.data.user);
+        console.log(response.data.message); // 로그인 성공 실패 여부 확인
+        localStorage.setItem("token", response.headers.authorization);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
 
   return (
