@@ -81,7 +81,7 @@ export default function GNB() {
           ) : (
             <Link
               className="pl-1 pr-2 py-[2px] bg-orange border-2 border-orange rounded"
-              to={"/login"}
+              to={"/users/login"}
             >
               <span className="flex items-center text-xs text-white">
                 <span className="material-symbols-outlined">login</span>
