@@ -3,7 +3,7 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../store";
+import { userAtom, tokenAtom } from "../../../store";
 import { login } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const LoginForm = ({ inputProps }) => {
   const { watch, control, handleSubmit } = methods;
   const email = watch("email");
   const password = watch("password");
-
+  const [token, setToken] = useAtom(tokenAtom);
   const [user, setUser] = useAtom(userAtom);
 
   const onSubmit = async () => {
@@ -23,14 +23,17 @@ const LoginForm = ({ inputProps }) => {
         password: password,
       });
 
-      if (response.data.message === "Login successful") {
+      if (response.data.success === true) {
         setUser(response.data.user);
-        console.log(response.data.message); // 로그인 성공 실패 여부 확인
-        localStorage.setItem("token", response.headers.authorization);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        navigate("/", { replace: true });
+        setToken(response.headers.authorization);
+        console.log("login success");
+        navigate("/");
+      } else {
+        // 로그인 실패
+        console.error("login failed");
       }
     } catch (error) {
+      // 로그인 요청 실패
       console.error("Error during login:", error);
     }
   };

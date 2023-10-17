@@ -57,6 +57,7 @@ export const login = async (data) => {
     return mockResponse({
       message: "Login successful",
       user: responseUser,
+      success: true,
     });
   } else {
     return mockResponse({
