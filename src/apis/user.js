@@ -1,24 +1,39 @@
 import { instance } from "./instance";
 import { mockUsers, mockResponse } from "../components/account/mockUser";
 
-// api 요청
 export const register = (data) => {
-  const { firstName, lastName, email, password, role, country, interest } =
-    data;
-  return instance.post("/signup", {
+  const {
     firstName,
     lastName,
     email,
     password,
     role,
+    introduction,
+    profileImage,
     country,
-    interest,
+    age,
+    categoryList,
+    phone,
+  } = data;
+
+  return instance.post("/users/signup", {
+    firstName,
+    lastName,
+    email,
+    password,
+    role,
+    introduction,
+    profileImage,
+    country,
+    age,
+    categoryList,
+    phone,
   });
 };
 
 // export const login = (data) => {
 //   const { email, password } = data;
-//   return instance.post("/login", {
+//   return instance.post("/users/login", {
 //     email,
 //     password,
 //   });
@@ -42,6 +57,7 @@ export const login = async (data) => {
     return mockResponse({
       message: "Login successful",
       user: responseUser,
+      success: true,
     });
   } else {
     return mockResponse({
