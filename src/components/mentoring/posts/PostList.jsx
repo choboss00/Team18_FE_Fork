@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getPostsReq } from "/src/apis/mentorPost";
+import { getPostsReq } from "../../../apis/mentorPost";
 
 import PostCard from "./PostCard";
 import PostCardSkeleton from "./PostCardSkeleton";
@@ -37,7 +37,6 @@ export default function PostList({ category, search }) {
         Array(3)
           .fill(null)
           .map((_, index) => <PostCardSkeleton key={`skeleton-${index}`} />)}
-      <PostCardSkeleton />
       <div ref={ref}></div>
     </div>
   );

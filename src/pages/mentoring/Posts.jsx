@@ -1,4 +1,4 @@
-import PostsSection from "/src/components/mentoring/posts/postsSection";
+import PostsSection from "../../components/mentoring/posts/PostsSection";
 
 export default function Posts() {
   return <PostsSection />;

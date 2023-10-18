@@ -1,18 +1,17 @@
 import { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { atom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { useInputsRef } from "/src/hooks/useInputsRef";
+import { useInputsRef } from "../../../hooks/useInputsRef";
+import { userAtom } from "../../../store/index";
 
 import Error from "./Error";
 import Loader from "./PostCardSkeleton";
 import PostList from "./PostList";
 
-const mentorAtom = atom(true);
-
 export default function PostsSection() {
-  const isMentor = useAtomValue(mentorAtom);
+  const userData = useAtomValue(userAtom);
 
   const [searchValue, setSearchValue] = useState({
     category: "title",
@@ -34,7 +33,7 @@ export default function PostsSection() {
         <h1 className="inline-block text-4xl font-bold text-green-700">
           Mentoring List
         </h1>
-        {isMentor && (
+        {userData?.role === "user" && (
           <Link
             className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
             to="/mentoring/write"
