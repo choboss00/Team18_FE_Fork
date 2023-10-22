@@ -15,16 +15,16 @@ export async function getPostReq(pid) {
 }
 
 export async function addPostReq(data) {
-  const { datas } = data;
+  const { requiredData } = data;
   return await instance.post("/mentorings/post", {
-    datas: datas,
+    requiredData,
   });
 }
 
 export async function editPostReq(pid, data) {
-  const { datas } = data;
+  const { requiredData } = data;
   return await instance.put(`/mentorings/post/${pid}`, {
-    datas: datas,
+    requiredData,
   });
 }
 
