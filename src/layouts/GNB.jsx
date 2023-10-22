@@ -1,32 +1,20 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { authAtom } from "../store/index";
 import { navStructure } from "./navStructure";
+import useLogin from "../components/account/hooks/useLogin";
+import { useAtom } from "jotai";
 
 export default function GNB() {
+  const { logoutUser } = useLogin();
+  const [auth, setAuth] = useAtom(authAtom);
+
   const currentUrl = useLocation()
     .pathname.replace(/\d/, "")
     .replace(/^\/+|\/+$/g, "");
 
-  // 로그인 기능 생기기 전까지 임시 로그인 판단 방식
-  const [auth, setAuth] = useState(
-    window.localStorage.getItem("token") ? true : false
-  );
-
   // api 기능 생기기 전까지 임시 프로필 이미지 경로
   const profileImageUrl =
     "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
-
-  const handleLogOutClick = () => {
-    window.localStorage.removeItem("token");
-    setAuth(!!window.localStorage.getItem("token"));
-  };
-
-  const handleTestClick = () => {
-    if (auth) window.localStorage.removeItem("token");
-    else window.localStorage.setItem("token", "Bearer 1234");
-    setAuth(!!window.localStorage.getItem("token"));
-  };
 
   return (
     <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
@@ -69,7 +57,7 @@ export default function GNB() {
               <Link
                 className="pl-1 pr-2 py-[2px] border-2 border-orange rounded"
                 to={"/watching/videos"}
-                onClick={handleLogOutClick}
+                onClick={logoutUser}
               >
                 <span className=" flex items-center text-xs text-orange">
                   <span className="material-symbols-outlined">logout</span>
@@ -80,7 +68,7 @@ export default function GNB() {
           ) : (
             <Link
               className="pl-1 pr-2 py-[2px] bg-orange border-2 border-orange rounded"
-              to={"/login"}
+              to={"/users/login"}
             >
               <span className="flex items-center text-xs text-white">
                 <span className="material-symbols-outlined">login</span>
@@ -88,13 +76,6 @@ export default function GNB() {
               </span>
             </Link>
           )}
-          {/* 로그인 기능이 생기기 전까지 임시 로그인 */}
-          <div
-            className="px-2 py-1 bg-green-500 rounded text-xs text-white"
-            onClick={handleTestClick}
-          >
-            TEST
-          </div>
         </div>
       </div>
       {/* 하단 GNB(Nav) */}
