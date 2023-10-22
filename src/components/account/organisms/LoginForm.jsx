@@ -2,22 +2,41 @@ import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../store";
+import { login } from "../../../apis/user";
+import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
+
+// 1. 리액트 쿼리
+// 2. 자동 로그인
+// 3. useForm hook 모듈화
 
 const LoginForm = ({ inputProps }) => {
+  const navigate = useNavigate();
   const methods = useForm();
   const { watch, control, handleSubmit } = methods;
   const email = watch("email");
   const password = watch("password");
+  const { loginUser } = useLogin();
 
-  const [user, setUser] = useAtom(userAtom);
+  const onSubmit = async () => {
+    try {
+      const response = await login({
+        email: email,
+        password: password,
+      });
 
-  const onSubmit = (data) => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    setUser({ email, password });
+      if (response.data.success === true) {
+        loginUser(response);
+        console.log("login success");
+        navigate("/");
+      } else {
+        // 로그인 실패
+        console.error("login failed");
+      }
+    } catch (error) {
+      // 로그인 요청 실패
+      console.error("Error during login:", error);
+    }
   };
 
   return (

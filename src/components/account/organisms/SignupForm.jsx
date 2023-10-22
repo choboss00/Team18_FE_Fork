@@ -4,18 +4,17 @@ import Dropdown from "../../common/Dropdown";
 import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import COUNTRY from "../constants/COUNTRY";
-import CheckBox from "../atoms/CheckBox";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../store";
 import { register } from "../../../apis/user";
+import CheckBoxes from "../atoms/CheckBox";
+import BasicDatePicker from "../atoms/DatePicker";
 
 const SignupForm = ({ inputProps }) => {
   const methods = useForm();
   const { watch, control, handleSubmit } = methods;
-  const [user, setUser] = useAtom(userAtom);
   const firstName = watch("firstName");
   const lastName = watch("lastName");
   const email = watch("email");
+  const phone = watch("phone");
   const password = watch("password");
 
   const [country, setCountry] = useState("the United States");
@@ -28,31 +27,45 @@ const SignupForm = ({ inputProps }) => {
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-  const [interest, setInterest] = useState(null);
 
-  const onSubmit = async (data) => {
+  const [birth, setBirth] = useState("");
+
+  const handleBirthChange = (newValue) => {
+    setBirth(newValue);
+  };
+
+  // const [categoryList, setCategoryList] = useState("");
+
+  const onSubmit = async () => {
     try {
-      const res = await register({
-        firstName,
-        lastName,
-        email,
-        password,
-        role,
-        country,
-        interest,
+      const response = await register({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        role: role,
+        country: country,
+        age: birth,
+        // categoryList: categoryList,
+        categoryList: ["Sports", "IDOL", "K-POP"],
+        phone: phone,
+        introduction: null,
+        profileImage: null,
       });
 
-      setUser({
-        firstName,
-        lastName,
-        email,
-        password,
-        role,
-        country,
-        interest,
-      });
+      if (response.data.success === true) {
+        // 성공적으로 회원가입한 경우 메인 페이지로 이동
+        alert("정상적으로 회원가입 되었습니다.");
+        navigate("/");
+      } else {
+        // 회원 가입 실패
+        console.error("sign up failed");
+      }
     } catch (error) {
-      console.log("error", error);
+      // 에러 처리
+      console.error(error);
+      // 회원 가입 요청 실패
+      console.error("register request failed");
     }
   };
 
@@ -126,24 +139,27 @@ const SignupForm = ({ inputProps }) => {
                   />
                 );
               })}
-            <CheckBox
+            <BasicDatePicker value={birth} onChange={handleBirthChange} />
+            <CheckBoxes
               name="role"
-              value="mentor"
+              value="Mentor"
               type="radio"
-              checked={role === "mentor"}
+              checked={role === "Mentor"}
               onChange={handleRoleChange}
+              inputProps={{ "aria-label": "Mentor" }}
             >
               Mentor
-            </CheckBox>
-            <CheckBox
+            </CheckBoxes>
+            <CheckBoxes
               name="role"
-              value="mentee"
+              value="Mentee"
               type="radio"
-              checked={role === "mentee"}
+              checked={role === "Mentee"}
               onChange={handleRoleChange}
+              inputProps={{ "aria-label": "Mentee" }}
             >
               Mentee
-            </CheckBox>
+            </CheckBoxes>
             <Dropdown
               name="country"
               options={COUNTRY.map((country) => country.name)}
