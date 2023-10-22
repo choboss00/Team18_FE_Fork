@@ -2,6 +2,7 @@ import axios from "axios";
 
 // instance
 export const instance = axios.create({
+  // baseURL: import.meta.env.VITE_API_URL,
   baseURL: "" + "/api",
   headers: { "Content-Type": "application/json" },
   timeout: 1000 * 5,
@@ -27,8 +28,8 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status && error.message) {
-      const states = { 3: "Rredirect", 4: "Client", 5: "Server" };
+    if (error.response && error.response.status && error.message) {
+      const states = { 3: "Redirect", 4: "Client", 5: "Server" };
       const state = states[Math.floor(error.response.status / 100)];
       console.log(
         `[API RESPONSE ERROR] ${error.response.status}(${state}): ${error.message}`
