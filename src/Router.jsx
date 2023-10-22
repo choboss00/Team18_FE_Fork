@@ -12,6 +12,8 @@ import AuthCheck from "./layouts/AuthCheck.jsx";
 
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
+import ProfilePage from "./pages/account/ProfilePage.jsx";
+import InformationPage from "./pages/account/InformationPage.jsx";
 
 import Posts from "./pages/mentoring/Posts.jsx";
 import Post from "./pages/mentoring/Post.jsx";
@@ -29,10 +31,6 @@ const router = createBrowserRouter(
       <Route element={<AccountLayout />}>
         <Route path="/users/login" element={<LoginPage />} />
         <Route path="/users/signup" element={<SignupPage />} />
-      </Route>
-
-      <Route element={<AuthCheck />}>
-        <Route path="/interest" element={<h1>Interest</h1>} />
       </Route>
 
       {/* 공통 레이아웃 */}
@@ -55,11 +53,14 @@ const router = createBrowserRouter(
           <Route path="mentoring/dashboard" element={<Dashboard />} />
           <Route path="chatting/room/:roomId" element={<h1>Room</h1>} />
           <Route path="chatting/create" element={<h1>RoomCreate</h1>} />
-          <Route path="mypage/profile" element={<h1>Profile</h1>} />
-          <Route path="mypage/profile/fix" element={<h1>ProfileFix</h1>} />
-          <Route path="mypage/information" element={<h1>Information</h1>} />
+          <Route path="/mypage/profiles/:id" element={<ProfilePage />} />
           <Route
-            path="mypage/information/fix"
+            path="/mypage/profiles/fix/:id"
+            element={<h1>ProfileFix</h1>}
+          />
+          <Route path="/mypage/information/:id" element={<InformationPage />} />
+          <Route
+            path="/mypage/information/fix/:id"
             element={<h1>InformationFix</h1>}
           />
         </Route>
