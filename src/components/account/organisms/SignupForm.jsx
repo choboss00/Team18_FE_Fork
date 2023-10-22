@@ -4,8 +4,9 @@ import Dropdown from "../../common/Dropdown";
 import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import COUNTRY from "../constants/COUNTRY";
-import CheckBox from "../atoms/CheckBox";
 import { register } from "../../../apis/user";
+import CheckBoxes from "../atoms/CheckBox";
+import BasicDatePicker from "../atoms/DatePicker";
 
 const SignupForm = ({ inputProps }) => {
   const methods = useForm();
@@ -27,6 +28,12 @@ const SignupForm = ({ inputProps }) => {
     setRole(event.target.value);
   };
 
+  const [birth, setBirth] = useState("");
+
+  const handleBirthChange = (newValue) => {
+    setBirth(newValue);
+  };
+
   // const [categoryList, setCategoryList] = useState("");
 
   const onSubmit = async () => {
@@ -38,7 +45,7 @@ const SignupForm = ({ inputProps }) => {
         password: password,
         role: role,
         country: country,
-        age: 21,
+        age: birth,
         // categoryList: categoryList,
         categoryList: ["Sports", "IDOL", "K-POP"],
         phone: phone,
@@ -132,24 +139,27 @@ const SignupForm = ({ inputProps }) => {
                   />
                 );
               })}
-            <CheckBox
+            <BasicDatePicker value={birth} onChange={handleBirthChange} />
+            <CheckBoxes
               name="role"
               value="Mentor"
               type="radio"
               checked={role === "Mentor"}
               onChange={handleRoleChange}
+              inputProps={{ "aria-label": "Mentor" }}
             >
               Mentor
-            </CheckBox>
-            <CheckBox
+            </CheckBoxes>
+            <CheckBoxes
               name="role"
               value="Mentee"
               type="radio"
               checked={role === "Mentee"}
               onChange={handleRoleChange}
+              inputProps={{ "aria-label": "Mentee" }}
             >
               Mentee
-            </CheckBox>
+            </CheckBoxes>
             <Dropdown
               name="country"
               options={COUNTRY.map((country) => country.name)}
