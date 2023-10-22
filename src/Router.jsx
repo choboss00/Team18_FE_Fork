@@ -13,8 +13,8 @@ import MentorCheck from "./layouts/MentorCheck";
 
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
-import ProfilePage from "./pages/account/ProfilePage.jsx";
-import InformationPage from "./pages/account/InformationPage.jsx";
+import ProfilePage from "./pages/account/ProfilePage";
+import InformationPage from "./pages/account/InformationPage";
 
 import Posts from "./pages/mentoring/Posts";
 import Post from "./pages/mentoring/Post";
@@ -22,8 +22,8 @@ import Write from "./pages/mentoring/Write";
 import Edit from "./pages/mentoring/Edit";
 import Dashboard from "./pages/mentoring/Dashboard";
 
-import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
-import ChattingListPage from "./pages/chatting/ChattingListPage.jsx";
+import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage";
+import ChattingListPage from "./pages/chatting/ChattingListPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
