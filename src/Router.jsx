@@ -6,22 +6,24 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Layout from "./layouts/Layout.jsx";
+import Layout from "./layouts/Layout";
 import AccountLayout from "./layouts/AccountLayout";
-import AuthCheck from "./layouts/AuthCheck.jsx";
+import AuthCheck from "./layouts/AuthCheck";
+import MentorCheck from "./layouts/MentorCheck";
 
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
-import ProfilePage from "./pages/account/ProfilePage.jsx";
-import InformationPage from "./pages/account/InformationPage.jsx";
+import ProfilePage from "./pages/account/ProfilePage";
+import InformationPage from "./pages/account/InformationPage";
 
-import Posts from "./pages/mentoring/Posts.jsx";
-import Post from "./pages/mentoring/Post.jsx";
-import Write from "./pages/mentoring/Write.jsx";
-import Edit from "./pages/mentoring/Edit.jsx";
-import Dashboard from "./pages/mentoring/Dashboard.jsx";
+import Posts from "./pages/mentoring/Posts";
+import Post from "./pages/mentoring/Post";
+import Write from "./pages/mentoring/Write";
+import Edit from "./pages/mentoring/Edit";
+import Dashboard from "./pages/mentoring/Dashboard";
 
-import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
+import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage";
+import ChattingListPage from "./pages/chatting/ChattingListPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,7 +41,8 @@ const router = createBrowserRouter(
         <Route path="watching/video/:videoId" element={<h1>Video</h1>} />
         <Route path="mentoring/posts" element={<Posts />} />
         <Route path="mentoring/post/:postId" element={<Post />} />
-        <Route path="chatting/rooms" element={<ChattingRoomsPage />} />
+        <Route path="chatting/rooms" element={<ChattingListPage />} />
+        <Route path="chatting/room/:roomId" element={<ChattingRoomsPage />} />
         <Route
           path="chatting/roomprofile/:roomId"
           element={<h1>RoomProfile</h1>}
@@ -48,8 +51,10 @@ const router = createBrowserRouter(
         {/* 사용자 인증 레이아웃  */}
         <Route element={<AuthCheck />}>
           <Route path="watching/history" element={<h1>History</h1>} />
-          <Route path="mentoring/write" element={<Write />} />
-          <Route path="mentoring/edit/:postId" element={<Edit />} />
+          <Route element={<MentorCheck />}>
+            <Route path="mentoring/write" element={<Write />} />
+            <Route path="mentoring/edit/:postId" element={<Edit />} />
+          </Route>
           <Route path="mentoring/dashboard" element={<Dashboard />} />
           <Route path="chatting/room/:roomId" element={<h1>Room</h1>} />
           <Route path="chatting/create" element={<h1>RoomCreate</h1>} />
