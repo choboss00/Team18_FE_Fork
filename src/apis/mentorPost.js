@@ -3,6 +3,7 @@ import {
   mockResponse,
   userData,
   postsData,
+  addPostRes,
 } from "../components/mentoring/mock";
 
 export async function getUser() {
@@ -29,10 +30,15 @@ export async function getPostReq(pid) {
 }
 
 export async function addPostReq(data) {
-  const { requiredData } = data;
-  return await instance.post("/mentorings/post", {
-    requiredData,
-  });
+  // const { title, content } = data;
+  // return await instance.post("/mentorings/post", {
+  //   title,
+  //   content,
+  // });
+
+  // api 구현 전까지 mock 데이터 반환
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(addPostRes);
 }
 
 export async function editPostReq(pid, data) {

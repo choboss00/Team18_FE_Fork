@@ -36,3 +36,5 @@ export const postsData = Array(4)
       role: "mentor",
     },
   }));
+
+export const addPostRes = { pid: 1 };
