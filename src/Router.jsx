@@ -12,7 +12,6 @@ import AuthCheck from "./layouts/AuthCheck.jsx";
 
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
-import InterestPage from "./pages/account/InterestPage.jsx";
 import ProfilePage from "./pages/account/ProfilePage.jsx";
 import InformationPage from "./pages/account/InformationPage.jsx";
 
@@ -32,10 +31,6 @@ const router = createBrowserRouter(
       <Route element={<AccountLayout />}>
         <Route path="/users/login" element={<LoginPage />} />
         <Route path="/users/signup" element={<SignupPage />} />
-      </Route>
-
-      <Route element={<AuthCheck />}>
-        <Route path="/interest" element={<h1>Interest</h1>} />
       </Route>
 
       {/* 공통 레이아웃 */}
