@@ -1,19 +1,32 @@
-import { useAtomValue } from "jotai";
 import { useNavigate, Outlet } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
-import { userAtom } from "../store/index";
+import { getUser } from "../apis/mentorPost";
 import { useEffectOnce } from "../hooks/useEffectOnce";
 
+import Loader from "../components/mentoring/posts/Loader";
+import Error from "../components/mentoring/posts/Error";
+
 export default function MentorCheck() {
-  const user = useAtomValue(userAtom);
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
   const navigate = useNavigate();
 
   useEffectOnce(() => {
-    if (user.role !== "user") {
-      alert("해당 서비스는 멘토만 접근할 수 있습니다.");
-      navigate("mentoring/posts", { replace: true });
-    }
-  });
+    if (!(isLoading || isError))
+      if (data.data.response.role !== "mentor") {
+        alert("해당 서비스는 멘토만 접근할 수 있습니다.");
+        navigate("mentoring/posts", { replace: true });
+      }
+  }, [data]);
 
-  return user && <Outlet />;
+  return isLoading ? (
+    <Loader />
+  ) : isError ? (
+    <Error meesage="Failed to check role" />
+  ) : (
+    <Outlet />
+  );
 }

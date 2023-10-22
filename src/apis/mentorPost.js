@@ -1,5 +1,18 @@
 import { instance } from "./instance";
-import { mockResponse, postsData } from "../components/mentoring/mock";
+import {
+  mockResponse,
+  userData,
+  postsData,
+} from "../components/mentoring/mock";
+
+export async function getUser() {
+  // return await instance.get(`/user`);
+
+  // api 구현 전까지 mock 데이터 반환
+  // user쪽 getUser()에서 다루는 데이터가 달라 일단 별도로 작성
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(userData);
+}
 
 export async function getPostsReq(category, search, page) {
   // return await instance.get(
@@ -7,7 +20,8 @@ export async function getPostsReq(category, search, page) {
   // );
 
   // api 구현 전까지 mock 데이터 반환
-  return page < 2 ? mockResponse(postsData) : mockResponse({ response: [] });
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return page < 2 ? mockResponse(postsData) : mockResponse([]);
 }
 
 export async function getPostReq(pid) {
