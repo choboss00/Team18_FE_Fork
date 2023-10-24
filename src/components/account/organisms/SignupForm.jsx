@@ -69,6 +69,31 @@ const SignupForm = ({ inputProps }) => {
     }
   };
 
+  const renderController = (inputField) => {
+    return (
+      <Controller
+        name={inputField.name}
+        key={inputField.name}
+        control={methods.control}
+        defaultValue=""
+        rules={inputField.rules}
+        render={({ field, fieldState }) => (
+          <InputBox
+            {...field}
+            id={inputField.name}
+            label={inputField.label}
+            variant={inputField.variant}
+            type={inputField.type}
+            placeholder={inputField.placeholder}
+            error={fieldState.invalid}
+            helperText={fieldState.invalid ? fieldState.error.message : ""}
+            triggerValidation={methods.trigger}
+          />
+        )}
+      />
+    );
+  };
+
   return (
     <>
       <FormProvider {...methods}>
@@ -80,32 +105,7 @@ const SignupForm = ({ inputProps }) => {
                   (props) =>
                     props.name === "firstName" || props.name === "lastName"
                 )
-                .map((inputField) => {
-                  return (
-                    <Controller
-                      name={inputField.name}
-                      key={inputField.name}
-                      control={methods.control}
-                      defaultValue=""
-                      rules={inputField.rules}
-                      render={({ field, fieldState }) => (
-                        <InputBox
-                          {...field}
-                          id={inputField.name}
-                          label={inputField.label}
-                          variant={inputField.variant}
-                          type={inputField.type}
-                          placeholder={inputField.placeholder}
-                          error={fieldState.invalid}
-                          helperText={
-                            fieldState.invalid ? fieldState.error.message : ""
-                          }
-                          triggerValidation={methods.trigger}
-                        />
-                      )}
-                    />
-                  );
-                })}
+                .map(renderController)}
             </div>
             {inputProps
               .filter(
@@ -113,33 +113,25 @@ const SignupForm = ({ inputProps }) => {
                   inputField.name !== "firstName" &&
                   inputField.name !== "lastName"
               )
-              .map((inputField) => {
-                return (
-                  <Controller
-                    name={inputField.name}
-                    key={inputField.name}
-                    control={methods.control}
-                    defaultValue=""
-                    rules={inputField.rules}
-                    render={({ field, fieldState }) => (
-                      <InputBox
-                        {...field}
-                        id={inputField.name}
-                        label={inputField.label}
-                        variant={inputField.variant}
-                        type={inputField.type}
-                        placeholder={inputField.placeholder}
-                        error={fieldState.invalid}
-                        helperText={
-                          fieldState.invalid ? fieldState.error.message : ""
-                        }
-                        triggerValidation={methods.trigger}
-                      />
-                    )}
-                  />
-                );
-              })}
-            <BasicDatePicker value={birth} onChange={handleBirthChange} />
+              .map(renderController)}
+            <Controller
+              name="birthDate"
+              control={methods.control}
+              rules={{
+                required: "Birth date is required",
+              }}
+              render={({ field }) => (
+                <BasicDatePicker
+                  {...field}
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                    handleBirthChange(newValue);
+                  }}
+                  value={field.value || null}
+                />
+              )}
+            />
+
             <CheckBoxes
               name="role"
               value="Mentor"
