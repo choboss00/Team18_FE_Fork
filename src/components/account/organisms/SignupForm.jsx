@@ -16,6 +16,7 @@ const SignupForm = ({ inputProps }) => {
   const email = watch("email");
   const phone = watch("phone");
   const password = watch("password");
+  const age = watch("age");
 
   const [country, setCountry] = useState("the United States");
 
@@ -26,12 +27,6 @@ const SignupForm = ({ inputProps }) => {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
-  };
-
-  const [birth, setBirth] = useState("");
-
-  const handleBirthChange = (newValue) => {
-    setBirth(newValue);
   };
 
   // const [categoryList, setCategoryList] = useState("");
@@ -45,7 +40,7 @@ const SignupForm = ({ inputProps }) => {
         password: password,
         role: role,
         country: country,
-        age: birth,
+        age: age,
         // categoryList: categoryList,
         categoryList: ["Sports", "IDOL", "K-POP"],
         phone: phone,
@@ -115,23 +110,17 @@ const SignupForm = ({ inputProps }) => {
               )
               .map(renderController)}
             <Controller
-              name="birthDate"
+              name="age"
               control={methods.control}
-              rules={{
-                required: "Birth date is required",
-              }}
-              render={({ field }) => (
+              render={(field) => (
                 <BasicDatePicker
                   {...field}
-                  onChange={(newValue) => {
-                    field.onChange(newValue);
-                    handleBirthChange(newValue);
-                  }}
-                  value={field.value || null}
+                  control={methods.control}
+                  name="age"
+                  value={age}
                 />
               )}
             />
-
             <CheckBoxes
               name="role"
               value="Mentor"
