@@ -29,8 +29,8 @@ const SIGNUP = Object.freeze([
   },
   {
     name: "phone",
-    label: "Phone Number",
-    type: "text",
+    label: "TEL",
+    type: "tel",
     placeholder: "phone number",
     variant: "filled",
     rules: {
@@ -44,9 +44,8 @@ const SIGNUP = Object.freeze([
   },
   {
     name: "email",
-    label: "Email",
+    label: "Email Address",
     type: "email",
-    placeholder: "email address",
     variant: "filled",
     rules: {
       required: "The input box must not be empty.",
@@ -60,7 +59,6 @@ const SIGNUP = Object.freeze([
     name: "password",
     label: "Password",
     type: "password",
-    placeholder: "password",
     variant: "filled",
     rules: {
       required: "The input box must not be empty.",
@@ -70,6 +68,15 @@ const SIGNUP = Object.freeze([
         message:
           "Password must be within 8-16, including all English case, numbers, and special characters.",
       },
+    },
+  },
+  {
+    name: "passwordcheck",
+    label: "Password Check",
+    type: "password",
+    variant: "filled",
+    rules: {
+      required: "The input box must not be empty.",
     },
   },
 ]);

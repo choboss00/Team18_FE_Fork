@@ -4,18 +4,19 @@ import Dropdown from "../../common/Dropdown";
 import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import COUNTRY from "../constants/COUNTRY";
-import { register } from "../../../apis/user";
+import { register, emailCheck } from "../../../apis/user";
 import CheckBoxes from "../atoms/CheckBox";
 import BasicDatePicker from "../atoms/DatePicker";
 
 const SignupForm = ({ inputProps }) => {
   const methods = useForm();
-  const { watch, control, handleSubmit } = methods;
+  const { watch, control, handleSubmit, setError, clearErrors } = methods;
   const firstName = watch("firstName");
   const lastName = watch("lastName");
   const email = watch("email");
   const phone = watch("phone");
   const password = watch("password");
+  const passwordCheck = watch("passwordcheck");
   const age = watch("age");
 
   const [country, setCountry] = useState("the United States");
@@ -31,30 +32,68 @@ const SignupForm = ({ inputProps }) => {
 
   // const [categoryList, setCategoryList] = useState("");
 
+  const handleEmailConfirm = async () => {
+    const response = await emailCheck({ email: email });
+    if (response.data.success === false) {
+      setError(
+        "email",
+        { message: "Can't use this email" },
+        { shouldFocus: true }
+      );
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handlePasswordConfirm = () => {
+    if (password && passwordCheck) {
+      if (password !== passwordCheck) {
+        setError(
+          "passwordcheck",
+          { message: "Passwords do not match" },
+          { shouldFocus: true }
+        );
+        return false;
+      } else {
+        clearErrors("passwordcheck");
+        return true;
+      }
+    }
+  };
+
   const onSubmit = async () => {
     try {
-      const response = await register({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        role: role,
-        country: country,
-        age: age,
-        // categoryList: categoryList,
-        categoryList: ["Sports", "IDOL", "K-POP"],
-        phone: phone,
-        introduction: null,
-        profileImage: null,
-      });
+      //email과 password 값 유효 먼저 체크
+      const emailIsValid = await handleEmailConfirm(); //
+      const passwordIsValid = await handlePasswordConfirm();
 
-      if (response.data.success === true) {
-        // 성공적으로 회원가입한 경우 메인 페이지로 이동
-        alert("정상적으로 회원가입 되었습니다.");
-        navigate("/");
+      if (emailIsValid && passwordIsValid) {
+        const response = await register({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          role: role,
+          country: country,
+          age: age,
+          // categoryList: categoryList,
+          categoryList: ["Sports", "IDOL", "K-POP"],
+          phone: phone,
+          introduction: null,
+          profileImage: null,
+        });
+
+        if (response.data.success === true) {
+          // 성공적으로 회원가입한 경우 메인 페이지로 이동
+          alert("정상적으로 회원가입 되었습니다.");
+          navigate("/");
+        } else {
+          // 회원 가입 실패
+          console.error("sign up failed");
+        }
       } else {
-        // 회원 가입 실패
-        console.error("sign up failed");
+        console.error("email is not valid");
       }
     } catch (error) {
       // 에러 처리
@@ -93,7 +132,7 @@ const SignupForm = ({ inputProps }) => {
     <>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="w-[500px]">
+          <div className="max-w-[500px]">
             <div className="flex gap-10">
               {inputProps
                 .filter(
