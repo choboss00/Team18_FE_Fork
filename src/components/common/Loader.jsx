@@ -1,9 +1,9 @@
-import { ThreeDots } from "react-loader-spinner";
+import { PulseLoader } from "react-spinners";
 
 export default function Loader() {
   return (
     <div className="w-fit m-auto">
-      <ThreeDots />
+      <PulseLoader color="#475D5B" />
     </div>
   );
 }
