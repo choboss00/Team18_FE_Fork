@@ -5,8 +5,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import { useInputsRef } from "../../../hooks/useInputsRef";
 
-import Error from "../posts/Error";
-import Loader from "../posts/Loader";
+import Error from "../../common/Error";
+import Loader from "../../common/Loader";
 import MentorCard from "./MentorCard";
 import Button from "../../common/Button";
 import { addPostReq } from "../../../apis/mentorPost";

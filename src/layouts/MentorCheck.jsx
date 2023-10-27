@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../apis/mentorPost";
 import { useEffectOnce } from "../hooks/useEffectOnce";
 
-import Loader from "../components/mentoring/posts/Loader";
-import Error from "../components/mentoring/posts/Error";
+import Loader from "../components/common/Loader";
+import Error from "../components/common/Error";
 
 export default function MentorCheck() {
   const { isLoading, isError, data } = useQuery({

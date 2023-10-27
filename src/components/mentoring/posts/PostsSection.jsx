@@ -6,8 +6,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { getUser } from "../../../apis/mentorPost";
 import { useInputsRef } from "../../../hooks/useInputsRef";
 
-import Error from "./Error";
-import Loader from "./PostCardSkeleton";
+import Error from "../../common/Error";
+import PostCardSkeleton from "./PostCardSkeleton";
 import PostList from "./PostList";
 
 export default function PostsSection() {
@@ -66,7 +66,7 @@ export default function PostsSection() {
           onKeyUp={handleSearchEnter}
         ></input>
       </div>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<PostCardSkeleton />}>
         <ErrorBoundary
           fallback={<Error errorMessage="Failed to load mentoring list" />}
         >

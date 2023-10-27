@@ -33,10 +33,7 @@ export default function PostList({ category, search }) {
         .map((post) => (
           <PostCard key={`postcard-${post.pid}`} post={post} />
         ))}
-      {isFetchingNextPage &&
-        Array(3)
-          .fill(null)
-          .map((_, index) => <PostCardSkeleton key={`skeleton-${index}`} />)}
+      {isFetchingNextPage && <PostCardSkeleton />}
       <div ref={ref}></div>
     </div>
   );

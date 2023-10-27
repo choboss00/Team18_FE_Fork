@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import Loader from "../../components/mentoring/posts/Loader";
-import Error from "../../components/mentoring/posts/Error";
+import Loader from "../../components/common/Loader";
+import Error from "../../components/common/Error";
 import PostsSection from "../../components/mentoring/posts/PostsSection";
 
 export default function Posts() {
