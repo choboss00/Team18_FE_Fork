@@ -1,4 +1,4 @@
-import EditSection from "../../components/mentoring/write_edit/EditSection";
+import EditSection from "../../components/mentoring/writeEdit/EditSection";
 
 export default function Edit() {
   return <EditSection />;

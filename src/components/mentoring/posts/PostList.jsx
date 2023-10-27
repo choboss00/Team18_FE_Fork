@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPostsReq } from "../../../apis/mentorPost";
 
 import PostCard from "./PostCard";
-import PostCardSkeleton from "./PostCardSkeleton";
+import PostCardSkeletons from "./PostCardSkeletons";
 
 export default function PostList({ category, search }) {
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -33,7 +33,7 @@ export default function PostList({ category, search }) {
         .map((post) => (
           <PostCard key={`postcard-${post.pid}`} post={post} />
         ))}
-      {isFetchingNextPage && <PostCardSkeleton />}
+      {isFetchingNextPage && <PostCardSkeletons />}
       <div ref={ref}></div>
     </div>
   );

@@ -1,4 +1,4 @@
-import WriteSection from "../../components/mentoring/write_edit/WriteSection";
+import WriteSection from "../../components/mentoring/writeEdit/WriteSection";
 
 export default function Write() {
   return <WriteSection />;

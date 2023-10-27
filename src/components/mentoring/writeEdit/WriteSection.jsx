@@ -2,14 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import toast from "react-hot-toast";
 
 import { useInputsRef } from "../../../hooks/useInputsRef";
+import { addPostReq } from "../../../apis/mentorPost";
 
 import Error from "../../common/Error";
 import Loader from "../../common/Loader";
 import MentorCard from "./MentorCard";
 import Button from "../../common/Button";
-import { addPostReq } from "../../../apis/mentorPost";
 
 export default function WriteSection() {
   const navigate = useNavigate();
@@ -19,6 +20,12 @@ export default function WriteSection() {
   });
 
   const { mutate } = useMutation({ mutationFn: addPostReq });
+
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    if (title.length > 50) e.target.value = title.slice(0, 50);
+    handleInputChange(e);
+  };
 
   const handleContentChange = (e) => {
     const content = e.target.value;
@@ -30,11 +37,11 @@ export default function WriteSection() {
     if (inputValue.current.title && inputValue.current.content) {
       mutate(inputValue.current, {
         onSuccess: (res) => {
-          alert("Successfully written.");
+          toast("Successfully written.");
           navigate(`/mentoring/post/${res.data.response.pid}`);
         },
       });
-    } else alert("No title or content has been written.");
+    } else toast("No title or content has been written.");
   };
 
   const handleCancelClick = () => {
@@ -65,7 +72,7 @@ export default function WriteSection() {
             name="title"
             className="block w-full p-3 border focus:outline-none text-xl"
             placeholder="Title"
-            onChange={handleInputChange}
+            onChange={handleTitleChange}
           />
           <textarea
             name="content"
