@@ -7,6 +7,7 @@ import Tag from "../../common/Tag";
 export default function MentorCard() {
   const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
   const info = data.data.response;
+
   return (
     <div className="w-fit py-3 flex items-end space-x-2">
       <img

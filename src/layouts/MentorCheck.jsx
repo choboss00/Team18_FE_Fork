@@ -16,7 +16,7 @@ export default function MentorCheck() {
     queryFn: getUser,
   });
 
-  const isMentor = data?.data.response.role === RoleType.MENTEE;
+  const isMentor = data?.data.response.role === RoleType.MENTOR;
 
   useEffectOnce(() => {
     if (!(isLoading || isError))

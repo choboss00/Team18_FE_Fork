@@ -61,7 +61,7 @@ export default function WriteSection() {
         <h1 className="pb-4 text-center font-bold text-green-700">MENTORING</h1>
         <Suspense fallback={<Loader />}>
           <ErrorBoundary
-            fallback={<Error errorMessage="Failed to load mentoring list" />}
+            fallback={<Error errorMessage="Failed to load user information" />}
           >
             <MentorCard />
           </ErrorBoundary>
