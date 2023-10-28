@@ -1,10 +1,5 @@
-import { instance } from "./instance";
-import {
-  mockResponse,
-  userData,
-  postsData,
-  addPostRes,
-} from "../components/mentoring/mock";
+import { instance } from "../instance";
+import { mockResponse, userData, postsData, addPostRes } from "./mock";
 
 export async function getUser() {
   // return await instance.get(`/user`);

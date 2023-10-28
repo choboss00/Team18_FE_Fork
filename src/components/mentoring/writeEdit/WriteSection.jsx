@@ -5,7 +5,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import toast from "react-hot-toast";
 
 import { useInputsRef } from "../../../hooks/useInputsRef";
-import { addPostReq } from "../../../apis/mentorPost";
+import { addPostReq } from "../../../apis/mentoring/post";
 
 import Error from "../../common/Error";
 import Loader from "../../common/Loader";

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getUser } from "../../../apis/mentorPost";
+import { getUser } from "../../../apis/mentoring/post";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 

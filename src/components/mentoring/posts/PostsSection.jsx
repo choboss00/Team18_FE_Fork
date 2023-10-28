@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { getUser } from "../../../apis/mentorPost";
+import { getUser } from "../../../apis/mentoring/post";
 import { useInputsRef } from "../../../hooks/useInputsRef";
 import { RoleType } from "../../../constants/user";
 

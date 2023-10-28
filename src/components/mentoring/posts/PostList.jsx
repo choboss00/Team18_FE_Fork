@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getPostsReq } from "../../../apis/mentorPost";
+import { getPostsReq } from "../../../apis/mentoring/post";
 
 import PostCard from "./PostCard";
 import PostCardSkeletons from "./PostCardSkeletons";

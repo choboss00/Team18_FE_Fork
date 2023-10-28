@@ -1,7 +1,7 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { getUser } from "../apis/mentorPost";
+import { getUser } from "../apis/mentoring/post";
 import { useEffectOnce } from "../hooks/useEffectOnce";
 import { RoleType } from "../constants/user";
 
