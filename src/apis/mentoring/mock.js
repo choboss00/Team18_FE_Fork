@@ -12,29 +12,74 @@ export const mockResponse = (data) => ({
 
 export const userData = {
   uid: 1,
-  firstName: "John",
-  lastName: "Doe",
+  firstName: "Kevin",
+  lastName: "",
   profileImage: IMAGE_URL,
   country: "US",
   interest: ["Game", "LOL"],
   role: "mentor",
 };
 
-export const postsData = Array(4)
-  .fill(null)
-  .map((_, index) => ({
-    pid: index,
-    title: `글${index} 제목`,
-    summary: `글${index} 내용의 첫 번째 줄입니다...`,
-    writer: {
-      uid: 1,
-      firstName: "John",
-      lastName: "Doe",
+export const postsData = [1, 2, 3].map(() => ({
+  pid: 1,
+  title: "글 제목",
+  summary: "글 내용의 첫 번째 줄입니다...",
+  writer: {
+    uid: 1,
+    firstName: "Kevin",
+    lastName: "",
+    profileImage: IMAGE_URL,
+    country: "US",
+    interest: ["Game", "LOL"],
+    role: "mentor",
+  },
+}));
+
+export const postData = {
+  pid: 1,
+  title: "글 제목",
+  content: `글 내용의 첫 번째 줄입니다. 두 번째 줄입니다. 세 번째 줄입니다.`,
+  writer: {
+    uid: 1,
+    firstName: "Kevin",
+    lastName: "",
+    profileImage: IMAGE_URL,
+    country: "US",
+    interest: ["Game", "LOL"],
+    role: "mentor",
+  },
+  mentees: [
+    {
+      uid: 2,
+      firstName: "Jane",
+      lastName: "",
+      profileImage: IMAGE_URL,
+      country: "DK",
+      interest: ["Game", "Soccer"],
+      role: "mentor",
+      state: "await",
+    },
+    {
+      uid: 3,
+      firstName: "Miho",
+      lastName: "",
+      profileImage: IMAGE_URL,
+      country: "JP",
+      interest: ["Game", "K-pop"],
+      role: "mentor",
+      state: "accept",
+    },
+    {
+      uid: 4,
+      firstName: "Michael",
+      lastName: "",
       profileImage: IMAGE_URL,
       country: "US",
-      interest: ["Game", "LOL"],
+      interest: ["Soccer", "LOL"],
       role: "mentor",
+      state: "refuse",
     },
-  }));
+  ],
+};
 
 export const addPostRes = { pid: 1 };
