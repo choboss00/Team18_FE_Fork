@@ -58,14 +58,10 @@ const router = createBrowserRouter(
           <Route path="mentoring/dashboard" element={<Dashboard />} />
           <Route path="chatting/room/:roomId" element={<h1>Room</h1>} />
           <Route path="chatting/create" element={<h1>RoomCreate</h1>} />
-          <Route path="/mypage/profiles/:id" element={<ProfilePage />} />
+          <Route path="mypage/profiles/:id" element={<ProfilePage />} />
+          <Route path="mypage/information" element={<InformationPage />} />
           <Route
-            path="/mypage/profiles/fix/:id"
-            element={<h1>ProfileFix</h1>}
-          />
-          <Route path="/mypage/information/:id" element={<InformationPage />} />
-          <Route
-            path="/mypage/information/fix/:id"
+            path="mypage/information/fix"
             element={<h1>InformationFix</h1>}
           />
         </Route>
