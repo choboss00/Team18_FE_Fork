@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import toast from "react-hot-toast";
 
-import { useInputsRef } from "../../../hooks/useInputsRef";
+import { useInputsState } from "../../../hooks/useInputsState";
 import { addPostReq } from "../../../apis/mentoring/post";
 
 import Error from "../../common/Error";
@@ -14,7 +14,7 @@ import Button from "../../common/Button";
 
 export default function WriteSection() {
   const navigate = useNavigate();
-  const { inputValue, handleInputChange } = useInputsRef({
+  const { inputValue, handleInputChange } = useInputsState({
     title: "",
     content: "",
   });
@@ -34,7 +34,7 @@ export default function WriteSection() {
   };
 
   const handlePostClick = () => {
-    if (inputValue.current.title && inputValue.current.content) {
+    if (inputValue.title && inputValue.content) {
       mutate(inputValue.current, {
         onSuccess: (res) => {
           toast("Successfully written.");
@@ -45,7 +45,7 @@ export default function WriteSection() {
   };
 
   const handleCancelClick = () => {
-    if (inputValue.current.title || inputValue.current.content) {
+    if (inputValue.title || inputValue.content) {
       if (
         confirm(
           "There's something you're writing.\nDo you really want to go back?"
@@ -73,6 +73,7 @@ export default function WriteSection() {
             className="block w-full p-3 border focus:outline-none text-xl"
             placeholder="Title"
             onChange={handleTitleChange}
+            value={inputValue.title}
           />
           <textarea
             name="content"
@@ -80,6 +81,7 @@ export default function WriteSection() {
             style={{}}
             placeholder="Find your study mate by writing a post that identifies you! (Maximum 300 characters)"
             onChange={handleContentChange}
+            value={inputValue.content}
           />
         </div>
         <div className="py-3 space-x-2">

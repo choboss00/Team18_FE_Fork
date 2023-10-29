@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { getUser } from "../../../apis/mentoring/post";
-import { useInputsRef } from "../../../hooks/useInputsRef";
+import { useInputsState } from "../../../hooks/useInputsState";
 import { RoleType } from "../../../constants/user";
 
 import Error from "../../common/Error";
@@ -19,7 +19,7 @@ export default function PostsSection() {
     search: "",
   });
 
-  const { inputValue, handleInputChange } = useInputsRef({
+  const { inputValue, handleInputChange } = useInputsState({
     category: "title",
     search: "",
   });
@@ -31,7 +31,7 @@ export default function PostsSection() {
   };
 
   const handleSearchEnter = (e) => {
-    if (e.keyCode === 13) setSearchValue(inputValue.current);
+    if (e.keyCode === 13) setSearchValue(inputValue);
   };
 
   return (
@@ -54,6 +54,7 @@ export default function PostsSection() {
           className="focus:outline-none"
           name="category"
           onChange={handleInputChange}
+          value={inputValue.category}
         >
           {["Title", "Writer", "Interest"].map((val) => (
             <option
@@ -71,6 +72,7 @@ export default function PostsSection() {
           placeholder="Search"
           onChange={handleSerchChange}
           onKeyUp={handleSearchEnter}
+          value={inputValue.search}
         ></input>
       </div>
       <Suspense fallback={<PostCardSkeletons />}>
