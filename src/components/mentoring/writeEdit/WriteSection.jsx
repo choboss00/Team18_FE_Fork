@@ -1,14 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import { useInputsState } from "../../../hooks/useInputsState";
-import { addPostReq } from "../../../apis/mentoring/post";
+import { getUser, addPostReq } from "../../../apis/mentoring/post";
 
-import Error from "../../common/Error";
-import Loader from "../../common/Loader";
 import MentorCard from "./MentorCard";
 import Button from "../../common/Button";
 
@@ -18,6 +14,8 @@ export default function WriteSection() {
     title: "",
     content: "",
   });
+
+  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
 
   const { mutate } = useMutation({ mutationFn: addPostReq });
 
@@ -59,14 +57,7 @@ export default function WriteSection() {
     <div className="flex justify-center">
       <div className="w-full max-w-[58rem] m-12 p-12 bg-white flex flex-col">
         <h1 className="pb-4 text-center font-bold text-green-700">MENTORING</h1>
-        <Suspense fallback={<Loader />}>
-          <ErrorBoundary
-            fallback={<Error errorMessage="Failed to load user information" />}
-          >
-            <MentorCard />
-          </ErrorBoundary>
-        </Suspense>
-
+        <MentorCard info={data.data.response} />
         <div>
           <input
             name="title"
