@@ -43,7 +43,7 @@ export default function PostsSection() {
         {data.data.response.role === RoleType.MENTOR && (
           <Link
             className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
-            to="/mentoring/write"
+            to="/mentoring/edit/1"
           >
             Write
           </Link>

@@ -82,4 +82,4 @@ export const postData = {
   ],
 };
 
-export const addPostRes = { pid: 1 };
+export const addEditPostRes = { pid: 1 };
