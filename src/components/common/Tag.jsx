@@ -12,9 +12,11 @@ const tagType = {
   Mentee: "bg-yellow-100 text-black",
 };
 
-const Tag = ({ children, ...props }) => {
+const Tag = ({ children, className, ...props }) => {
   const tagStyle = `${
-    tagType[children]
+    Object.prototype.hasOwnProperty.call(tagType, children)
+      ? tagType[children]
+      : className
   } py-1 px-2 text-xs rounded-lg border-2 ${
     children.includes("Ment") ? "border-black" : "border-[#0000]"
   }`;
