@@ -13,6 +13,9 @@ const Error = ({ errorMessage = "" }) => {
           size="xl"
           onClick={() => window.location.reload()}
         >
+          <span className="material-symbols-outlined relative -bottom-1 text-2xl font-bold">
+            refresh
+          </span>{" "}
           Page Reload
         </Button>
       </div>
