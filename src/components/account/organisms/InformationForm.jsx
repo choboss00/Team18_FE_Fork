@@ -1,6 +1,9 @@
 import Title from "../atoms/Title";
-import { Link } from "react-router-dom";
 import Button from "../../common/Button";
+import Modal from "../atoms/Modal";
+import { useState } from "react";
+import { InputOnly } from "../atoms/InputBox";
+import { useNavigate } from "react-router-dom";
 
 const KeyValueComponent = ({ keyName, value }) => (
   <div className="flex justify-between">
@@ -15,6 +18,17 @@ const KeyValueComponent = ({ keyName, value }) => (
 );
 
 const InformationForm = ({ data }) => {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [password, setPassword] = useState();
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOnChange = (event) => {
+    setPassword(event.target.value);
+  };
+
   const userInfo = [
     {
       keyName: "Name",
@@ -51,11 +65,36 @@ const InformationForm = ({ data }) => {
 
       <section className="mt-10 mb-10 p-10 border border-2 bg-white border-orange w-[500px]">
         <Title className="text-xl mb-5">Update Information</Title>
-        <p className="text-gray-400">Go to Edit Information</p>
+        <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">
-          <Button color="orange" size="sm">
-            <Link to="/mypage/information/fix">Edit</Link>
+          <Button color="orange" size="base" onClick={openModalHandler}>
+            <span className="material-symbols-outlined relative -bottom-1">
+              edit
+            </span>
+            Edit
           </Button>
+          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            <Title className="text-xl font-semibold mb-4">
+              Edit Personal Information{" "}
+            </Title>
+            <p className="text-base text-gray-600">
+              Please enter your password for user authentication
+            </p>
+            <InputOnly
+              value={password}
+              type="password"
+              id="password"
+              label="password"
+              onChange={handleOnChange}
+            ></InputOnly>
+            <Button
+              color="white"
+              size="sm"
+              onClick={() => navigate("/mypage/information/fix")} // 변경: 함수 호출 방식 수정
+            >
+              confirm
+            </Button>
+          </Modal>
         </div>
       </section>
     </div>
