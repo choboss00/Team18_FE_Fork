@@ -28,6 +28,18 @@ export const getPublicChannels = async () => {
   }
 };
 
+export const getChannelDetail = async (channelId) => {
+  try {
+    const { channel } = await client.getChannel({
+      channelId,
+    });
+    return channel;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
 export const getJoinedChannels = async () => {
   try {
     const { channels } = await client.getChannels({ limit: 30 });
