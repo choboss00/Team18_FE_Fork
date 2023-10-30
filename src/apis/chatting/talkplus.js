@@ -92,6 +92,25 @@ export const leaveChannel = async (channelId) => {
   }
 };
 
+export const updateChannel = async (channelId, data) => {
+  const { name, imageUrl = "", content = "", category, subcategory } = data;
+  try {
+    const data = await client.updateChannel({
+      channelId,
+      name,
+      imageUrl,
+      category,
+      subcategory,
+      data: {
+        content,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getMessages = async (channelId) => {
   try {
     const { messages } = await client.getMessages({
