@@ -90,7 +90,7 @@ const InformationForm = ({ data }) => {
             <Button
               color="white"
               size="sm"
-              onClick={() => navigate("/mypage/information/fix")} // 변경: 함수 호출 방식 수정
+              onClick={() => navigate("/mypage/information/fix")}
             >
               confirm
             </Button>

@@ -3,7 +3,6 @@ import Footer from "./Footer";
 import GNB from "./GNB";
 import { getUser } from "../apis/user";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../components/account/atoms/Loader";
 
 export default function Layout() {
   const { data } = useQuery(["getUser"], getUser);

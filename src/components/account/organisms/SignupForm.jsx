@@ -1,12 +1,13 @@
-import InputBox from "../atoms/InputBox";
+import { InputBox } from "../atoms/InputBox";
 import Button from "../../common/Button";
 import Dropdown from "../../common/Dropdown";
 import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import COUNTRY from "../constants/COUNTRY";
 import { register, emailCheck } from "../../../apis/user";
-import CheckBoxes from "../atoms/CheckBox";
+import RadioButton from "../atoms/RadioButton";
 import BasicDatePicker from "../atoms/DatePicker";
+import SelectTag from "../atoms/SelectTag";
 
 const SignupForm = ({ inputProps }) => {
   const methods = useForm();
@@ -160,7 +161,7 @@ const SignupForm = ({ inputProps }) => {
                 />
               )}
             />
-            <CheckBoxes
+            <RadioButton
               name="role"
               value="Mentor"
               type="radio"
@@ -169,8 +170,8 @@ const SignupForm = ({ inputProps }) => {
               inputProps={{ "aria-label": "Mentor" }}
             >
               Mentor
-            </CheckBoxes>
-            <CheckBoxes
+            </RadioButton>
+            <RadioButton
               name="role"
               value="Mentee"
               type="radio"
@@ -179,13 +180,15 @@ const SignupForm = ({ inputProps }) => {
               inputProps={{ "aria-label": "Mentee" }}
             >
               Mentee
-            </CheckBoxes>
+            </RadioButton>
             <Dropdown
               name="country"
               options={COUNTRY.map((country) => country.name)}
               selected={country}
               onSelectedChange={handleOptionChange}
             />
+
+            <SelectTag />
             <Button color="orange" size="xl">
               Sign Up
             </Button>
