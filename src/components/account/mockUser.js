@@ -7,11 +7,11 @@ export const mockUsers = {
     profileImage:
       "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400",
     role: "Mentor",
-    categoryList: ["Sports", "I-DOL", "KPOP"],
+    categoryList: ["Sports", "IDOL", "K-POP"],
     country: "IL",
     phone: "010-1111-1111",
     age: 21,
-    introduction: "hi?",
+    introduction: "Hi! I'm John Doe",
   },
 };
 

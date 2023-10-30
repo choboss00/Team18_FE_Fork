@@ -36,9 +36,9 @@ const SIGNUP = Object.freeze([
     rules: {
       required: "The input box must not be empty.",
       pattern: {
-        value: /^[0-9]{10,15}$/,
+        value: /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/,
         message:
-          "Phone number should only contain numbers and be 10-15 digits long.",
+          "Phone number should be in the format 000-0000-0000 and only contain numbers.",
       },
     },
   },

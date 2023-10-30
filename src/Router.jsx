@@ -24,6 +24,7 @@ import Dashboard from "./pages/mentoring/Dashboard";
 
 import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage";
 import ChattingListPage from "./pages/chatting/ChattingListPage";
+import InformationFixPage from "./pages/account/InformationFixPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -62,7 +63,7 @@ const router = createBrowserRouter(
           <Route path="mypage/information" element={<InformationPage />} />
           <Route
             path="mypage/information/fix"
-            element={<h1>InformationFix</h1>}
+            element={<InformationFixPage />}
           />
         </Route>
       </Route>
