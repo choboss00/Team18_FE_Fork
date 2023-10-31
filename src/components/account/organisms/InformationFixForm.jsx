@@ -9,8 +9,10 @@ import RadioButton from "../atoms/RadioButton";
 import SelectTag from "../atoms/SelectTag";
 import COUNTRY from "../constants/COUNTRY";
 import { useNavigate } from "react-router-dom";
+import Title from "../atoms/Title";
 import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
+import { codeToName, nameToCode } from "../../../utils/account/country";
 
 const InformationFixForm = ({ data, inputProps }) => {
   const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
@@ -34,8 +36,8 @@ const InformationFixForm = ({ data, inputProps }) => {
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
   const [email, setEmail] = useState(data?.user?.email);
-  const [categoryList, setCategoryList] = useState("");
-  const [country, setCountry] = useState(data?.user?.country);
+
+  const [country, setCountry] = useState(codeToName(data?.user?.country));
 
   const handleOptionChange = (country) => {
     setCountry(country);
@@ -44,6 +46,11 @@ const InformationFixForm = ({ data, inputProps }) => {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+  const [categoryList, setCategoryList] = useState(data?.user?.categoryList);
+
+  const handlecategoryList = (newCategoryList) => {
+    setCategoryList(newCategoryList);
   };
 
   const handlePasswordConfirm = () => {
@@ -77,7 +84,7 @@ const InformationFixForm = ({ data, inputProps }) => {
       age: birth,
       email,
       role,
-      country,
+      country: nameToCode(country),
       categoryList,
     });
   }, [
@@ -138,60 +145,70 @@ const InformationFixForm = ({ data, inputProps }) => {
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="max-w-[500px] mb-10">
+          <main className="max-w-[500px]">
             <InputOnly readOnly={true} name="email" value={email}></InputOnly>
-            <div className="flex gap-10">
+            <section className=" border-2 border-orange bg-white p-4">
+              <div className="flex gap-10">
+                {inputProps
+                  .filter(
+                    (props) =>
+                      props.name === "firstName" || props.name === "lastName"
+                  )
+                  .map(renderController)}
+              </div>
               {inputProps
                 .filter(
-                  (props) =>
-                    props.name === "firstName" || props.name === "lastName"
+                  (inputField) =>
+                    inputField.name !== "firstName" &&
+                    inputField.name !== "lastName"
                 )
                 .map(renderController)}
-            </div>
-            {inputProps
-              .filter(
-                (inputField) =>
-                  inputField.name !== "firstName" &&
-                  inputField.name !== "lastName"
-              )
-              .map(renderController)}
-            <Controller
-              name="age"
-              control={methods.control}
-              render={(field) => (
-                <BasicDatePicker
-                  {...field}
-                  control={methods.control}
-                  name="age"
-                  value="age"
-                />
-              )}
-            />
-            <RadioButton
-              name="role"
-              value="Mentor"
-              type="radio"
-              onChange={handleRoleChange}
-              checked={role === "Mentor"}
-            >
-              Mentor
-            </RadioButton>
-            <RadioButton
-              name="role"
-              value="Mentee"
-              type="radio"
-              onChange={handleRoleChange}
-              checked={role === "Mentee"}
-            >
-              Mentee
-            </RadioButton>
-            <Dropdown
-              name="country"
-              options={COUNTRY.map((country) => country.name)}
-              onSelectedChange={handleOptionChange}
-              selected={country}
-            />
-            <SelectTag />
+              <Controller
+                name="age"
+                control={methods.control}
+                render={(field) => (
+                  <BasicDatePicker
+                    {...field}
+                    control={methods.control}
+                    name="age"
+                    value="age"
+                  />
+                )}
+              />
+              <RadioButton
+                name="role"
+                value="Mentor"
+                type="radio"
+                onChange={handleRoleChange}
+                checked={role === "Mentor"}
+              >
+                Mentor
+              </RadioButton>
+              <RadioButton
+                name="role"
+                value="Mentee"
+                type="radio"
+                onChange={handleRoleChange}
+                checked={role === "Mentee"}
+              >
+                Mentee
+              </RadioButton>
+              <Dropdown
+                name="country"
+                options={COUNTRY.map((country) => country.name)}
+                onSelectedChange={handleOptionChange}
+                selected={country}
+                className="bg-white"
+              />
+            </section>
+            <section className="border-2 border-orange p-4 bg-white mt-10 mb-10">
+              <Title className="mb-10">Chooese Your Favorites! </Title>
+              <SelectTag
+                name="categoryList"
+                selected={categoryList}
+                onSelectedChange={handlecategoryList}
+              />
+            </section>
             <div className="flex justify-between">
               <Button
                 color="white"
@@ -204,7 +221,7 @@ const InformationFixForm = ({ data, inputProps }) => {
                 Edit
               </Button>
             </div>
-          </div>
+          </main>
         </form>
       </FormProvider>
     </>

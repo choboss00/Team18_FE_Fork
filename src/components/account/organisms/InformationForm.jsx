@@ -81,7 +81,7 @@ const InformationForm = ({ data }) => {
               Please enter your password for user authentication
             </p>
             <InputOnly
-              value={password}
+              value={password || ""}
               type="password"
               id="password"
               label="password"
