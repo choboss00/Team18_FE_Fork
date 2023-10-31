@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { userInfo } from "../../../apis/mypage";
-import { InputBox } from "../atoms/InputBox";
+import { InputBox, InputOnly } from "../atoms/InputBox";
 import Button from "../../common/Button";
 import Dropdown from "../../common/Dropdown";
 import RadioButton from "../atoms/RadioButton";
@@ -10,12 +10,7 @@ import SelectTag from "../atoms/SelectTag";
 import COUNTRY from "../constants/COUNTRY";
 import { useNavigate } from "react-router-dom";
 import BasicDatePicker from "../atoms/DatePicker";
-import { convertDateToAge } from "../../../utils/age";
 import dayjs from "dayjs";
-
-// 수정 필요 사항
-// email -> readOnly
-// age -> Input component 수정
 
 const InformationFixForm = ({ data, inputProps }) => {
   const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
@@ -26,7 +21,6 @@ const InformationFixForm = ({ data, inputProps }) => {
   const methods = useForm({
     defaultValues: {
       ...defaultValues,
-      passwordCheck: "",
       age: dayjs(data?.user?.age),
     },
   });
@@ -39,7 +33,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const password = watch("password");
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
-
+  const [email, setEmail] = useState(data?.user?.email);
   const [categoryList, setCategoryList] = useState("");
   const [country, setCountry] = useState(data?.user?.country);
 
@@ -71,17 +65,32 @@ const InformationFixForm = ({ data, inputProps }) => {
   const [changedValues, setChangedValues] = useState({});
 
   useEffect(() => {
+    let birth = null;
+    if (age && age.$d) {
+      birth = dayjs(age.$d).format("YYYY-MM-DD");
+    }
     setChangedValues({
       firstName,
       lastName,
       phone,
       password,
-      age,
+      age: birth,
+      email,
       role,
       country,
       categoryList,
     });
-  }, [firstName, lastName, phone, password, age, role, country, categoryList]);
+  }, [
+    firstName,
+    lastName,
+    phone,
+    password,
+    age,
+    role,
+    country,
+    email,
+    categoryList,
+  ]);
 
   const mutation = useMutation((newData) => userInfo(newData), {
     onSuccess: () => {
@@ -97,6 +106,7 @@ const InformationFixForm = ({ data, inputProps }) => {
 
     if (passwordIsValid) {
       mutation.mutate(changedValues);
+      console.log(changedValues);
     }
   };
 
@@ -125,76 +135,79 @@ const InformationFixForm = ({ data, inputProps }) => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="max-w-[500px] mb-10">
-          <div className="flex gap-10">
+    <>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="max-w-[500px] mb-10">
+            <InputOnly readOnly={true} name="email" value={email}></InputOnly>
+            <div className="flex gap-10">
+              {inputProps
+                .filter(
+                  (props) =>
+                    props.name === "firstName" || props.name === "lastName"
+                )
+                .map(renderController)}
+            </div>
             {inputProps
               .filter(
-                (props) =>
-                  props.name === "firstName" || props.name === "lastName"
+                (inputField) =>
+                  inputField.name !== "firstName" &&
+                  inputField.name !== "lastName"
               )
               .map(renderController)}
-          </div>
-          {inputProps
-            .filter(
-              (inputField) =>
-                inputField.name !== "firstName" &&
-                inputField.name !== "lastName"
-            )
-            .map(renderController)}
-          <Controller
-            name="age"
-            control={methods.control}
-            render={(field) => (
-              <BasicDatePicker
-                {...field}
-                control={methods.control}
-                name="age"
-                value="age"
-              />
-            )}
-          />
-          <RadioButton
-            name="role"
-            value="Mentor"
-            type="radio"
-            onChange={handleRoleChange}
-            checked={role === "Mentor"}
-          >
-            Mentor
-          </RadioButton>
-          <RadioButton
-            name="role"
-            value="Mentee"
-            type="radio"
-            onChange={handleRoleChange}
-            checked={role === "Mentee"}
-          >
-            Mentee
-          </RadioButton>
-          <Dropdown
-            name="country"
-            options={COUNTRY.map((country) => country.name)}
-            onSelectedChange={handleOptionChange}
-            selected={country}
-          />
-          <SelectTag />
-          <div className="">
-            <Button color="orange" size="lg" type="submit">
-              Edit
-            </Button>
-            <Button
-              color="white"
-              size="lg"
-              onClick={() => navigate("/mypage/information")}
+            <Controller
+              name="age"
+              control={methods.control}
+              render={(field) => (
+                <BasicDatePicker
+                  {...field}
+                  control={methods.control}
+                  name="age"
+                  value="age"
+                />
+              )}
+            />
+            <RadioButton
+              name="role"
+              value="Mentor"
+              type="radio"
+              onChange={handleRoleChange}
+              checked={role === "Mentor"}
             >
-              Cancel
-            </Button>
+              Mentor
+            </RadioButton>
+            <RadioButton
+              name="role"
+              value="Mentee"
+              type="radio"
+              onChange={handleRoleChange}
+              checked={role === "Mentee"}
+            >
+              Mentee
+            </RadioButton>
+            <Dropdown
+              name="country"
+              options={COUNTRY.map((country) => country.name)}
+              onSelectedChange={handleOptionChange}
+              selected={country}
+            />
+            <SelectTag />
+            <div className="flex justify-between">
+              <Button
+                color="white"
+                size="lg"
+                onClick={() => navigate("/mypage/information")}
+              >
+                Cancel
+              </Button>
+              <Button color="orange" size="lg" type="submit">
+                Edit
+              </Button>
+            </div>
           </div>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
+    </>
   );
 };
 

@@ -99,6 +99,7 @@ export const InputOnly = (props) => {
         value={props.value}
         label={props.label}
         id={props.id}
+        InputProps={{ readOnly: props.readOnly }}
         type={props.type}
         variant="outlined"
         color="secondary"

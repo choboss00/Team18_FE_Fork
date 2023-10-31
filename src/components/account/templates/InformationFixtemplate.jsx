@@ -1,8 +1,8 @@
 import InformationFixForm from "../organisms/InformationFixForm";
 import { userInfo } from "../../../apis/mypage";
 import { useQuery } from "@tanstack/react-query";
-import SIGNUP from "../constants/SIGNUP";
-
+import { EDIT } from "../constants/SIGNUP";
+import Title from "../atoms/Title";
 const InformationFixtemplate = () => {
   const { data } = useQuery(["userInfo"], userInfo, {
     suspense: true,
@@ -11,7 +11,8 @@ const InformationFixtemplate = () => {
   return (
     <>
       <main className="mt-20 justify-center items-center flex flex-col">
-        <InformationFixForm inputProps={SIGNUP} data={data} />
+        <Title>Edit Personal Information</Title>
+        <InformationFixForm inputProps={EDIT} data={data} />
       </main>
     </>
   );
