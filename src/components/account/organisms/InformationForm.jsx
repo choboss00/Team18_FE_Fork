@@ -4,7 +4,7 @@ import Modal from "../atoms/Modal";
 import { useState } from "react";
 import { InputOnly } from "../atoms/InputBox";
 import { useNavigate } from "react-router-dom";
-
+import { codeToName } from "../../../utils/account/country";
 const KeyValueComponent = ({ keyName, value }) => (
   <div className="flex justify-between">
     <p className="text-green-700">
@@ -37,7 +37,7 @@ const InformationForm = ({ data }) => {
     { keyName: "Email", value: data?.user?.email },
     { keyName: "Birth", value: data?.user?.age },
     { keyName: "TEL", value: data?.user?.phone },
-    { keyName: "Country", value: data?.user?.country },
+    { keyName: "Country", value: codeToName(data?.user?.country) },
     { keyName: "bio", value: data?.user?.introduction },
     { keyName: "Role", value: data?.user?.role },
     { keyName: "Interests", value: data?.user?.categoryList.join(", ") },
