@@ -38,7 +38,7 @@ const SignupForm = ({ inputProps }) => {
     if (response.data.success === false) {
       setError(
         "email",
-        { message: "Can't use this email" },
+        { message: "User using this email already exists" },
         { shouldFocus: true }
       );
       return false;
@@ -70,6 +70,11 @@ const SignupForm = ({ inputProps }) => {
       const passwordIsValid = await handlePasswordConfirm();
 
       if (emailIsValid && passwordIsValid) {
+        // age format 생년월일 문자열로 변환하여 전달
+        let birth = null;
+        if (age && age.$d) {
+          birth = age.format("YYYY-MM-DD");
+        }
         const response = await register({
           firstName: firstName,
           lastName: lastName,
@@ -77,7 +82,7 @@ const SignupForm = ({ inputProps }) => {
           password: password,
           role: role,
           country: country,
-          age: age,
+          age: birth,
           // categoryList: categoryList,
           categoryList: ["Sports", "IDOL", "K-POP"],
           phone: phone,
@@ -187,7 +192,6 @@ const SignupForm = ({ inputProps }) => {
               selected={country}
               onSelectedChange={handleOptionChange}
             />
-
             <SelectTag />
             <Button color="orange" size="xl">
               Sign Up

@@ -35,7 +35,7 @@ const InformationForm = ({ data }) => {
       value: `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`,
     },
     { keyName: "Email", value: data?.user?.email },
-    { keyName: "Age", value: data?.user?.age },
+    { keyName: "Birth", value: data?.user?.age },
     { keyName: "TEL", value: data?.user?.phone },
     { keyName: "Country", value: data?.user?.country },
     { keyName: "bio", value: data?.user?.introduction },

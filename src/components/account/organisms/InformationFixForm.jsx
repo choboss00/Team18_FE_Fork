@@ -9,11 +9,13 @@ import RadioButton from "../atoms/RadioButton";
 import SelectTag from "../atoms/SelectTag";
 import COUNTRY from "../constants/COUNTRY";
 import { useNavigate } from "react-router-dom";
+import BasicDatePicker from "../atoms/DatePicker";
+import { convertDateToAge } from "../../../utils/age";
+import dayjs from "dayjs";
 
 // 수정 필요 사항
 // email -> readOnly
 // age -> Input component 수정
-// 전체 form css 뜸 수정
 
 const InformationFixForm = ({ data, inputProps }) => {
   const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
@@ -25,8 +27,10 @@ const InformationFixForm = ({ data, inputProps }) => {
     defaultValues: {
       ...defaultValues,
       passwordCheck: "",
+      age: dayjs(data?.user?.age),
     },
   });
+
   const navigate = useNavigate();
   const { watch, control, handleSubmit, setError, clearErrors } = methods;
   const firstName = watch("firstName");
@@ -142,7 +146,14 @@ const InformationFixForm = ({ data, inputProps }) => {
           <Controller
             name="age"
             control={methods.control}
-            render={({ field }) => <input {...field} label="age" />}
+            render={(field) => (
+              <BasicDatePicker
+                {...field}
+                control={methods.control}
+                name="age"
+                value="age"
+              />
+            )}
           />
           <RadioButton
             name="role"

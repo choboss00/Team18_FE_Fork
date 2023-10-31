@@ -10,7 +10,7 @@ export const mockUsers = {
     categoryList: ["Sports", "IDOL", "K-POP"],
     country: "IL",
     phone: "010-1111-1111",
-    age: 21,
+    age: "2002-10-30",
     introduction: "Hi! I'm John Doe",
   },
 };
