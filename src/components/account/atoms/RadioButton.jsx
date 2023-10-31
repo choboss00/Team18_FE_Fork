@@ -1,5 +1,5 @@
 import React from "react";
-import Checkbox from "@mui/material/Checkbox";
+import Radio from "@mui/material/Radio";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
@@ -10,11 +10,11 @@ const theme = createTheme({
   },
 });
 
-const CheckBoxes = ({ children, ...props }) => {
+const RadioButton = ({ children, ...props }) => {
   return (
     <ThemeProvider theme={theme}>
       <label>
-        <Checkbox
+        <Radio
           type={props.type}
           value={props.value}
           checked={props.checked}
@@ -27,4 +27,4 @@ const CheckBoxes = ({ children, ...props }) => {
   );
 };
 
-export default CheckBoxes;
+export default RadioButton;

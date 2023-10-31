@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import Informationtemplate from "../../components/account/templates/Informationtemplate";
+import InformationFixtemplate from "../../components/account/templates/InformationFixtemplate";
 import Loader from "../../components/account/atoms/Loader";
 import Error from "../../components/account/atoms/Error";
 
-const InformationPage = () => {
+const InformationFixPage = () => {
   return (
     <>
       <Suspense fallback={<Loader />}>
@@ -13,11 +13,11 @@ const InformationPage = () => {
             <Error errorMessage={props.error.message} />
           )}
         >
-          <Informationtemplate />
+          <InformationFixtemplate />
         </ErrorBoundary>
       </Suspense>
     </>
   );
 };
 
-export default InformationPage;
+export default InformationFixPage;
