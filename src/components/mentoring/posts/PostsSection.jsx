@@ -1,12 +1,12 @@
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
 
 import { getUser } from "../../../apis/mentoring/post";
 import { useInputsState } from "../../../hooks/useInputsState";
 import { RoleType } from "../../../constants/user";
 
+import Fallback from "../../common/Fallback";
 import Error from "../../common/Error";
 import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
@@ -75,16 +75,13 @@ export default function PostsSection() {
           value={inputValue.search}
         ></input>
       </div>
-      <Suspense fallback={<PostCardSkeletons />}>
-        <ErrorBoundary
-          fallback={<Error errorMessage="Failed to load mentoring list" />}
-        >
-          <PostList
-            category={searchValue.category}
-            search={searchValue.search}
-          />
-        </ErrorBoundary>
-      </Suspense>
+      <Fallback
+        Loader={PostCardSkeletons}
+        Error={Error}
+        errorMessage="Failed to load mentoring list"
+      >
+        <PostList category={searchValue.category} search={searchValue.search} />
+      </Fallback>
     </div>
   );
 }
