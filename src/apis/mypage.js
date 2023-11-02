@@ -1,4 +1,9 @@
-import { mockUsers, mockResponse } from "../components/account/mockUser";
+import {
+  mockUsers,
+  ProfileData,
+  mockResponse,
+} from "../components/account/mockUser";
+
 // export const userInfo = () => {
 //   return instance.get("/userInfo");
 // };
@@ -29,6 +34,29 @@ export const userInfo = async () => {
   return {
     message: "successful",
     user: responseUser,
+    success: true,
+  };
+};
+
+// export const getProfileById = (id) => {
+//   if (!id) {
+//     throw Error("해당 ID를 사용하는 사용자를 찾을 수 없습니다.  ");
+//   }
+//   return instance.get("mypage/profiles" + id);
+// };
+
+export const getProfileById = async (uid) => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  const user = ProfileData[uid];
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return {
+    message: "successful",
+    user: user,
     success: true,
   };
 };

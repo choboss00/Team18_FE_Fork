@@ -53,10 +53,7 @@ export const login = async (data) => {
   // 패스워드 일치 확인
   if (user && user.password === data.password) {
     const responseUser = {
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      profileImage: user.profileImage,
+      uid: user.uid,
     };
     return mockResponse({
       message: "Login successful",
