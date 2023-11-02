@@ -15,7 +15,7 @@ const ProfileTemplate = () => {
 
   return (
     <>
-      <main className="mt-20 justify-center items-center flex flex-col">
+      <main className="w-full mt-10 justify-center items-center flex flex-col">
         <ProfileForm />
       </main>
     </>

@@ -20,7 +20,7 @@ const ProfileForm = () => {
 
   return (
     <>
-      <main className="w-[70%] border-2 bg-white ">
+      <main className="min-w-[50%] border-2 bg-white ">
         {data && <Profile data={data} />}
       </main>
     </>

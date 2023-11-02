@@ -10,8 +10,8 @@ const InformationFixtemplate = () => {
 
   return (
     <>
-      <main className="mt-20 mb-10 justify-center items-center flex flex-col">
-        <div className="min-w-[580px] border-2  p-10 bg-white items-center flex flex-col">
+      <main className="w-full mt-10 mb-10 justify-center items-center flex flex-col">
+        <div className="min-w-[40%] border-2  p-10 bg-white items-center flex flex-col">
           <Title>Edit Personal Information</Title>
           <InformationFixForm inputProps={EDIT} data={data} />
         </div>

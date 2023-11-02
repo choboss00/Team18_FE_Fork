@@ -15,14 +15,14 @@ const Profile = ({ data }) => {
   console.log(uid); //확인
 
   return (
-    <main className="w-full pt-2 pb-4">
+    <main className="w-full p-6">
       <section className="border-b w-full flex justify-center items-center">
         <Title className="text-2xl p-2">{userName}'s Profile</Title>
       </section>
       <section className="mt-2 flex justify-center items-center flex-col">
         <img className="max-w-[100px]" src={profile.profileImage} />
         <Title className="text-base p-2">{userName}</Title>
-        <div className="max-w-[300px] p-2 space-y-1 rounded-lg border-2">
+        <div className="w-[300px] p-2 space-y-1 rounded-lg border-2">
           {profile.introduction}
         </div>
         <div className="mt-5 flex space-x-2">

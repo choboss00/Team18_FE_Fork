@@ -38,6 +38,16 @@ const InformationFixForm = ({ data, inputProps }) => {
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
   const introduction = watch("introduction");
+
+  const [profileImage, setProfileImage] = useState(data?.user?.profileImage);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // 사용자가 선택한 파일 가져오기
+    if (file) {
+      setProfileImage(file);
+    }
+  };
+
   const [email, setEmail] = useState(data?.user?.email);
 
   const [country, setCountry] = useState(codeToName(data?.user?.country));
@@ -90,6 +100,7 @@ const InformationFixForm = ({ data, inputProps }) => {
       introduction,
       country: nameToCode(country),
       categoryList,
+      profileImage,
     });
   }, [
     firstName,
@@ -102,6 +113,7 @@ const InformationFixForm = ({ data, inputProps }) => {
     country,
     email,
     categoryList,
+    profileImage,
   ]);
 
   const mutation = useMutation((newData) => userInfo(newData), {
@@ -116,8 +128,20 @@ const InformationFixForm = ({ data, inputProps }) => {
   const onSubmit = async () => {
     const passwordIsValid = handlePasswordConfirm();
 
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(changedValues)) {
+      formData.append(key, value);
+    }
+
+    if (profileImage instanceof File) {
+      formData.append("profileImage", profileImage);
+    }
+
     if (passwordIsValid) {
-      mutation.mutate(changedValues);
+      mutation.mutate({
+        data: formData,
+      });
       console.log(changedValues);
     }
   };
@@ -205,6 +229,12 @@ const InformationFixForm = ({ data, inputProps }) => {
               onSelectedChange={handleOptionChange}
               selected={country}
               className="bg-white"
+            />
+            <input
+              type="file"
+              label="Profile Image Upload"
+              accept="image/jpg, image/png, image/jpeg"
+              onChange={handleFileChange}
             />
             <section className=" p-4  mt-10 mb-10">
               <Title className="mb-10">Chooese Your Favorites! </Title>

@@ -44,8 +44,8 @@ const InformationForm = ({ data }) => {
   ];
 
   return (
-    <div>
-      <section className="p-10 border border-2 bg-white w-[580px]">
+    <div className="min-w-[50%] flex justify-center items-center flex-col">
+      <section className="p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5 border-b">
           My Information
           <img
@@ -63,7 +63,7 @@ const InformationForm = ({ data }) => {
         ))}
       </section>
 
-      <section className="mt-10 mb-10 p-10 border border-2 bg-white w-[580px]">
+      <section className="mt-10 mb-10 p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5">Update Information</Title>
         <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">
