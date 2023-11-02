@@ -45,8 +45,8 @@ const InformationForm = ({ data }) => {
 
   return (
     <div>
-      <section className="p-10 border border-2 bg-white border-orange w-[500px]">
-        <Title className="text-xl mb-5">
+      <section className="p-10 border border-2 bg-white w-[580px]">
+        <Title className="text-xl mb-5 border-b">
           My Information
           <img
             className="w-7 rounded-full inline-block mb-2 ml-2"
@@ -63,7 +63,7 @@ const InformationForm = ({ data }) => {
         ))}
       </section>
 
-      <section className="mt-10 mb-10 p-10 border border-2 bg-white border-orange w-[500px]">
+      <section className="mt-10 mb-10 p-10 border border-2 bg-white w-[580px]">
         <Title className="text-xl mb-5">Update Information</Title>
         <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">

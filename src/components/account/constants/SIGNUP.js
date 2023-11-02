@@ -87,7 +87,7 @@ export const EDIT = Object.freeze([
     label: "First Name",
     type: "text",
     placeholder: "first Name",
-    variant: "filled",
+    variant: "outlined",
     rules: {
       required: "The input box must not be empty.",
       pattern: {
@@ -101,7 +101,7 @@ export const EDIT = Object.freeze([
     label: "Last Name",
     type: "text",
     placeholder: "Last Name",
-    variant: "filled",
+    variant: "outlined",
     rules: {
       required: "The input box must not be empty.",
       pattern: {
@@ -115,7 +115,7 @@ export const EDIT = Object.freeze([
     label: "TEL",
     type: "tel",
     placeholder: "phone number",
-    variant: "filled",
+    variant: "outlined",
     rules: {
       required: "The input box must not be empty.",
       pattern: {
@@ -129,7 +129,7 @@ export const EDIT = Object.freeze([
     name: "password",
     label: "Password",
     type: "password",
-    variant: "filled",
+    variant: "outlined",
     rules: {
       required: "The input box must not be empty.",
       pattern: {
@@ -144,9 +144,17 @@ export const EDIT = Object.freeze([
     name: "passwordcheck",
     label: "Password Check",
     type: "password",
-    variant: "filled",
+    variant: "outlined",
     rules: {
       required: "The input box must not be empty.",
     },
+  },
+  {
+    name: "introduction",
+    label: "introduction",
+    type: "text",
+    variant: "outlined",
+    multiline: true,
+    rows: 4,
   },
 ]);

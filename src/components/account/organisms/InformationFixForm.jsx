@@ -14,6 +14,8 @@ import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
 
+// 프로필 사진 등록
+
 const InformationFixForm = ({ data, inputProps }) => {
   const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
     acc[key] = data?.user[key] || "";
@@ -35,6 +37,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const password = watch("password");
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
+  const introduction = watch("introduction");
   const [email, setEmail] = useState(data?.user?.email);
 
   const [country, setCountry] = useState(codeToName(data?.user?.country));
@@ -84,6 +87,7 @@ const InformationFixForm = ({ data, inputProps }) => {
       age: birth,
       email,
       role,
+      introduction,
       country: nameToCode(country),
       categoryList,
     });
@@ -93,6 +97,7 @@ const InformationFixForm = ({ data, inputProps }) => {
     phone,
     password,
     age,
+    introduction,
     role,
     country,
     email,
@@ -132,6 +137,8 @@ const InformationFixForm = ({ data, inputProps }) => {
             label={inputField.label}
             variant={inputField.variant}
             type={inputField.type}
+            multiline={inputField.multiline}
+            rows={inputField.rows}
             placeholder={inputField.placeholder}
             error={fieldState.invalid}
             helperText={fieldState.invalid ? fieldState.error.message : ""}
@@ -147,61 +154,59 @@ const InformationFixForm = ({ data, inputProps }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <main className="max-w-[500px]">
             <InputOnly readOnly={true} name="email" value={email}></InputOnly>
-            <section className=" border-2 border-orange bg-white p-4">
-              <div className="flex gap-10">
-                {inputProps
-                  .filter(
-                    (props) =>
-                      props.name === "firstName" || props.name === "lastName"
-                  )
-                  .map(renderController)}
-              </div>
+            <div className="flex gap-10">
               {inputProps
                 .filter(
-                  (inputField) =>
-                    inputField.name !== "firstName" &&
-                    inputField.name !== "lastName"
+                  (props) =>
+                    props.name === "firstName" || props.name === "lastName"
                 )
                 .map(renderController)}
-              <Controller
-                name="age"
-                control={methods.control}
-                render={(field) => (
-                  <BasicDatePicker
-                    {...field}
-                    control={methods.control}
-                    name="age"
-                    value="age"
-                  />
-                )}
-              />
-              <RadioButton
-                name="role"
-                value="Mentor"
-                type="radio"
-                onChange={handleRoleChange}
-                checked={role === "Mentor"}
-              >
-                Mentor
-              </RadioButton>
-              <RadioButton
-                name="role"
-                value="Mentee"
-                type="radio"
-                onChange={handleRoleChange}
-                checked={role === "Mentee"}
-              >
-                Mentee
-              </RadioButton>
-              <Dropdown
-                name="country"
-                options={COUNTRY.map((country) => country.name)}
-                onSelectedChange={handleOptionChange}
-                selected={country}
-                className="bg-white"
-              />
-            </section>
-            <section className="border-2 border-orange p-4 bg-white mt-10 mb-10">
+            </div>
+            {inputProps
+              .filter(
+                (inputField) =>
+                  inputField.name !== "firstName" &&
+                  inputField.name !== "lastName"
+              )
+              .map(renderController)}
+            <Controller
+              name="age"
+              control={methods.control}
+              render={(field) => (
+                <BasicDatePicker
+                  {...field}
+                  control={methods.control}
+                  name="age"
+                  value="age"
+                />
+              )}
+            />
+            <RadioButton
+              name="role"
+              value="Mentor"
+              type="radio"
+              onChange={handleRoleChange}
+              checked={role === "Mentor"}
+            >
+              Mentor
+            </RadioButton>
+            <RadioButton
+              name="role"
+              value="Mentee"
+              type="radio"
+              onChange={handleRoleChange}
+              checked={role === "Mentee"}
+            >
+              Mentee
+            </RadioButton>
+            <Dropdown
+              name="country"
+              options={COUNTRY.map((country) => country.name)}
+              onSelectedChange={handleOptionChange}
+              selected={country}
+              className="bg-white"
+            />
+            <section className=" p-4  mt-10 mb-10">
               <Title className="mb-10">Chooese Your Favorites! </Title>
               <SelectTag
                 name="categoryList"
