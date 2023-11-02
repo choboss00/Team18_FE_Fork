@@ -47,7 +47,7 @@ export const navStructure = [
     sub: [
       {
         subNav: "Profile",
-        url: ["mypage/profiles/:id"],
+        url: ["mypage/profiles"],
       },
       {
         subNav: "Information",
