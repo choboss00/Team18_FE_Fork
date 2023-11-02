@@ -6,11 +6,10 @@ import React from "react";
 export default function GNB({ data }) {
   const { logoutUser } = useLogin();
   const auth = window.localStorage.getItem("isLogin");
+
   const currentUrl = useLocation()
     .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
-
-  console.log(currentUrl);
 
   return (
     <nav className="fixed z-20 top-0 w-full h-20 bg-white text-green-900">
@@ -47,7 +46,7 @@ export default function GNB({ data }) {
                 <img
                   className="w-7 rounded-full"
                   src={data?.user?.profileImage}
-                  alt="기본 프로필 사진"
+                  alt="profileImage"
                 ></img>
               </div>
               <Link
