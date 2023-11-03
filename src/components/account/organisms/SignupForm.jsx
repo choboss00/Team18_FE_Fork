@@ -8,8 +8,12 @@ import { register, emailCheck } from "../../../apis/user";
 import RadioButton from "../atoms/RadioButton";
 import BasicDatePicker from "../atoms/DatePicker";
 import SelectTag from "../atoms/SelectTag";
+import { useNavigate } from "react-router-dom";
+import { nameToCode } from "../../../utils/account/country";
+import Title from "../atoms/Title";
 
 const SignupForm = ({ inputProps }) => {
+  const navigate = useNavigate();
   const methods = useForm();
   const { watch, control, handleSubmit, setError, clearErrors } = methods;
   const firstName = watch("firstName");
@@ -20,25 +24,29 @@ const SignupForm = ({ inputProps }) => {
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
 
-  const [country, setCountry] = useState("the United States");
+  const [country, setCountry] = useState("United States");
 
   const handleOptionChange = (country) => {
     setCountry(country);
   };
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("Mentor");
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
 
-  // const [categoryList, setCategoryList] = useState("");
+  const [categoryList, setCategoryList] = useState(["K-POP", "Game"]);
+
+  const handlecategoryList = (newCategoryList) => {
+    setCategoryList(newCategoryList);
+  };
 
   const handleEmailConfirm = async () => {
     const response = await emailCheck({ email: email });
     if (response.data.success === false) {
       setError(
         "email",
-        { message: "Can't use this email" },
+        { message: "User using this email already exists" },
         { shouldFocus: true }
       );
       return false;
@@ -70,16 +78,21 @@ const SignupForm = ({ inputProps }) => {
       const passwordIsValid = await handlePasswordConfirm();
 
       if (emailIsValid && passwordIsValid) {
+        // age format 생년월일 문자열로 변환하여 전달
+        let birth = null;
+        if (age && age.$d) {
+          birth = age.format("YYYY-MM-DD");
+        }
+
         const response = await register({
           firstName: firstName,
           lastName: lastName,
           email: email,
           password: password,
           role: role,
-          country: country,
-          age: age,
-          // categoryList: categoryList,
-          categoryList: ["Sports", "IDOL", "K-POP"],
+          country: nameToCode(country),
+          age: birth,
+          categoryList: categoryList,
           phone: phone,
           introduction: null,
           profileImage: null,
@@ -187,8 +200,15 @@ const SignupForm = ({ inputProps }) => {
               selected={country}
               onSelectedChange={handleOptionChange}
             />
-
-            <SelectTag />
+            <section className="mt-10 mb-10">
+              <Title className="mb-10">Choose Your Favorites!</Title>
+              <SelectTag
+                id="categoryList"
+                name="categoryList"
+                selected={categoryList}
+                onSelectedChange={handlecategoryList}
+              />
+            </section>
             <Button color="orange" size="xl">
               Sign Up
             </Button>

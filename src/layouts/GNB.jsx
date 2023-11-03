@@ -6,12 +6,13 @@ import React from "react";
 export default function GNB({ data }) {
   const { logoutUser } = useLogin();
   const auth = window.localStorage.getItem("isLogin");
+
   const currentUrl = useLocation()
-    .pathname.replace(/\d/, "")
+    .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
 
   return (
-    <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
+    <nav className="fixed z-20 top-0 w-full h-20 bg-white text-green-900">
       {/* 상단GNB */}
       <div className="h-12 px-16 border flex items-center">
         {/* 상단GNB - 상단Nav */}
@@ -45,7 +46,7 @@ export default function GNB({ data }) {
                 <img
                   className="w-7 rounded-full"
                   src={data?.user?.profileImage}
-                  alt="기본 프로필 사진"
+                  alt="profileImage"
                 ></img>
               </div>
               <Link

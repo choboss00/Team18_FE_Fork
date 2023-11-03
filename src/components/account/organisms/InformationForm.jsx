@@ -4,7 +4,7 @@ import Modal from "../atoms/Modal";
 import { useState } from "react";
 import { InputOnly } from "../atoms/InputBox";
 import { useNavigate } from "react-router-dom";
-
+import { codeToName } from "../../../utils/account/country";
 const KeyValueComponent = ({ keyName, value }) => (
   <div className="flex justify-between">
     <p className="text-green-700">
@@ -35,18 +35,18 @@ const InformationForm = ({ data }) => {
       value: `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`,
     },
     { keyName: "Email", value: data?.user?.email },
-    { keyName: "Age", value: data?.user?.age },
+    { keyName: "Birth", value: data?.user?.age },
     { keyName: "TEL", value: data?.user?.phone },
-    { keyName: "Country", value: data?.user?.country },
+    { keyName: "Country", value: codeToName(data?.user?.country) },
     { keyName: "bio", value: data?.user?.introduction },
     { keyName: "Role", value: data?.user?.role },
     { keyName: "Interests", value: data?.user?.categoryList.join(", ") },
   ];
 
   return (
-    <div>
-      <section className="p-10 border border-2 bg-white border-orange w-[500px]">
-        <Title className="text-xl mb-5">
+    <div className="min-w-[50%] flex justify-center items-center flex-col">
+      <section className="p-10 border border-2 bg-white w-full">
+        <Title className="text-xl mb-5 border-b">
           My Information
           <img
             className="w-7 rounded-full inline-block mb-2 ml-2"
@@ -63,7 +63,7 @@ const InformationForm = ({ data }) => {
         ))}
       </section>
 
-      <section className="mt-10 mb-10 p-10 border border-2 bg-white border-orange w-[500px]">
+      <section className="mt-10 mb-10 p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5">Update Information</Title>
         <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">
@@ -81,7 +81,7 @@ const InformationForm = ({ data }) => {
               Please enter your password for user authentication
             </p>
             <InputOnly
-              value={password}
+              value={password || ""}
               type="password"
               id="password"
               label="password"
