@@ -12,7 +12,13 @@ import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
 
 export default function PostsSection() {
-  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
+  const auth = window.localStorage.getItem("isLogin");
+
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+    enabled: !!auth,
+  });
 
   const [searchValue, setSearchValue] = useState({
     category: "title",
@@ -40,7 +46,7 @@ export default function PostsSection() {
         <h1 className="inline-block text-4xl font-bold text-green-700">
           Mentoring List
         </h1>
-        {data.data.response.role === RoleType.MENTOR && (
+        {(!auth || data.data.response.role === RoleType.MENTOR) && (
           <Link
             className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
             to="/mentoring/write"
