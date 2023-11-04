@@ -1,4 +1,5 @@
 import { v5 as uuid } from "uuid";
+import ERROR_CODE from "../../constants/chatting/errorCode";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -57,7 +58,7 @@ export const joinChannel = async (channelId) => {
     });
     return data;
   } catch (error) {
-    if (error.code !== "2008") {
+    if (error.code !== ERROR_CODE.ALREADY_MEMBER) {
       return alert(JSON.stringify(error));
     }
   }
