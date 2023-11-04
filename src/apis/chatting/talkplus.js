@@ -19,9 +19,15 @@ export const login = async () => {
   }
 };
 
-export const getPublicChannels = async () => {
+export const getPublicChannels = async (lastChannelId) => {
   try {
-    const data = await client.getPublicChannels({ limit: 30 });
+    const body = lastChannelId
+      ? {
+          lastChannelId,
+          limit: 2,
+        }
+      : { limit: 2 };
+    const data = await client.getPublicChannels(body);
     return data;
   } catch (error) {
     console.log(error);
