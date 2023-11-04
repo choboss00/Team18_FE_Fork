@@ -18,6 +18,7 @@ export const userData = {
   country: "US",
   interest: ["Game", "LOL"],
   role: "mentor",
+  birthDay: "2002-10-30",
 };
 
 export const postsData = [1, 2, 3].map(() => ({
@@ -32,6 +33,7 @@ export const postsData = [1, 2, 3].map(() => ({
     country: "US",
     interest: ["Game", "LOL"],
     role: "mentor",
+    birthDay: "2002-10-30",
   },
 }));
 
@@ -39,6 +41,7 @@ export const postData = {
   pid: 1,
   title: "글 제목",
   content: `글 내용의 첫 번째 줄입니다. 두 번째 줄입니다. 세 번째 줄입니다.`,
+  state: "contact",
   writer: {
     uid: 1,
     firstName: "Kevin",
@@ -47,39 +50,52 @@ export const postData = {
     country: "US",
     interest: ["Game", "LOL"],
     role: "mentor",
+    birthDay: "2002-10-30",
   },
-  mentees: [
+  connections: [
     {
-      uid: 2,
-      firstName: "Jane",
-      lastName: "",
-      profileImage: IMAGE_URL,
-      country: "DK",
-      interest: ["Game", "Soccer"],
-      role: "mentor",
+      cid: 1,
       state: "await",
+      mentee: {
+        uid: 2,
+        firstName: "Jane",
+        lastName: "",
+        profileImage: IMAGE_URL,
+        country: "DK",
+        interest: ["Game", "Sports"],
+        role: "mentor",
+        birthDay: "1999-07-16",
+      },
     },
     {
-      uid: 3,
-      firstName: "Miho",
-      lastName: "",
-      profileImage: IMAGE_URL,
-      country: "JP",
-      interest: ["Game", "K-pop"],
-      role: "mentor",
+      cid: 2,
       state: "accept",
+      mentee: {
+        uid: 3,
+        firstName: "Miho",
+        lastName: "",
+        profileImage: IMAGE_URL,
+        country: "JP",
+        interest: ["Game", "K-POP"],
+        role: "mentor",
+        birthDay: "2007-03-25",
+      },
     },
     {
-      uid: 4,
-      firstName: "Michael",
-      lastName: "",
-      profileImage: IMAGE_URL,
-      country: "US",
-      interest: ["Soccer", "LOL"],
-      role: "mentor",
+      cid: 3,
       state: "refuse",
+      mentee: {
+        uid: 4,
+        firstName: "Michael",
+        lastName: "",
+        profileImage: IMAGE_URL,
+        country: "US",
+        interest: ["Sports", "LOL"],
+        role: "mentor",
+        birthDay: "1985-11-15",
+      },
     },
   ],
 };
 
-export const addEditPostRes = { pid: 1 };
+export const postMutateRes = { pid: 1 };
