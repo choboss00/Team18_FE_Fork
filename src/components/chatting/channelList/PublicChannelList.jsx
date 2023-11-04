@@ -1,17 +1,20 @@
 import { useSetAtom } from "jotai";
 import { getPublicChannels } from "../../../apis/chatting/talkplus";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { channelIdAtom } from "../../../store/chatting/chatting";
 import ChannelListItem from "./ChannelListItem";
 import { useEffect, useState } from "react";
 import ChannelDetailModal from "../modal/ChannelDetailModal";
 import { useInView } from "react-intersection-observer";
+import SearchInput from "./SearchInput";
+import useDebounce from "../../../hooks/useDebounce";
 
 const PublicChannelList = () => {
-  const queryClient = useQueryClient();
   const setChannelId = useSetAtom(channelIdAtom);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { ref, inView } = useInView();
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const handleModalOpen = (id) => {
     setChannelId(id);
@@ -25,8 +28,9 @@ const PublicChannelList = () => {
 
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
-      ["publicChannels"],
-      ({ pageParam = "" }) => getPublicChannels(pageParam),
+      ["publicChannels", debouncedSearchValue],
+      ({ pageParam = "" }) =>
+        getPublicChannels({ pageParam, searchValue: debouncedSearchValue }),
       {
         getNextPageParam: (lastPage) => {
           if (lastPage.length === 0) return undefined;
@@ -52,6 +56,11 @@ const PublicChannelList = () => {
         handleModalClose={handleModalClose}
       />
       <p className="font-bold text-2xl">Public Channel List</p>
+      <SearchInput
+        value={searchValue}
+        onChange={setSearchValue}
+        placeholder="Search by TAG"
+      />
       <div className="w-full h-[90%] overflow-y-scroll scrollbar-hide bg-white">
         {data.pages.map((page, index) => (
           <div key={index}>

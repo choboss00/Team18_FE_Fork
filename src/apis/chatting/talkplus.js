@@ -19,14 +19,17 @@ export const login = async () => {
   }
 };
 
-export const getPublicChannels = async (lastChannelId) => {
+export const getPublicChannels = async ({ lastChannelId, searchValue }) => {
+  console.log(searchValue);
   try {
-    const body = lastChannelId
-      ? {
-          lastChannelId,
-          limit: 2,
-        }
-      : { limit: 2 };
+    const body = { limit: 30 };
+    if (lastChannelId) {
+      body.lastChannelId = lastChannelId;
+    }
+    if (searchValue && searchValue.length > 0) {
+      body.category = searchValue;
+    }
+
     const data = await client.getPublicChannels(body);
     return data;
   } catch (error) {
