@@ -36,6 +36,8 @@ const PublicChannelList = () => {
   if (isLoading) return <div>로딩중</div>;
   if (isError) return <div>에러</div>;
 
+  const { channels, hasNext } = data;
+
   return (
     <>
       <ChannelDetailModal

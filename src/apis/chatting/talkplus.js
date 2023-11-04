@@ -21,8 +21,8 @@ export const login = async () => {
 
 export const getPublicChannels = async () => {
   try {
-    const { channels } = await client.getPublicChannels({ limit: 30 });
-    return channels;
+    const data = await client.getPublicChannels({ limit: 30 });
+    return data;
   } catch (error) {
     console.log(error);
     return [];
