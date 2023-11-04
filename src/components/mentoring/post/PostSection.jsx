@@ -4,9 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPostReq, getUser } from "../../../apis/mentoring/post";
 import { RoleType } from "../../../constants/user";
 
-import Fallback from "../../common/Fallback";
-import Loader from "../../common/Loader";
-import Error from "../../common/Error";
+import PostDoneSide from "./PostDoneSide";
 import PostMenteeSide from "./PostMenteeSide";
 import PostMentorSide from "./PostMentorSide";
 
@@ -25,17 +23,11 @@ export default function PostSection() {
     queryFn: () => getPostReq(postId),
   });
 
-  return (
-    <Fallback
-      Loader={Loader}
-      Error={Error}
-      errorMessage="Failed to perform contact"
-    >
-      {!auth || userData.data.response.role === RoleType.MENTEE ? (
-        <PostMenteeSide data={data.data.response} />
-      ) : (
-        <PostMentorSide data={data.data.response} />
-      )}
-    </Fallback>
+  return data.data.response.state === "done" ? (
+    <PostDoneSide data={data.data.response} />
+  ) : !auth || userData.data.response.role === RoleType.MENTEE ? (
+    <PostMenteeSide data={data.data.response} />
+  ) : (
+    <PostMentorSide data={data.data.response} />
   );
 }
