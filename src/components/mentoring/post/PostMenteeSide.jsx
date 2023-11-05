@@ -30,7 +30,7 @@ export default function PostMenteeSide({ data }) {
   });
 
   const handleApplylClick = () => {
-    if (!auth) {
+    if (auth) {
       addMutate(data.pid, {
         onSuccess: (res) => {
           toast("Successfully applied.");
