@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useOutsideRef from "../../hooks/useOutSideRef";
 
-const Dropdown = ({ options, selected, onSelectedChange }) => {
+const Dropdown = ({ options, selected, onSelectedChange, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const outSideRef = useOutsideRef(() => setIsOpen(false));
 
@@ -21,7 +21,9 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
         <span className="material-symbols-outlined">expand_more</span>
       </div>
       {isOpen && (
-        <div className="flex flex-col gap-2 bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm absolute top-full left-0 z-10">
+        <div
+          className={`flex flex-col gap-2 ${className} bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm absolute top-full left-0 z-10`}
+        >
           {options.map((option) => (
             <button
               key={option}
