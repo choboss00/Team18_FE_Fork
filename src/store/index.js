@@ -1,4 +1,4 @@
-import { atom, useAtomValue } from "jotai";
+import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 // token 상태 관리
@@ -14,3 +14,7 @@ export const authAtom = atomWithStorage("isLogin", null);
 // 로그인 시 스토리지에 isLogin 저장
 // 이후 인증 상태는 스토리지에 저장 된 값을 꺼내 사용
 // 인증 상태는 로그아웃 시 초기화
+
+// uid 상태 관리
+// 마이페이지 조회 시 이용
+export const uidAtom = atomWithStorage("uid", null);

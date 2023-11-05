@@ -1,23 +1,19 @@
 import { Link, useLocation } from "react-router-dom";
-import { authAtom } from "../store/index";
 import { navStructure } from "./navStructure";
 import useLogin from "../components/account/hooks/useLogin";
-import { useAtom } from "jotai";
+import React from "react";
 
-export default function GNB() {
+export default function GNB({ profileImage }) {
   const { logoutUser } = useLogin();
-  const [auth, setAuth] = useAtom(authAtom);
-
+  const auth = window.localStorage.getItem("isLogin");
+  const defaultProfileUrl =
+    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
   const currentUrl = useLocation()
-    .pathname.replace(/\d/, "")
+    .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
 
-  // api 기능 생기기 전까지 임시 프로필 이미지 경로
-  const profileImageUrl =
-    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
-
   return (
-    <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
+    <nav className="fixed z-20 top-0 w-full h-20 bg-white text-green-900">
       {/* 상단GNB */}
       <div className="h-12 px-16 border flex items-center">
         {/* 상단GNB - 상단Nav */}
@@ -50,13 +46,13 @@ export default function GNB() {
               <div>
                 <img
                   className="w-7 rounded-full"
-                  src={profileImageUrl}
-                  alt="기본 프로필 사진"
+                  src={profileImage || defaultProfileUrl}
+                  alt="profile"
                 ></img>
               </div>
               <Link
                 className="pl-1 pr-2 py-[2px] border-2 border-orange rounded"
-                to={"/watching/videos"}
+                to={"/videos"}
                 onClick={logoutUser}
               >
                 <span className=" flex items-center text-xs text-orange">

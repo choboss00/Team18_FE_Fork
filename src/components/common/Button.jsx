@@ -1,6 +1,6 @@
 const btnColor = {
   orange: "bg-orange text-white border-orange",
-  white: "bg-white text-orange border-orange",
+  white: "text-orange border-orange",
 };
 
 const btnSize = {
