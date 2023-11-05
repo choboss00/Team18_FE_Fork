@@ -18,7 +18,7 @@ const VideoDetailForm = (data) => {
 
   return (
     <>
-      <main className="relative h-full flex flex-col justify-center">
+      <main className="relative h-full flex flex-col justify-center w-[70%]">
         <Video data={data?.data?.video} languages={languages} />
         <div className="mt-4 space-y-4">
           <Tag>{data?.data?.video.category}</Tag>

@@ -28,7 +28,7 @@ const Video = ({ data, languages }) => {
         if (languages.English)
           subtitlesToShow.push(subtitle.engSubtitleContent);
 
-        setCurrentSubtitle(subtitlesToShow.join(" "));
+        setCurrentSubtitle(subtitlesToShow.join("\n"));
       } else {
         setCurrentSubtitle("");
       }
@@ -57,7 +57,11 @@ const Video = ({ data, languages }) => {
         onProgress={handleProgress}
         height="50%"
       />
-      <div className="subtitles">{currentSubtitle}</div>
+      <div className="h-[60px] mt-4">
+        <div className="subtitles break-words whitespace-pre-wrap text-xl">
+          {currentSubtitle}
+        </div>
+      </div>
     </>
   );
 };
