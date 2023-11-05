@@ -12,8 +12,6 @@ export default function GNB({ profileImage }) {
     .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
 
-  console.log(currentUrl);
-
   return (
     <nav className="fixed z-20 top-0 w-full h-20 bg-white text-green-900">
       {/* 상단GNB */}
