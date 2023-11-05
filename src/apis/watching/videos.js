@@ -10,7 +10,6 @@
 // 카테고리/ 페이지 별 조회
 import { mockVideo } from "./mockVideo";
 import { mockDetailVideo } from "./mockVideo";
-import { useParams } from "react-router-dom";
 
 export const getVideos = {
   fetchPostingsListWithScroll: async (requestedPage) => {
