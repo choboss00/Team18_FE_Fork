@@ -1,4 +1,5 @@
 import { v5 as uuid } from "uuid";
+import ERROR_CODE from "../../constants/chatting/errorCode";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -18,10 +19,19 @@ export const login = async () => {
   }
 };
 
-export const getPublicChannels = async () => {
+export const getPublicChannels = async ({ lastChannelId, searchValue }) => {
+  console.log(searchValue);
   try {
-    const { channels } = await client.getPublicChannels({ limit: 30 });
-    return channels;
+    const body = { limit: 30 };
+    if (lastChannelId) {
+      body.lastChannelId = lastChannelId;
+    }
+    if (searchValue && searchValue.length > 0) {
+      body.category = searchValue;
+    }
+
+    const data = await client.getPublicChannels(body);
+    return data;
   } catch (error) {
     console.log(error);
     return [];
@@ -57,7 +67,7 @@ export const joinChannel = async (channelId) => {
     });
     return data;
   } catch (error) {
-    if (error.code !== "2008") {
+    if (error.code !== ERROR_CODE.ALREADY_MEMBER) {
       return alert(JSON.stringify(error));
     }
   }
