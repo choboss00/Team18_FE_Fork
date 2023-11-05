@@ -52,7 +52,7 @@ export default function PostMenteeSide({ data }) {
   const handleCancelClick = () => {
     if (window.confirm("Are you sure you want to cancel?"))
       deleteMutate([cid], {
-        onSucess: (res) => {
+        onSuccess: (res) => {
           toast("Successfully canceled.");
           queryClient.invalidateQueries({
             queryKey: ["post", res.data.response.pid],
@@ -113,7 +113,7 @@ export default function PostMenteeSide({ data }) {
                   <img
                     className="inline w-8 rounded-full"
                     src={value.mentee.profileImage}
-                    alt={`me 이미지`}
+                    alt={`${value.mentee.uid} 프로필 이미지`}
                   ></img>
                   <span className="font-medium">{`${value.mentee.firstName} ${value.mentee.lastName}`}</span>
                 </td>

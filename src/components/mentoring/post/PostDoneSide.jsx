@@ -49,7 +49,7 @@ export default function PostDoneSide({ data }) {
                   <img
                     className="inline w-8 rounded-full"
                     src={value.mentee.profileImage}
-                    alt={`me 이미지`}
+                    alt={`${value.mentee.uid} 프로필 이미지`}
                   ></img>
                   <span className="font-medium">{`${value.mentee.firstName} ${value.mentee.lastName}`}</span>
                 </td>
