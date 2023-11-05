@@ -33,7 +33,7 @@ export default function WriteSection() {
 
   const handlePostClick = () => {
     if (inputValue.title && inputValue.content) {
-      mutate(inputValue.current, {
+      mutate(inputValue, {
         onSuccess: (res) => {
           toast("Successfully written.");
           navigate(`/mentoring/post/${res.data.response.pid}`);
