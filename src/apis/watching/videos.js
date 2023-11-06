@@ -2,33 +2,35 @@
 //   return instance.get("/videos/main" +"?category=" + category+ "?page=" + page);
 // };
 
-// export const getUserVideos = () => {
-//   return instance.get("/videos/interest")
-// }; 토큰만 보내기
-
 // videos/main mock api
 // 카테고리/ 페이지 별 조회
 import { mockVideo } from "./mockVideo";
 import { mockDetailVideo } from "./mockVideo";
-
 export const getVideos = {
-  fetchPostingsListWithScroll: async (requestedPage) => {
+  fetchPostingsListWithScroll: async (requestedPage, categoryParam) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const page = mockVideo[requestedPage];
+    // categoryParam을 사용하여 해당 카테고리의 데이터를 참조합니다.
+    const categoryData = mockVideo[categoryParam];
 
-    if (page) {
-      const responseVideos = {
-        response: page.data.response,
-      };
+    if (categoryData) {
+      // requestedPage를 사용하여 해당 페이지의 데이터를 참조합니다.
+      const page = categoryData[requestedPage];
 
-      return {
-        message: "successful",
-        videos: responseVideos,
-        last: page.last,
-        success: true,
-      };
+      if (page) {
+        const responseVideos = {
+          response: page.data.response,
+        };
+
+        return {
+          message: "successful",
+          videos: responseVideos,
+          last: page.last,
+          success: true,
+        };
+      }
     }
+
     return {
       message: "Page not found",
       videos: [],
@@ -38,6 +40,10 @@ export const getVideos = {
 };
 
 // 사용자 선택 카테고리 요청 api - 토큰을 헤더에 담아보냄
+
+// export const getUserVideos = () => {
+//   return instance.get("/videos/interest")
+// }; 토큰만 보내기
 
 // video/:videoId mock api
 // 임시 videoId로 비디오 판별

@@ -5,7 +5,6 @@ export const CATEGORY = [
   { category: "Sports", id: 4, style: "bg-blue-500 text-white" },
   { category: "Movie", id: 5, style: "bg-fuchsia-500 text-white" },
   { category: "Drama", id: 6, style: "bg-yellow-500 text-white" },
-  { category: "LOL", id: 7, style: "bg-indigo-500 text-white" }, // 임시
 ];
 
 export const ROLE = [
