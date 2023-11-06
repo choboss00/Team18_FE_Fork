@@ -22,13 +22,13 @@ const Dropdown = ({ options, selected, onSelectedChange, className }) => {
       </div>
       {isOpen && (
         <div
-          className={`flex flex-col gap-2 ${className} bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm absolute top-full left-0 z-10`}
+          className={`flex flex-col gap-4  ${className} bg-green-100 overflow-y-auto max-h-[200px] w-full text-base absolute top-full left-0 z-10`}
         >
           {options.map((option) => (
             <button
               key={option}
               onClick={() => handleClickOption(option)}
-              className="h-9"
+              className="h-9 hover:text-green-700 hover:font-bold"
             >
               {option}
             </button>

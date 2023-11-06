@@ -24,7 +24,7 @@ export default function GNB({ profileImage }) {
           {navStructure.map((val) => (
             <Link
               key={val.mainNav}
-              className={`w-20 h-7 text-center text-sm${
+              className={`w-20 h-7 text-center hover:text-green-700 hover:font-bold text-sm${
                 currentUrl.includes(val.mainUrl)
                   ? " border-b-2 border-orange font-bold"
                   : ""
@@ -89,7 +89,7 @@ export default function GNB({ profileImage }) {
           .sub.map((val) => (
             <Link
               key={val.subNav}
-              className={`text-xs${
+              className={`text-xs hover:text-orange  ${
                 val.url.includes(currentUrl) ? " text-orange font-semibold" : ""
               }`}
               to={val.url[0]}

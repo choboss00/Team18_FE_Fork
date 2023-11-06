@@ -67,7 +67,7 @@ const VideoList = () => {
                     options={CATEGORY.map((c) => c.category)}
                     selected={category}
                     onSelectedChange={handleOptionChange}
-                    className="mb-10"
+                    className="border-2 bg-white mb-10"
                   />
                   <VideoGrid
                     videos={data?.pages}
