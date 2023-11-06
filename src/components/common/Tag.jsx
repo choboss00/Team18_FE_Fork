@@ -26,7 +26,7 @@ const Tag = ({ children, ...props }) => {
 
   // 스타일 설정
   const tagStyle = `${
-    tagInfo?.style || ""
+    tagInfo?.style || "bg-gray-100"
   } py-1 px-2 text-xs rounded-xl border-2 ${
     children.includes("MENT") ? "" : "border-[#0000]"
   }`;

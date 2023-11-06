@@ -4,7 +4,7 @@ import {
   userData,
   postsData,
   postData,
-  addEditPostRes,
+  postMutateRes,
 } from "./mock";
 
 export async function getUser() {
@@ -43,7 +43,7 @@ export async function addPostReq(data) {
 
   // api 구현 전까지 mock 데이터 반환
   await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(addEditPostRes);
+  return mockResponse(postMutateRes);
 }
 
 export async function editPostReq(pid, data) {
@@ -55,13 +55,21 @@ export async function editPostReq(pid, data) {
 
   // api 구현 전까지 mock 데이터 반환
   await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(addEditPostRes);
+  return mockResponse(postMutateRes);
 }
 
 export async function deletePostReq(pid) {
-  return await instance.delete(`/mentorings/post/${pid}`);
+  // return await instance.delete(`/mentorings/post/${pid}`);
+
+  // api 구현 전까지 mock 데이터 반환
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(null);
 }
 
 export async function donePostReq(pid) {
-  return await instance.patch(`/mentorings/post/${pid}/done`);
+  // return await instance.patch(`/mentorings/post/${pid}/done`);
+
+  // api 구현 전까지 mock 데이터 반환
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(null);
 }
