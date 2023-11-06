@@ -41,19 +41,19 @@ const SignupForm = ({ inputProps }) => {
     setCategoryList(newCategoryList);
   };
 
-  const handleEmailConfirm = async () => {
-    const response = await emailCheck({ email: email });
-    if (response.data.success === false) {
-      setError(
-        "email",
-        { message: "User using this email already exists" },
-        { shouldFocus: true }
-      );
-      return false;
-    } else {
-      return true;
-    }
-  };
+  // const handleEmailConfirm = async () => {
+  //   const response = await emailCheck({ email: email });
+  //   if (response.data.success === false) {
+  //     setError(
+  //       "email",
+  //       { message: "User using this email already exists" },
+  //       { shouldFocus: true }
+  //     );
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // };
 
   const handlePasswordConfirm = () => {
     if (password && passwordCheck) {
@@ -74,15 +74,16 @@ const SignupForm = ({ inputProps }) => {
   const onSubmit = async () => {
     try {
       //email과 password 값 유효 먼저 체크
-      const emailIsValid = await handleEmailConfirm(); //
+      // const emailIsValid = await handleEmailConfirm();
       const passwordIsValid = await handlePasswordConfirm();
 
-      if (emailIsValid && passwordIsValid) {
-        // age format 생년월일 문자열로 변환하여 전달
-        let birth = null;
-        if (age && age.$d) {
-          birth = age.format("YYYY-MM-DD");
-        }
+      // if (emailIsValid && passwordIsValid) {
+      if (passwordIsValid) {
+        //   // age format 생년월일 문자열로 변환하여 전달
+        //   let birth = null;
+        //   if (age && age.$d) {
+        //     birth = age.format("YYYY-MM-DD");
+        //   }
 
         const response = await register({
           firstName: firstName,
@@ -91,14 +92,14 @@ const SignupForm = ({ inputProps }) => {
           password: password,
           role: role,
           country: nameToCode(country),
-          age: birth,
+          age: 20,
           categoryList: categoryList,
           phone: phone,
           introduction: null,
           profileImage: null,
         });
 
-        if (response.data.success === true) {
+        if (response?.data?.status === "success") {
           // 성공적으로 회원가입한 경우 메인 페이지로 이동
           alert("정상적으로 회원가입 되었습니다.");
           navigate("/");

@@ -10,12 +10,12 @@ const useLogin = () => {
   const [auth, setAuth] = useAtom(authAtom);
   const [uid, setUid] = useAtom(uidAtom);
 
-  const loginUser = (data) => {
+  const loginUser = (response) => {
     const now = new Date();
     const ttl = 3600 * 1000; // 1h
     setAuth(true);
-    setUid(data?.data?.user?.uid);
-    setToken(data?.headers?.authorization);
+    setUid(response?.data?.data?.id);
+    setToken(response?.headers?.authorization);
     setExpiry(now.getTime() + ttl);
     window.localStorage.setItem("expiry", now.getTime() + ttl);
   };

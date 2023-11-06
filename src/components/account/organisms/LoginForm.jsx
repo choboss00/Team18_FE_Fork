@@ -25,8 +25,9 @@ const LoginForm = ({ inputProps }) => {
         email: email,
         password: password,
       });
+      console.log(response);
 
-      if (response.data.success === true) {
+      if (response?.data?.status === "success") {
         loginUser(response);
         console.log("login success");
         navigate("/");
