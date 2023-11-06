@@ -2,8 +2,8 @@ import axios from "axios";
 
 // instance
 export const instance = axios.create({
-  // baseURL: import.meta.env.VITE_API_URL,
-  baseURL: "" + "/api",
+  baseURL: import.meta.env.VITE_API_URL,
+  // baseURL: "" + "/api",
   headers: { "Content-Type": "application/json" },
   timeout: 1000 * 5,
 });
@@ -11,8 +11,12 @@ export const instance = axios.create({
 // middleware
 instance.interceptors.request.use(
   (config) => {
-    const auth = localStorage.getItem("token");
-    if (auth) config.headers["Authorization"] = auth;
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `${token.replace(/"/g, "")}`;
+    } else {
+      console.error("Authorization token is missing or invalid.");
+    }
     return config;
   },
   (error) => {
