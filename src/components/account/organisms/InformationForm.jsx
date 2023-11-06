@@ -5,6 +5,9 @@ import { useState } from "react";
 import { InputOnly } from "../atoms/InputBox";
 import { useNavigate } from "react-router-dom";
 import { codeToName } from "../../../utils/account/country";
+import { profileImageAtom } from "../../../store/index";
+import { useAtom } from "jotai";
+
 const KeyValueComponent = ({ keyName, value }) => (
   <div className="flex justify-between">
     <p className="text-green-700">
@@ -18,6 +21,8 @@ const KeyValueComponent = ({ keyName, value }) => (
 );
 
 const InformationForm = ({ data }) => {
+  const info = data?.data?.data;
+  const [defaultProfileImage] = useAtom(profileImageAtom);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState();
@@ -32,15 +37,15 @@ const InformationForm = ({ data }) => {
   const userInfo = [
     {
       keyName: "Name",
-      value: `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`,
+      value: `${info?.firstName || ""} ${info?.lastName || ""}`,
     },
-    { keyName: "Email", value: data?.user?.email },
-    { keyName: "Birth", value: data?.user?.age },
-    { keyName: "TEL", value: data?.user?.phone },
-    { keyName: "Country", value: codeToName(data?.user?.country) },
-    { keyName: "bio", value: data?.user?.introduction },
-    { keyName: "Role", value: data?.user?.role },
-    { keyName: "Interests", value: data?.user?.categoryList.join(", ") },
+    { keyName: "Email", value: info?.email },
+    { keyName: "Birth", value: info?.age },
+    { keyName: "TEL", value: info?.phone },
+    { keyName: "Country", value: codeToName(info?.country) },
+    { keyName: "bio", value: info?.introduction },
+    { keyName: "Role", value: info?.role },
+    // { keyName: "Interests", value: info?.categoryList.join(", ") },
   ];
 
   return (
@@ -50,7 +55,7 @@ const InformationForm = ({ data }) => {
           My Information
           <img
             className="w-7 rounded-full inline-block mb-2 ml-2"
-            src={data?.user?.profileImage}
+            src={info?.profileImage || defaultProfileImage}
             alt="Profile Image"
           ></img>
         </Title>
