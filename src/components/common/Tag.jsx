@@ -28,7 +28,7 @@ const Tag = ({ children, ...props }) => {
   const tagStyle = `${
     tagInfo?.style || ""
   } py-1 px-2 text-xs rounded-xl border-2 ${
-    children.includes("Ment") ? "" : "border-[#0000]"
+    children.includes("MENT") ? "" : "border-[#0000]"
   }`;
   return (
     <span className={tagStyle} {...props}>

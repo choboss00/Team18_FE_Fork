@@ -9,6 +9,6 @@ export const CATEGORY = [
 ];
 
 export const ROLE = [
-  { role: "Mentor", style: "border-pink-400 text-pink-400 font-bold" },
-  { role: "Mentee", style: "border-green-500 text-green-500 font-bold" },
+  { role: "MENTOR", style: "border-pink-400 text-pink-400 font-bold" },
+  { role: "MENTEE", style: "border-green-500 text-green-500 font-bold" },
 ];
