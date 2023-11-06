@@ -2,12 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 import { navStructure } from "./navStructure";
 import useLogin from "../components/account/hooks/useLogin";
 import React from "react";
+import { useAtom } from "jotai";
+import { profileImageAtom } from "../store/index";
 
 export default function GNB({ profileImage }) {
   const { logoutUser } = useLogin();
+  const [defaultProfileImage] = useAtom(profileImageAtom);
+
   const auth = window.localStorage.getItem("isLogin");
-  const defaultProfileUrl =
-    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
+
   const currentUrl = useLocation()
     .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
@@ -46,7 +49,7 @@ export default function GNB({ profileImage }) {
               <div>
                 <img
                   className="w-7 rounded-full"
-                  src={profileImage || defaultProfileUrl}
+                  src={profileImage || defaultProfileImage}
                   alt="profile"
                 ></img>
               </div>
