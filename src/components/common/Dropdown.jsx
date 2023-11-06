@@ -12,7 +12,10 @@ const Dropdown = ({ options, selected, onSelectedChange, className }) => {
   };
 
   return (
-    <div className="w-[12rem] color-green-900 relative" ref={outSideRef}>
+    <div
+      className="w-[12rem] color-green-900 relative cursor-pointer"
+      ref={outSideRef}
+    >
       <div
         className="flex w-full border-t-2 border-solid p-4 justify-between items-center border-green-700 font-semibold"
         onClick={() => setIsOpen((prev) => !prev)}
