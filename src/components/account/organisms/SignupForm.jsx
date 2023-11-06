@@ -11,6 +11,7 @@ import SelectTag from "../atoms/SelectTag";
 import { useNavigate } from "react-router-dom";
 import { nameToCode } from "../../../utils/account/country";
 import Title from "../atoms/Title";
+import Toast from "../../common/Toast";
 
 const SignupForm = ({ inputProps }) => {
   const navigate = useNavigate();
@@ -41,19 +42,35 @@ const SignupForm = ({ inputProps }) => {
     setCategoryList(newCategoryList);
   };
 
-  // const handleEmailConfirm = async () => {
-  //   const response = await emailCheck({ email: email });
-  //   if (response.data.success === false) {
-  //     setError(
-  //       "email",
-  //       { message: "User using this email already exists" },
-  //       { shouldFocus: true }
-  //     );
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
+  const [open, setOpen] = useState(false);
+  const handleOk = () => {
+    navigate("/", { replace: true });
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpen(false);
+      navigate("/", { replace: true });
+    }
+  };
+
+  const handleEmailConfirm = async (email) => {
+    try {
+      const response = await emailCheck(email);
+
+      console.log("Response:", response);
+      return true;
+    } catch (error) {
+      if (error?.response?.data?.status === "fail") {
+        setError(
+          "email",
+          { message: "User using this email already exists" },
+          { shouldFocus: true }
+        );
+        return false;
+      }
+      return false;
+    }
+  };
 
   const handlePasswordConfirm = () => {
     if (password && passwordCheck) {
@@ -74,16 +91,15 @@ const SignupForm = ({ inputProps }) => {
   const onSubmit = async () => {
     try {
       //email과 password 값 유효 먼저 체크
-      // const emailIsValid = await handleEmailConfirm();
-      const passwordIsValid = await handlePasswordConfirm();
+      const emailIsValid = await handleEmailConfirm(email);
+      const passwordIsValid = await handlePasswordConfirm(password);
 
-      // if (emailIsValid && passwordIsValid) {
-      if (passwordIsValid) {
-        //   // age format 생년월일 문자열로 변환하여 전달
-        //   let birth = null;
-        //   if (age && age.$d) {
-        //     birth = age.format("YYYY-MM-DD");
-        //   }
+      if (emailIsValid && passwordIsValid) {
+        // age format 생년월일 문자열로 변환하여 전달
+        let birth = null;
+        if (age && age.$d) {
+          birth = age.format("YYYY-MM-DD");
+        }
 
         const response = await register({
           firstName: firstName,
@@ -101,14 +117,13 @@ const SignupForm = ({ inputProps }) => {
 
         if (response?.data?.status === "success") {
           // 성공적으로 회원가입한 경우 메인 페이지로 이동
-          alert("정상적으로 회원가입 되었습니다.");
-          navigate("/");
+          setOpen(true);
         } else {
           // 회원 가입 실패
           console.error("sign up failed");
         }
       } else {
-        console.error("email is not valid");
+        console.log(error);
       }
     } catch (error) {
       // 에러 처리
@@ -145,6 +160,11 @@ const SignupForm = ({ inputProps }) => {
 
   return (
     <>
+      <Toast open={open} message="Sign up success" handleClose={handleClose}>
+        <button color="inherit" size="small" onClick={handleOk}>
+          OKAY
+        </button>
+      </Toast>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="max-w-[500px]">
