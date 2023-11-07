@@ -11,15 +11,11 @@ import { ErrorBoundary } from "react-error-boundary";
 import Dropdown from "../../common/Dropdown";
 import { CATEGORY } from "../../account/constants/TAGLIST";
 import Title from "../../account/atoms/Title";
+import { nameToCategoryId } from "../utils/categoryId";
 
 const VideoList = () => {
-  const paramCategory = useParams().category;
   const { ref, inView } = useInView();
-  const [category, setCategory] = useState(paramCategory || "IDOL");
-
-  useEffect(() => {
-    // 카테고리 변경 시 데이터를 다시 불러오는 로직이 필요하면 여기에 추가
-  }, [category]);
+  const [category, setCategory] = useState("IDOL");
 
   const handleOptionChange = (selectedCategory) => {
     setCategory(selectedCategory);
@@ -29,7 +25,8 @@ const VideoList = () => {
     useInfiniteQuery(
       ["getVideos", category],
       ({ pageParam = 1 }) => {
-        return getVideos.fetchPostingsListWithScroll(pageParam);
+        const categoryId = nameToCategoryId(category);
+        return getVideos.fetchPostingsListWithScroll(pageParam, categoryId);
       },
       {
         getNextPageParam: (lastPage, allPages) => {
@@ -67,7 +64,7 @@ const VideoList = () => {
                     options={CATEGORY.map((c) => c.category)}
                     selected={category}
                     onSelectedChange={handleOptionChange}
-                    className="mb-10"
+                    className="border-2 bg-white mb-10"
                   />
                   <VideoGrid
                     videos={data?.pages}
