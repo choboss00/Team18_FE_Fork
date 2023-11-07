@@ -1,5 +1,5 @@
 import { v5 as uuid } from "uuid";
-import ERROR_CODE from "../../constants/chatting/errorCode";
+import ERROR_CODE from "../../constants/chatting/ERROR";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -81,7 +81,6 @@ export const joinChannel = async (channelId) => {
 };
 
 export const createChannel = async (data) => {
-  console.log("createChannel");
   const { name, imageUrl = "", content = "", category } = data;
   try {
     const data = await client.createChannel({

@@ -10,7 +10,6 @@ import {
 } from "../../store/chatting/chatting";
 import { login } from "../../apis/chatting/talkplus";
 import Tabs from "../../components/chatting/channelList/Tabs";
-import { CHANNEL_TYPES } from "../../constants/chatting/chatting";
 import CreateChannelModal from "../../components/chatting/modal/CreateChannelModal";
 
 const ChattingListPage = () => {

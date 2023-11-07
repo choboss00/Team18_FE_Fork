@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { currentChannelTypeAtom } from "../../../store/chatting/chatting";
-import { CHANNEL_TYPES } from "../../../constants/chatting/chatting";
+import { CHANNEL_TYPES } from "../../../constants/chatting/CHAT";
 
 const Tabs = ({ handleModalOpen }) => {
   const [channelType, setChannelType] = useAtom(currentChannelTypeAtom);

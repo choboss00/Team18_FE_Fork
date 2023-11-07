@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { CHANNEL_TYPES } from "../../constants/chatting/chatting";
+import { CHANNEL_TYPES } from "../../constants/chatting/CHAT";
 
 export const chattingRoomIdAtom = atom("");
 export const channelIdAtom = atom("");
