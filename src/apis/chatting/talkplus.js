@@ -19,8 +19,11 @@ export const login = async () => {
   }
 };
 
-export const getPublicChannels = async ({ lastChannelId, searchValue }) => {
-  console.log(searchValue);
+export const getPublicChannels = async ({
+  lastChannelId,
+  searchValue,
+  searchSubValue,
+}) => {
   try {
     const body = { limit: 30 };
     if (lastChannelId) {
@@ -28,6 +31,10 @@ export const getPublicChannels = async ({ lastChannelId, searchValue }) => {
     }
     if (searchValue && searchValue.length > 0) {
       body.category = searchValue;
+    }
+
+    if (searchSubValue && searchSubValue.length > 0) {
+      body.subcategory = searchSubValue;
     }
 
     const data = await client.getPublicChannels(body);
