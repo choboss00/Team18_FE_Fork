@@ -38,7 +38,7 @@ export default function GNB({ profileImage }) {
         {/* 상단GNB - 로고 */}
         <div className="flex-1 flex justify-center">
           <Link className="flex items-center" to="/watching/videos">
-            <span className="material-symbols-outlined">deceased</span>
+            <span className="material-symbols-outlined">psychiatry</span>
             <span className="text-lg font-semibold">Garden</span>
           </Link>
         </div>

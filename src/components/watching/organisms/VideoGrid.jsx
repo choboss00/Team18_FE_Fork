@@ -25,13 +25,8 @@ const VideoGrid = React.forwardRef(
           ))}
         </Grid>
         <div ref={ref} style={{ height: "100px" }}>
-          {isFetchingNextPage ? (
-            <VideoSkeleton />
-          ) : hasNextPage ? (
-            <VideoSkeleton />
-          ) : (
-            "마지막 페이지입니다."
-          )}
+          {isFetchingNextPage && <VideoSkeleton />}
+          {!isFetchingNextPage && !hasNextPage && "마지막 페이지입니다."}
         </div>
       </>
     );

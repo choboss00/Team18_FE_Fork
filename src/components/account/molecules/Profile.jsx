@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import Title from "../atoms/Title";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
@@ -7,7 +6,6 @@ import { profileImageAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 const Profile = ({ data }) => {
-  const { uid } = useParams();
   const profile = data?.data?.data;
 
   const [defaultProfileImage] = useAtom(profileImageAtom);
