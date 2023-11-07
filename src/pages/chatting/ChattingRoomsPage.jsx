@@ -23,7 +23,6 @@ const ChattingRoomsPage = () => {
   const handleLogin = () => {
     login()
       .then((res) => {
-        console.log(res);
         setUserId(res.id);
         setUserProfileImageUrl(res.profileImageUrl);
         setUserName(res.username);

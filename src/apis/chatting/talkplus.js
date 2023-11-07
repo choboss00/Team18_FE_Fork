@@ -132,13 +132,23 @@ export const updateChannel = async (channelId, data) => {
   }
 };
 
-export const getMessages = async (channelId) => {
+export const getMessages = async ({ channelId, lastMessageId }) => {
+  console.log("getMessages", channelId, lastMessageId);
   try {
-    const { messages } = await client.getMessages({
-      channelId: channelId,
-      order: "oldest",
-    });
-    return messages;
+    const body = {
+      channelId,
+      order: "latest",
+      limit: 70,
+    };
+    if (lastMessageId) {
+      body.lastMessageId = lastMessageId;
+    }
+
+    const data = await client.getMessages(body);
+    return {
+      messages: data.messages.reverse(),
+      hasNext: data.hasNext,
+    };
   } catch (error) {
     console.log(error);
   }
