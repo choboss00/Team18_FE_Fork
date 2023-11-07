@@ -79,7 +79,7 @@ export default function WriteSection() {
           <Button color="white" size="sm" onClick={handlePostClick}>
             Post
           </Button>
-          <Button color="orange" size="sm" onClick={handleCancelClick}>
+          <Button color="white" size="sm" onClick={handleCancelClick}>
             Cancel
           </Button>
         </div>

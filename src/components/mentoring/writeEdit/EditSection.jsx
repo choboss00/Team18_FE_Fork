@@ -84,7 +84,7 @@ export default function EditSection() {
           <Button color="white" size="sm" onClick={handleEditClick}>
             Edit
           </Button>
-          <Button color="orange" size="sm" onClick={handleCancelClick}>
+          <Button color="white" size="sm" onClick={handleCancelClick}>
             Cancel
           </Button>
         </div>

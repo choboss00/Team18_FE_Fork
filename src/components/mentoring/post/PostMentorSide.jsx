@@ -93,7 +93,7 @@ export default function PostMentorSide({ data }) {
   };
 
   const handleAcceptClick = () => {
-    if (Object.values(checks).some((val) => val))
+    if (Object.values(checks).some((val) => val)) {
       if (window.confirm("Are you sure you want to accept mentees?"))
         acceptMutate(
           Object.keys(checks).reduce((acc, key) => {
@@ -116,10 +116,11 @@ export default function PostMentorSide({ data }) {
             },
           }
         );
+    } else toast("No mentees have been selected.");
   };
 
   const handleRefuseClick = () => {
-    if (Object.values(checks).some((val) => val))
+    if (Object.values(checks).some((val) => val)) {
       if (window.confirm("Are you sure you want to refuse mentees?"))
         refuseMutate(
           Object.keys(checks).reduce((acc, key) => {
@@ -142,6 +143,7 @@ export default function PostMentorSide({ data }) {
             },
           }
         );
+    } else toast("No mentees have been selected.");
   };
 
   return (
@@ -190,6 +192,7 @@ export default function PostMentorSide({ data }) {
                 <input
                   type="checkbox"
                   name="all"
+                  className="accent-green-600"
                   checked={Object.values(checks).every((val) => val === true)}
                   onChange={handleCheckBoxChenage}
                 />
@@ -209,6 +212,7 @@ export default function PostMentorSide({ data }) {
                   <input
                     type="checkbox"
                     name={connection.connectionId}
+                    className="accent-green-600"
                     checked={checks[connection.connectionId]}
                     onChange={handleCheckBoxChenage}
                     disabled={
@@ -248,10 +252,10 @@ export default function PostMentorSide({ data }) {
         </table>
         {/* 최하단 멘토링 신청자 관리 */}
         <div className="mt-4 text-right space-x-2">
-          <Button color="orange" size="sm" onClick={handleAcceptClick}>
+          <Button color="white" size="sm" onClick={handleAcceptClick}>
             Accept
           </Button>
-          <Button color="orange" size="sm" onClick={handleRefuseClick}>
+          <Button color="white" size="sm" onClick={handleRefuseClick}>
             Refuse
           </Button>
         </div>

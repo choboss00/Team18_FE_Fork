@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { getUser } from "../../../apis/mentoring/post";
@@ -12,8 +12,10 @@ import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
 import { useAtomValue } from "jotai";
 import { authAtom } from "../../../store";
+import Button from "../../common/Button";
 
 export default function PostsSection() {
+  const navigate = useNavigate();
   const auth = useAtomValue(authAtom);
 
   const { data } = useQuery({
@@ -32,6 +34,10 @@ export default function PostsSection() {
     search: "",
   });
 
+  const handleWriteClick = () => {
+    navigate("/mentoring/write");
+  };
+
   const handleSerchChange = (e) => {
     const search = e.target.value;
     if (search.length > 50) e.target.value = search.slice(0, 50);
@@ -49,12 +55,9 @@ export default function PostsSection() {
           Mentoring List
         </h1>
         {(!auth || data.data.data.role === userRole.MENTOR) && (
-          <Link
-            className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
-            to="/mentoring/write"
-          >
+          <Button color="white" size="base" onClick={handleWriteClick}>
             Write
-          </Link>
+          </Button>
         )}
       </div>
       <div className="p-2 border-b-2 bg-white flex items-center space-x-2 text-sm">
