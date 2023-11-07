@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { client, getChannelDetail, login } from "../../apis/chatting/talkplus";
+import { client, login } from "../../apis/chatting/talkplus";
 import { useSetAtom } from "jotai";
 import {
   userIdAtom,
