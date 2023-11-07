@@ -79,24 +79,12 @@ const ChannelDetailModal = ({ modalIsOpen, handleModalClose }) => {
             </p>
           </section>
           <section className="flex mb-6 gap-2">
-            {channelInfo.category && (
-              <Tag className="bg-teal-700 text-white font-semibold">
-                #{channelInfo.category}
-              </Tag>
-            )}
-            {channelInfo.subcategory && (
-              <Tag className="bg-teal-500 text-white">
-                #{channelInfo.subcategory}
-              </Tag>
-            )}
+            {channelInfo.category && <Tag>{channelInfo.category}</Tag>}
+            {channelInfo.subcategory && <Tag>{channelInfo.subcategory}</Tag>}
           </section>
           <p className="text-gray-700">
             {channelInfo.data?.content ? channelInfo.data.content : ""}
           </p>
-          <section>
-            {channelInfo.data?.tag &&
-              channelInfo.data.tag.map((t) => <span key={t}>{t}</span>)}
-          </section>
         </section>
         <section className="w-full flex justify-end">
           <Button color="orange" size="base" onClick={joinChannelMutate}>
