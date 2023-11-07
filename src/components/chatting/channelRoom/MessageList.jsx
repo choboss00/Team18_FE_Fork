@@ -4,10 +4,15 @@ import { useAtomValue } from "jotai";
 import { userIdAtom } from "../../../store/chatting/chatting";
 import SentMessage from "./SentMessage";
 import { getMessages } from "../../../apis/chatting/talkplus";
+import { useEffect, useRef } from "react";
 
 const MessageList = ({ channelId }) => {
   const userId = useAtomValue(userIdAtom);
-  console.log(channelId);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+  }, [channelId]);
 
   const {
     data: messages,
@@ -19,7 +24,10 @@ const MessageList = ({ channelId }) => {
   if (isError) return <div>Error!</div>;
 
   return (
-    <div className="bg-white flex flex-col gap-2 px-4 w-full h-[calc(100vh-22rem)] overflow-y-scroll scrollbar-hide shadow-sm border-b-2">
+    <div
+      ref={scrollRef}
+      className="bg-white flex flex-col gap-2 px-4 w-full h-[calc(100vh-22rem)] overflow-y-scroll scrollbar-hide shadow-sm border-b-2"
+    >
       {messages.map((message) =>
         message.userId === userId ? (
           <SentMessage key={message.id} message={message} />
