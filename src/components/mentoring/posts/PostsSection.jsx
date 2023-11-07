@@ -4,15 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getUser } from "../../../apis/mentoring/post";
 import { useInputsState } from "../../../hooks/useInputsState";
-import { RoleType } from "../../../constants/user";
+import { userRole, searchCategory } from "../../../constants/mentoring";
 
 import Fallback from "../../common/Fallback";
 import Error from "../../common/Error";
 import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
+import { useAtomValue } from "jotai";
+import { authAtom } from "../../../store";
 
 export default function PostsSection() {
-  const auth = window.localStorage.getItem("isLogin");
+  const auth = useAtomValue(authAtom);
 
   const { data } = useQuery({
     queryKey: ["user"],
@@ -46,7 +48,7 @@ export default function PostsSection() {
         <h1 className="inline-block text-4xl font-bold text-green-700">
           Mentoring List
         </h1>
-        {(!auth || data.data.response.role === RoleType.MENTOR) && (
+        {(!auth || data.data.data.role === userRole.MENTOR) && (
           <Link
             className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
             to="/mentoring/write"
@@ -62,7 +64,7 @@ export default function PostsSection() {
           onChange={handleInputChange}
           value={inputValue.category}
         >
-          {["Title", "Writer", "Interest"].map((val) => (
+          {Object.values(searchCategory).map((val) => (
             <option
               key={`category-${val.toLowerCase()}`}
               value={val.toLowerCase()}

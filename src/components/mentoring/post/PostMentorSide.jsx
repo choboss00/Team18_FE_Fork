@@ -8,6 +8,7 @@ import {
   acceptConnectionReq,
   refuseConnectionReq,
 } from "../../../apis/mentoring/connetion";
+import { connectionState } from "../../../constants/mentoring";
 import { convertDateToAge } from "../../../utils/age";
 
 import Button from "../../common/Button";
@@ -16,19 +17,16 @@ import Tag from "../../common/Tag";
 
 export default function PostMentorSide({ data }) {
   const navigate = useNavigate();
-
   const queryClient = useQueryClient();
 
-  const isMine = `${data.writer.uid}` === window.localStorage.getItem("uid");
-
   const isDelete = !data.connections.some(
-    (connection) => connection.state !== "await"
+    (connection) => connection.connectionState !== connectionState.AWAIT
   );
 
-  const [checks, setchecks] = useState(
+  const [checks, setChecks] = useState(
     data.connections.reduce((acc, connection) => {
-      if (connection.state === "await")
-        return { ...acc, [connection.cid]: false };
+      if (connection.connectionState === connectionState.AWAIT)
+        return { ...acc, [connection.connectionId]: false };
       else return acc;
     }, {})
   );
@@ -37,21 +35,21 @@ export default function PostMentorSide({ data }) {
     const name = e.target.name;
     if (name === "all") {
       if (Object.keys(checks).every((val) => checks[val] === true))
-        setchecks(
+        setChecks(
           Object.keys(checks).reduce(
             (acc, key) => ({ ...acc, [key]: false }),
             {}
           )
         );
       else
-        setchecks(
+        setChecks(
           Object.keys(checks).reduce(
             (acc, key) => ({ ...acc, [key]: true }),
             {}
           )
         );
     } else {
-      setchecks((prev) => ({ ...prev, [name]: !prev[name] }));
+      setChecks((prev) => ({ ...prev, [name]: !prev[name] }));
     }
   };
 
@@ -68,12 +66,12 @@ export default function PostMentorSide({ data }) {
   });
 
   const handleEditlClick = () => {
-    navigate(`/mentoring/edit/${data.pid}`);
+    navigate(`/mentoring/edit/${data.postId}`);
   };
 
   const handleDeleteClick = () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
-      deleteMutate(data.pid, {
+      deleteMutate(data.postId, {
         onSuccess: () => {
           toast("Successfully deleted.");
           queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -85,12 +83,13 @@ export default function PostMentorSide({ data }) {
 
   const handleDoneClick = () => {
     if (window.confirm("Are you sure you want to close this post?"))
-      doneMutate(data.pid, {
+      doneMutate(data.postId, {
         onSuccess: () => {
           toast("Successfully closed.");
           queryClient.invalidateQueries({ queryKey: ["posts"] });
         },
       });
+    navigate("/mentoring/posts");
   };
 
   const handleAcceptClick = () => {
@@ -104,7 +103,16 @@ export default function PostMentorSide({ data }) {
           {
             onSuccess: () => {
               toast("Successfully accepted.");
-              queryClient.invalidateQueries({ queryKey: ["post", data.pid] });
+              queryClient.invalidateQueries({
+                queryKey: ["post", data.postId],
+              });
+              setChecks(
+                data.connections.reduce((acc, connection) => {
+                  if (connection.connectionState === connectionState.AWAIT)
+                    return { ...acc, [connection.connectionId]: false };
+                  else return acc;
+                }, {})
+              );
             },
           }
         );
@@ -121,7 +129,16 @@ export default function PostMentorSide({ data }) {
           {
             onSuccess: () => {
               toast("Successfully refused.");
-              queryClient.invalidateQueries({ queryKey: ["post", data.pid] });
+              queryClient.invalidateQueries({
+                queryKey: ["post", data.postId],
+              });
+              setChecks(
+                data.connections.reduce((acc, connection) => {
+                  if (connection.connectionState === connectionState.AWAIT)
+                    return { ...acc, [connection.connectionId]: false };
+                  else return acc;
+                }, {})
+              );
             },
           }
         );
@@ -134,34 +151,32 @@ export default function PostMentorSide({ data }) {
         <div className="w-full h-fit flex">
           <img
             className="w-56 p-8 rounded-full"
-            src={data.writer.profileImage}
+            src={data.writerDTO.profileImage}
             alt={`작성자 프로필 이미지`}
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
             <h1 className="text-4xl font-bold text-green-700">{data.title}</h1>
-            <span className="text-sm text-gray-500">{`${data.writer.firstName} ${data.writer.lastName}`}</span>
+            <span className="text-sm text-gray-500">{data.writerDTO.name}</span>
             <div className="pr-4 flex justify-between items-center">
               <span className="flex items-center space-x-2">
-                <FlagTag>{data.writer.country}</FlagTag>
-                <Tag>Mentor</Tag>
-                {data.writer.interest.map((val, index) => (
-                  <Tag key={`writertag-${index}`}>{val}</Tag>
+                <FlagTag>{data.writerDTO.country}</FlagTag>
+                <Tag>{data.writerDTO.role}</Tag>
+                {data.writerDTO.interests.map((interest, index) => (
+                  <Tag key={`writertag-${index}`}>{interest}</Tag>
                 ))}
               </span>
-              {isMine && (
-                <span className="space-x-2">
-                  <Button color="white" size="base" onClick={handleEditlClick}>
-                    Edit
-                  </Button>
-                  <Button
-                    color="white"
-                    size="base"
-                    onClick={isDelete ? handleDeleteClick : handleDoneClick}
-                  >
-                    {isDelete ? "Delete" : "Done"}
-                  </Button>
-                </span>
-              )}
+              <span className="space-x-2">
+                <Button color="white" size="base" onClick={handleEditlClick}>
+                  Edit
+                </Button>
+                <Button
+                  color="white"
+                  size="base"
+                  onClick={isDelete ? handleDeleteClick : handleDoneClick}
+                >
+                  {isDelete ? "Delete" : "Done"}
+                </Button>
+              </span>
             </div>
           </div>
         </div>
@@ -188,38 +203,44 @@ export default function PostMentorSide({ data }) {
             </tr>
           </thead>
           <tbody>
-            {data.connections.map((value, index) => (
+            {data.connections.map((connection, index) => (
               <tr key={`mentee-${index}`} className="bg-white border">
                 <td>
                   <input
                     type="checkbox"
-                    name={value.cid}
-                    checked={checks[value.cid]}
+                    name={connection.connectionId}
+                    checked={checks[connection.connectionId]}
                     onChange={handleCheckBoxChenage}
-                    disabled={value.state !== "await"}
+                    disabled={
+                      connection.connectionState !== connectionState.AWAIT
+                    }
                   />
                 </td>
                 <td className="p-2 text-left space-x-2">
                   <img
                     className="inline w-8 rounded-full"
-                    src={value.mentee.profileImage}
-                    alt={`${value.mentee.uid} 프로필 이미지`}
+                    src={connection.menteeDTO.profileImage}
+                    alt={`${connection.menteeDTO.menteeId} 프로필 이미지`}
                   ></img>
-                  <span className="font-medium">{`${value.mentee.firstName} ${value.mentee.lastName}`}</span>
+                  <span className="font-medium">
+                    {connection.menteeDTO.name}
+                  </span>
                 </td>
                 <td>
-                  <FlagTag>{value.mentee.country}</FlagTag>
+                  <FlagTag>{connection.menteeDTO.country}</FlagTag>
                 </td>
                 <td className="space-x-2">
-                  {value.mentee.interest.map((val, index) => (
-                    <Tag key={`menteetag-${index}`}>{val}</Tag>
+                  {connection.menteeDTO.interests.map((interest, index) => (
+                    <Tag key={`menteetag-${index}`}>{interest}</Tag>
                   ))}
                 </td>
                 <td>
-                  <Tag>{convertDateToAge(value.mentee.birthDay) + ""}</Tag>
+                  <Tag>
+                    {convertDateToAge(connection.menteeDTO.birthDate) + ""}
+                  </Tag>
                 </td>
                 <td>
-                  <Tag>{value.state}</Tag>
+                  <Tag>{connection.connectionState}</Tag>
                 </td>
               </tr>
             ))}
