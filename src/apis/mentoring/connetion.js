@@ -1,5 +1,14 @@
 import { instance } from "../instance";
-import { isMock, mockResponse } from "./mock";
+import { isMock, mockResponse, postCountsData } from "./mock";
+
+export async function getPostCountsReq() {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(postCountsData);
+  } else {
+    return await instance.get("contacts/postCounts");
+  }
+}
 
 export async function getConnectiontsReq() {
   if (isMock) {

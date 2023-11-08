@@ -96,4 +96,6 @@ export const postData = {
   ],
 };
 
+export const postCountsData = { contactCount: 3, doneCount: 2 };
+
 export const mutateRes = { postId: 1 };

@@ -13,3 +13,5 @@ export const searchCategory = Object.freeze({
   WRITER: "Writer",
   INTEREST: "Interest",
 });
+
+export const tabState = Object.freeze({ CONTACT: "Contact", DONE: "Done" });
