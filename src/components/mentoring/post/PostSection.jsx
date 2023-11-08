@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 
+import { uidAtom } from "../../../store";
 import { getPostReq, getUser } from "../../../apis/mentoring/post";
-import { RoleType } from "../../../constants/user";
+import { userRole, postState } from "../../../constants/mentoring";
 
 import PostDoneSide from "./PostDoneSide";
 import PostMenteeSide from "./PostMenteeSide";
@@ -10,12 +12,12 @@ import PostMentorSide from "./PostMentorSide";
 
 export default function PostSection() {
   const { postId } = useParams();
-  const auth = window.localStorage.getItem("isLogin");
+  const uid = useAtomValue(uidAtom);
 
   const { data: userData } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    enabled: !!auth,
+    enabled: !!uid,
   });
 
   const { data } = useQuery({
@@ -23,11 +25,13 @@ export default function PostSection() {
     queryFn: () => getPostReq(postId),
   });
 
-  return data.data.response.state === "done" ? (
-    <PostDoneSide data={data.data.response} />
-  ) : !auth || userData.data.response.role === RoleType.MENTEE ? (
-    <PostMenteeSide data={data.data.response} />
+  return data.data.data.postState === postState.DONE ? (
+    <PostDoneSide data={data.data.data} />
+  ) : !uid || userData.data.data.role === userRole.MENTEE ? (
+    <PostMenteeSide data={data.data.data} />
+  ) : uid === data.data.data.writerDTO.mentorId ? (
+    <PostMentorSide data={data.data.data} />
   ) : (
-    <PostMentorSide data={data.data.response} />
+    <PostDoneSide data={data.data.data} />
   );
 }
