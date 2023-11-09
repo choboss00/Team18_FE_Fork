@@ -10,8 +10,8 @@ const VideoListPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem("token");
-    setToken(storedToken);
+    const token = window.localStorage.getItem("token");
+    setToken(token);
     setLoading(false);
   }, []);
 
@@ -28,14 +28,14 @@ const VideoListPage = () => {
       >
         {token !== null ? (
           <>
-            <div className="w-full flex flex-col justify-center items-center mt-20">
+            <div className="w-full flex flex-col justify-center items-center">
               <UserVideoList />
               <VideoList />
             </div>
           </>
         ) : (
           <>
-            <div className="w-full flex flex-col justify-center items-center mt-20">
+            <div className="w-full flex flex-col justify-center items-center ">
               <VideoList />
             </div>
           </>

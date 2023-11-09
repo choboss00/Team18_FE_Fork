@@ -24,12 +24,12 @@ const VideoDetailtemplate = () => {
   console.log(data);
   return (
     <>
-      <main className="h-screen flex">
-        <section className="w-3/4 flex justify-center">
+      <main className="h-[620px] flex">
+        <section className="w-3/4 flex justify-center bg-white ">
           <VideoDetailForm data={data} />
         </section>
-        <aside className="w-1/4 bg-white">
-          <SideVideoForm />
+        <aside className="w-1/4 p-2">
+          <SideVideoForm data={data?.video?.related} />
         </aside>
       </main>
     </>

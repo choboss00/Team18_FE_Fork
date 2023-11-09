@@ -21,7 +21,7 @@ const VideoDetailForm = (data) => {
       <main className="relative h-full flex flex-col justify-center w-[70%]">
         <Video data={data?.data?.video} languages={languages} />
         <div className="mt-4 space-y-4">
-          <Tag>{data?.data?.video.category}</Tag>
+          <Tag>{data?.data?.video.interests}</Tag>
           <div className="space-x-4">
             <Button
               onClick={() => handleLanguageClick("Korean")}

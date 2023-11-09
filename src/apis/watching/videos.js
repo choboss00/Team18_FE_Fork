@@ -1,10 +1,32 @@
-// export const getVideos = (page = 0) => {
-//   return instance.get("/videos/main" +"?category=" + category+ "?page=" + page);
+import { instance } from "../instance";
+import { mockVideo, mockUserVideo, mockDetailVideo } from "./mockVideo";
+
+// export const getVideos = async (pageParam = 0, category) => {
+//   try {
+//     const response = await instance.get(
+//       `/videos/main?category=${category}&page=${pageParam}`
+//     );
+//     // reponse에 모든 페이지가 들어가있음
+//     console.log(response);
+
+//     // reponse의 page 데이터에 접근하여 순회함
+//     const page = response?.data?.data[pageParam];
+//     console.log(page);
+//     const last = page?.last;
+//     console.log(last);
+
+//     return {
+//       pageData: page,
+//       last,
+//     };
+//   } catch (error) {
+//     console.error("Failed to fetch videos:", error);
+//     throw new Error(error?.response?.data?.message || "Network error");
+//   }
 // };
 
 // videos/main mock api
 // 카테고리/ 페이지 별 조회
-import { mockDetailVideo, mockUserVideo, mockVideo } from "./mockVideo";
 
 export const getVideos = {
   fetchPostingsListWithScroll: async (requestedPage, categoryParam) => {
@@ -41,24 +63,28 @@ export const getVideos = {
 
 // 사용자 선택 카테고리 요청 api - 토큰을 헤더에 담아보냄
 
-// export const getUserVideos = () => {
-//   return instance.get("/videos/interest")
-// }; 토큰만 보내기
+export const getUserVideos = () => {
+  return instance.get("/videos/interest");
+};
 
-export const getUserVideos = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+// export const getHistory = async () => {
+//   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  const videos = mockUserVideo;
+//   const videos = mockUserVideo;
 
-  if (!videos) {
-    throw new Error("Video not found");
-  }
+//   if (!videos) {
+//     throw new Error("Video not found");
+//   }
 
-  return {
-    message: "successful",
-    data: videos,
-    success: true,
-  };
+//   return {
+//     message: "successful",
+//     data: videos,
+//     success: true,
+//   };
+// };
+
+export const getHistory = () => {
+  return instance.get("/videos/history");
 };
 
 // video/:videoId mock api
@@ -70,7 +96,7 @@ export const getDetailVideo = async (videoId) => {
   const video = mockDetailVideo[videoId];
 
   if (!video) {
-    return null;
+    throw new Error("Video not found");
   }
 
   return {
