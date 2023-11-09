@@ -1,5 +1,11 @@
 import { instance } from "../instance";
-import { isMock, mockResponse, postCountsData } from "./mock";
+import {
+  isMock,
+  mockResponse,
+  postCountsData,
+  ContactsData,
+  DonesData,
+} from "./mock";
 
 export async function getPostCountsReq() {
   if (isMock) {
@@ -13,7 +19,7 @@ export async function getPostCountsReq() {
 export async function getContactConnectionsReq() {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return mockResponse(null);
+    return mockResponse(ContactsData);
   } else {
     return await instance.get("/contacts");
   }
@@ -22,7 +28,7 @@ export async function getContactConnectionsReq() {
 export async function getDoneConnectionsReq() {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return mockResponse(null);
+    return mockResponse(DonesData);
   } else {
     return await instance.get("/contacts/done");
   }
