@@ -89,7 +89,6 @@ export default function PostMentorSide({ data }) {
           queryClient.invalidateQueries({ queryKey: ["posts"] });
         },
       });
-    navigate("/mentoring/posts");
   };
 
   const handleAcceptClick = () => {
