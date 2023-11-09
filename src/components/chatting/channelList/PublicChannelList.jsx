@@ -43,7 +43,7 @@ const PublicChannelList = () => {
           if (lastPage.length === 0) return undefined;
           if (!lastPage?.hasNext) return undefined;
           const lastChannelId =
-            lastPage.messages[lastPage.messages.length - 1].id;
+            lastPage.channels[lastPage.channels.length - 1].id;
           return lastChannelId;
         },
       }
