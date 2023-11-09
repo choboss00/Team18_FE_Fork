@@ -26,7 +26,6 @@ export default function DashboardSection() {
     queryFn: () => getPostCountsReq(),
   });
 
-  const handleTabClick = () => {};
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-[58rem] m-16 flex flex-col space-y-5">
