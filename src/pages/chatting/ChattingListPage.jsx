@@ -38,13 +38,15 @@ const ChattingListPage = () => {
 
   return (
     <Suspense fallback={<div>로딩중</div>}>
-      <section className="flex justify-center w-full mb-8">
+      <div className="w-[58rem] mx-auto my-16 flex flex-col space-y-5">
         <CreateChannelModal
           modalIsOpen={modalIsOpen}
           setModalIsOpen={setModalIsOpen}
         />
         <section className="flex flex-col gap-6 w-[1000px]">
-          <h1 className="text-3xl font-extrabold">Chat List</h1>
+          <h1 className="inline-block text-4xl font-bold text-green-700">
+            Chat List
+          </h1>
           <Tabs handleModalOpen={() => setModalIsOpen(true)} />
           {channelType === "Public" ? (
             <PublicChannelList />
@@ -52,7 +54,7 @@ const ChattingListPage = () => {
             <JoinedChannelList />
           )}
         </section>
-      </section>
+      </div>
     </Suspense>
   );
 };

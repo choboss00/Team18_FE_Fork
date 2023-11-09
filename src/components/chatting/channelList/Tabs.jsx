@@ -18,14 +18,14 @@ const Tabs = ({ handleModalOpen }) => {
           type === channelType ? (
             <div
               key={type}
-              className="font-bold text-orange p-2 border-b-2 border-orange"
+              className="font-semibold text-orange p-2 border-b-2 border-orange min-w-20"
             >
               {type}
             </div>
           ) : (
             <div
               key={type}
-              className="text-gray-600 p-2 border-b-2 border-green-100"
+              className="font-semibold opacity-50 p-2 border-b-2 border-green-100 min-w-20"
             >
               <button onClick={() => handleClick(type)}>{type}</button>
             </div>
