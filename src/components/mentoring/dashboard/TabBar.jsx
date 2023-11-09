@@ -6,7 +6,7 @@ export default function TabBar({ currentTab, setTab, postCounts }) {
   };
 
   return (
-    <div className="border-b-2 space-x-5">
+    <div className="border-b-2 space-x-3">
       {Object.values(tabState).map((tab) => (
         <button
           key={`tab-${tab}`}
@@ -14,12 +14,12 @@ export default function TabBar({ currentTab, setTab, postCounts }) {
             tab === currentTab
               ? "text-orange border-orange border-b-2 "
               : "text-green-700 "
-          }px-1 py-2 inline-flex justify-center items-center space-x-1`}
+          }px-2 py-2 inline-flex justify-center items-center space-x-1`}
           onClick={() => {
             handleTabClick(tab);
           }}
         >
-          <span className={tab === currentTab && "font-semibold"}>{tab}</span>
+          <span className="text-sm font-semibold">{tab}</span>
           <span className="px-[7px] rounded-full bg-pink-300 text-sm text-[#ffff]">
             {postCounts[`${tab.toLowerCase()}Count`]}
           </span>
