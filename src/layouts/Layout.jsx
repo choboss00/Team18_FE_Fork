@@ -1,23 +1,36 @@
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import GNB from "./GNB";
-import { getUser } from "../apis/user";
-import { useQuery } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import Loader from "../components/common/Loader";
+import Error from "../components/account/atoms/Error";
+import { UserContent } from "./UserContent";
 
 export default function Layout() {
-  const { data, isLoading } = useQuery(["getUser"], getUser);
+  const token = window.localStorage.getItem("token");
 
-  if (isLoading) {
-    return <Loader />;
+  if (!token) {
+    return (
+      <div className="relative">
+        <GNB profileImage={null} />
+        <main className="pt-20 pb-20 min-h-screen bg-green-100 flex flex-col">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   return (
-    <div className="relative">
-      <GNB profileImage={data?.user?.profileImage} />
-      <main className="pt-20 pb-20 min-h-screen bg-green-100 flex flex-col">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <Suspense fallback={<Loader />}>
+      <ErrorBoundary
+        FallbackComponent={(props) => (
+          <Error errorMessage={props.error.message} />
+        )}
+      >
+        <UserContent enabled={!!token} />
+      </ErrorBoundary>
+    </Suspense>
   );
 }
