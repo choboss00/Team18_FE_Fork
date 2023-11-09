@@ -10,6 +10,9 @@ import { Link, useParams } from "react-router-dom";
 import MessageList from "../../components/chatting/channelRoom/MessageList";
 import MessageInput from "../../components/chatting/channelRoom/MessageInput";
 import ChannelSetting from "../../components/chatting/channelRoom/channelSetting/ChannelSetting";
+import Fallback from "../../components/common/Fallback";
+import Error from "../../components/common/Error";
+import Loader from "../../components/common/Loader";
 
 const ChattingRoomsPage = () => {
   const setUserId = useSetAtom(userIdAtom);
@@ -40,7 +43,11 @@ const ChattingRoomsPage = () => {
   if (!isLogin) return <></>;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Fallback
+      Loader={Loader}
+      Error={Error}
+      errorMessage="메세지를 불러오는데 실패했습니다."
+    >
       <div className="flex w-[95vw] overflow-x-hidden">
         <div className="flex justify-center items-start gap-7 h-fit mt-5 w-full">
           <Link to={`/chatting/rooms`}>
@@ -63,7 +70,7 @@ const ChattingRoomsPage = () => {
           </div>
         </div>
       </div>
-    </Suspense>
+    </Fallback>
   );
 };
 

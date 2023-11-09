@@ -11,6 +11,10 @@ import {
 import { login } from "../../apis/chatting/talkplus";
 import Tabs from "../../components/chatting/channelList/Tabs";
 import CreateChannelModal from "../../components/chatting/modal/CreateChannelModal";
+import Fallback from "../../components/common/Fallback";
+import Loader from "../../components/common/Loader";
+import ChannelListItemSkeletons from "../../components/chatting/skeleton/ChannelListItemSkeletons";
+import Error from "../../components/common/Error";
 
 const ChattingListPage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -37,7 +41,11 @@ const ChattingListPage = () => {
   }, []);
 
   return (
-    <Suspense fallback={<div>로딩중</div>}>
+    <Fallback
+      Loader={Loader}
+      Error={Error}
+      errorMessage="Failed to load chatting list page"
+    >
       <div className="w-[58rem] mx-auto my-16 flex flex-col space-y-5">
         <CreateChannelModal
           modalIsOpen={modalIsOpen}
@@ -48,14 +56,20 @@ const ChattingListPage = () => {
             Chat List
           </h1>
           <Tabs handleModalOpen={() => setModalIsOpen(true)} />
+            <Fallback
+              Loader={ChannelListItemSkeletons}
+              Error={Error}
+              errorMessage="Failed to load channel list"
+            >
           {channelType === "Public" ? (
             <PublicChannelList />
           ) : (
             <JoinedChannelList />
           )}
+            </Fallback>
         </section>
       </div>
-    </Suspense>
+    </Fallback>
   );
 };
 export default ChattingListPage;
