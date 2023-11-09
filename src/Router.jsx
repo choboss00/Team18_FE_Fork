@@ -27,6 +27,8 @@ import ChattingListPage from "./pages/chatting/ChattingListPage";
 import InformationFixPage from "./pages/account/InformationFixPage";
 import VideoListPage from "./pages/watching/VideoListPage";
 import VideoDetailPage from "./pages/watching/VideoDetailPage";
+import VideoHistoryPage from "./pages/watching/VideoHistoryPage";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -52,7 +54,7 @@ const router = createBrowserRouter(
 
         {/* 사용자 인증 레이아웃  */}
         <Route element={<AuthCheck />}>
-          <Route path="videos/history" element={<h1>History</h1>} />
+          <Route path="videos/history" element={<VideoHistoryPage />} />
           <Route element={<MentorCheck />}>
             <Route path="mentoring/write" element={<Write />} />
             <Route path="mentoring/edit/:postId" element={<Edit />} />
