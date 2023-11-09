@@ -148,7 +148,6 @@ export const updateChannel = async (channelId, data) => {
 };
 
 export const getMessages = async ({ channelId, lastMessageId }) => {
-  console.log("getMessages", channelId, lastMessageId);
   try {
     const body = {
       channelId,
