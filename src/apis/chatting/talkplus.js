@@ -9,9 +9,9 @@ export const client = new TalkPlus.Client({
 export const login = async () => {
   try {
     const { user } = await client.loginAnonymous({
-      userId: "Admin",
-      username: "테스트 이름",
-      profileImageUrl: "https://picsum.photos/id/24/40",
+      userId: "TEST2",
+      username: "쿼카",
+      profileImageUrl: "https://picsum.photos/id/500/40",
     });
     return user;
   } catch (error) {
@@ -57,10 +57,25 @@ export const getChannelDetail = async (channelId) => {
   }
 };
 
-export const getJoinedChannels = async () => {
+export const getJoinedChannels = async ({
+  lastChannelId,
+  searchValue,
+  searchSubValue,
+}) => {
   try {
-    const { channels } = await client.getChannels({ limit: 30 });
-    return channels;
+    const body = { limit: 30 };
+    if (lastChannelId) {
+      body.lastChannelId = lastChannelId;
+    }
+    if (searchValue && searchValue.length > 0) {
+      body.category = searchValue;
+    }
+
+    if (searchSubValue && searchSubValue.length > 0) {
+      body.subcategory = searchSubValue;
+    }
+    const data = await client.getChannels(body);
+    return data;
   } catch (error) {
     console.log(error);
     return [];
