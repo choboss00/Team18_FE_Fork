@@ -14,8 +14,6 @@ import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
 
-// 프로필 사진 등록
-
 const InformationFixForm = ({ data, inputProps }) => {
   const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
     acc[key] = data?.user[key] || "";
@@ -25,7 +23,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const methods = useForm({
     defaultValues: {
       ...defaultValues,
-      age: dayjs(data?.user?.age),
+      birthDate: dayjs(data?.user?.birthDate),
     },
   });
 
@@ -36,7 +34,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const phone = watch("phone");
   const password = watch("password");
   const passwordCheck = watch("passwordcheck");
-  const age = watch("age");
+  const birthDate = watch("birthDate");
   const introduction = watch("introduction");
 
   const [profileImage, setProfileImage] = useState(data?.user?.profileImage);
@@ -86,15 +84,15 @@ const InformationFixForm = ({ data, inputProps }) => {
 
   useEffect(() => {
     let birth = null;
-    if (age && age.$d) {
-      birth = dayjs(age.$d).format("YYYY-MM-DD");
+    if (birthDate && birthDate.$d) {
+      birth = dayjs(birthDate.$d).format("YYYY-MM-DD");
     }
     setChangedValues({
       firstName,
       lastName,
       phone,
       password,
-      age: birth,
+      birthDate: birth,
       email,
       role,
       introduction,
@@ -107,7 +105,7 @@ const InformationFixForm = ({ data, inputProps }) => {
     lastName,
     phone,
     password,
-    age,
+    birthDate,
     introduction,
     role,
     country,
@@ -194,14 +192,14 @@ const InformationFixForm = ({ data, inputProps }) => {
               )
               .map(renderController)}
             <Controller
-              name="age"
+              name="birthDate"
               control={methods.control}
               render={(field) => (
                 <BasicDatePicker
                   {...field}
                   control={methods.control}
-                  name="age"
-                  value="age"
+                  name="birthDate"
+                  value="birthDate"
                 />
               )}
             />
