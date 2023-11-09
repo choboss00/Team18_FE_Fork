@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Error from "../components/common/Error";
 const REFRESH_URL = "/users/refresh";
 
 // instance 생성
@@ -40,39 +40,40 @@ instance.interceptors.response.use(
     ) {
       config._retry = true;
       try {
-        // Refresh Token 요청
         const { data } = await instance.get(REFRESH_URL);
         if (data?.status === "success") {
           //1. 응답의 헤더에서 재발급 된 액세스 토큰 꺼내기
           //2. 기존의 로컬 스토리지에 있는 토큰을 지우고, 재발급 받은 액세스 토큰을 저장
           //3. 새로 저장한 토큰을 스토리지에서 꺼내서 다시 요청 보내기
+
           const accessToken = data?.headers?.authorization || null;
           localStorage.setItem("token", accessToken);
-
-          // config.headers.Authorization = `${data?.token.replace(/"/g, "")}`;
-          //   return instance(config);
-          console.log("refresh");
+          config.headers["Authorization"] = `${accessToken.replace(/"/g, "")}`;
+          return instance(config);
         } else if (data?.status === "error") {
-          // Refresh Token 실패 처리
+          // Refresh Token 실패시 (리프레쉬 토큰 만료 등)로그아웃 등의 처리가 필요
+          // dispatch(ueslogout());
           console.log(data?.message);
-          throw new Error("Refresh authentication failed");
+          return Promise.reject(new Error("Refresh authentication failed"));
         }
       } catch (refreshError) {
         // Refresh Token 요청 중 에러 처리
+        // 적절한 피드백을 제공하거나 애플리케이션 상태를 변경
         return Promise.reject(refreshError);
       }
     } else {
       if (error.response) {
         const errorCode = error.response.status;
-        const states = { 3: "Redirect", 4: "Client", 5: "Server" };
-        const errorState = states[Math.floor(errorCode / 100)];
-        console.log(
+        const errorState = ["Redirect", "Client", "Server"][
+          Math.floor(errorCode / 100) - 3
+        ];
+        console.error(
           `[API RESPONSE ERROR] ${errorCode}(${errorState}): ${error.message}`
         );
       } else {
-        console.log(`[API RESPONSE ERROR] ${error}`);
-        console.dir(error);
+        console.error(`[API RESPONSE ERROR] ${error}`);
       }
+
       return Promise.reject(error);
     }
   }
