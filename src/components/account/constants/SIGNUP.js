@@ -131,7 +131,22 @@ export const EDIT = Object.freeze([
   },
   {
     name: "password",
-    label: "Password",
+    label: "Existing Password",
+    type: "password",
+    variant: "outlined",
+    rules: {
+      required: "The input box must not be empty.",
+      pattern: {
+        value:
+          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!~`<>,./?;:'"\[\]{}\\()|_-])\S{8,16}$/,
+        message:
+          "Password must be within 8-16, including all English case, numbers, and special characters.",
+      },
+    },
+  },
+  {
+    name: "newPassword",
+    label: "New Password",
     type: "password",
     variant: "outlined",
     rules: {

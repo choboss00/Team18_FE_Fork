@@ -1,5 +1,9 @@
 import axios from "axios";
 import Error from "../components/common/Error";
+import useLogin from "../components/account/hooks/useLogin";
+import { useAtom } from "jotai";
+import { userProfileAtom } from "../store";
+
 const REFRESH_URL = "/users/refresh";
 
 axios.defaults.withCredentials = true;
@@ -13,10 +17,18 @@ export const instance = axios.create({
 
 // 요청 인터셉터 설정
 instance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const token = localStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `${token.replace(/"/g, "")}`;
+      // try {
+      //   const response = await instance.get('/profiles/simple');
+      //   if (response.data) {
+      //     setUserProfile(response.data); // Jotai 상태 업데이트
+      //   }
+      // } catch (error) {
+      //   console.error('프로필 데이터를 가져오는 데 실패했습니다:', error);
+      // }
     } else {
       console.log("해당 요청에는 token이 담기지 않았습니다.");
     }
@@ -42,28 +54,23 @@ instance.interceptors.response.use(
     ) {
       config._retry = true;
       try {
-        const { data } = await instance.get(REFRESH_URL);
-        if (data?.status === "success") {
-          //1. 응답의 헤더에서 재발급 된 액세스 토큰 꺼내기
-          //2. 기존의 로컬 스토리지에 있는 토큰을 지우고, 재발급 받은 액세스 토큰을 저장
-          //3. 새로 저장한 토큰을 스토리지에서 꺼내서 다시 요청 보내기
-
-          const accessToken = data?.headers?.authorization || null;
+        const response = await instance.get(REFRESH_URL);
+        if (response.data?.status === "success") {
+          const accessToken = response?.headers?.authorization || null;
           localStorage.setItem("token", accessToken);
           config.headers["Authorization"] = `${accessToken.replace(/"/g, "")}`;
           return instance(config);
-        } else if (data?.status === "error") {
+        } else if (response?.data?.status === "error") {
+          // refrsh token 만료
           // 토스트로 로그인 시간이 만료되었습니다. 다시 로그인 후 시도해주세요
           // 강제 로그아웃
           // 로그인 페이지로 리다이렉트
-          // Refresh Token 실패시 (리프레쉬 토큰 만료 등)로그아웃 등의 처리가 필요
-          // dispatch(ueslogout());
-          console.log(data?.message);
-          return Promise.reject(new Error("Refresh authentication failed"));
+
+          return console.log(data?.status);
         }
       } catch (refreshError) {
         // Refresh Token 요청 중 에러 처리
-        // 적절한 피드백을 제공하거나 애플리케이션 상태를 변경
+
         return Promise.reject(refreshError);
       }
     } else {
