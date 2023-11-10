@@ -29,7 +29,7 @@ export default function MentorCheck() {
   return isLoading ? (
     <Loader />
   ) : isError ? (
-    <Error meesage="Failed to check role" />
+    <Error errorMeesage="Failed to check role" />
   ) : (
     isMentor && <Outlet />
   );

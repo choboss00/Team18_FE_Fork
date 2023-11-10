@@ -88,7 +88,6 @@ export default function PostsSection() {
       </div>
       <Fallback
         Loader={PostCardSkeletons}
-        Error={Error}
         errorMessage="Failed to load mentoring list"
       >
         <PostList category={searchValue.category} search={searchValue.search} />
