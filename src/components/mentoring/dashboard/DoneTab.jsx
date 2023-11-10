@@ -7,10 +7,17 @@ import { convertDateToAge } from "../../../utils/age";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
+import Fallback from "../../common/Fallback";
+import Loader from "../../common/Loader";
+import Error from "../../common/Error";
 import ProfileModal from "./ProfileModal";
 
 export default function DoneTab() {
   const navigate = useNavigate();
+
+  const [isModal, setIsModal] = useState(false);
+
+  const [modalUid, setModalUid] = useState(null);
 
   const { data } = useQuery({
     queryKey: ["dones"],
@@ -33,6 +40,8 @@ export default function DoneTab() {
 
   const handleProfileClick = (e) => {
     e.stopPropagation();
+    setModalUid(e.currentTarget.name);
+    setIsModal(true);
   };
 
   return (
@@ -89,7 +98,10 @@ export default function DoneTab() {
                       file_open
                     </span>
                   </button>
-                  <button onClick={handleProfileClick}>
+                  <button
+                    name={post.mentor.mentorId}
+                    onClick={handleProfileClick}
+                  >
                     <span className="material-symbols-outlined text-gray-400">
                       account_circle
                     </span>
@@ -134,7 +146,10 @@ export default function DoneTab() {
                       </Tag>
                     </td>
                     <td className="p-2 text-right">
-                      <button onClick={handleProfileClick}>
+                      <button
+                        name={connection.mentee.menteeId}
+                        onClick={handleProfileClick}
+                      >
                         <span className="material-symbols-outlined text-gray-400">
                           account_circle
                         </span>
@@ -146,7 +161,13 @@ export default function DoneTab() {
           ))}
         </tbody>
       </table>
-      <ProfileModal />
+      <Fallback Loader={Loader} Error={Error} errorMessage="ERROR">
+        <ProfileModal
+          isModal={isModal}
+          setIsModal={setIsModal}
+          uid={modalUid}
+        />
+      </Fallback>
     </>
   );
 }

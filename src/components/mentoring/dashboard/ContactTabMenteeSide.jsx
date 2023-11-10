@@ -12,11 +12,18 @@ import { convertDateToAge } from "../../../utils/age";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 import Button from "../../common/Button";
+import Fallback from "../../common/Fallback";
+import Loader from "../../common/Loader";
+import Error from "../../common/Error";
 import ProfileModal from "./ProfileModal";
 
 export default function ContactTabMenteeSide() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const [isModal, setIsModal] = useState(false);
+
+  const [modalUid, setModalUid] = useState(null);
 
   const { data } = useQuery({
     queryKey: ["contacts"],
@@ -78,6 +85,8 @@ export default function ContactTabMenteeSide() {
 
   const handleProfileClick = (e) => {
     e.stopPropagation();
+    setModalUid(e.currentTarget.name);
+    setIsModal(true);
   };
 
   return (
@@ -151,7 +160,10 @@ export default function ContactTabMenteeSide() {
                     file_open
                   </span>
                 </button>
-                <button onClick={handleProfileClick}>
+                <button
+                  name={post.writerDTO.mentorId}
+                  onClick={handleProfileClick}
+                >
                   <span className="material-symbols-outlined text-gray-400">
                     account_circle
                   </span>
@@ -166,7 +178,13 @@ export default function ContactTabMenteeSide() {
           Cancel
         </Button>
       </div>
-      <ProfileModal />
+      <Fallback Loader={Loader} Error={Error} errorMessage="ERROR">
+        <ProfileModal
+          isModal={isModal}
+          setIsModal={setIsModal}
+          uid={modalUid}
+        />
+      </Fallback>
     </>
   );
 }
