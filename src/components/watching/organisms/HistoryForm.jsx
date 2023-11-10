@@ -6,9 +6,13 @@ const HistoryForm = ({ data }) => {
   return (
     <>
       <main className="w-full flex flex-col justify-center items-center">
-        {videos.map((video, index) => (
-          <HistoryCard key={index} video={video} />
-        ))}
+        {videos ? (
+          videos.map((video, index) => (
+            <HistoryCard key={index} video={video} />
+          ))
+        ) : (
+          <p>시청 기록이 없습니다.</p>
+        )}
       </main>
     </>
   );

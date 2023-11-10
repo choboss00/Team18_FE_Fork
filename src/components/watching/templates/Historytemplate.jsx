@@ -12,6 +12,7 @@ const Historytemplate = () => {
       suspense: true,
     }
   );
+  console.log(data);
 
   return (
     <>
