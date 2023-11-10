@@ -4,8 +4,8 @@
 
 // videos/main mock api
 // 카테고리/ 페이지 별 조회
-import { mockVideo } from "./mockVideo";
-import { mockDetailVideo } from "./mockVideo";
+import { mockDetailVideo, mockUserVideo, mockVideo } from "./mockVideo";
+
 export const getVideos = {
   fetchPostingsListWithScroll: async (requestedPage, categoryParam) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -44,6 +44,22 @@ export const getVideos = {
 // export const getUserVideos = () => {
 //   return instance.get("/videos/interest")
 // }; 토큰만 보내기
+
+export const getUserVideos = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  const videos = mockUserVideo;
+
+  if (!videos) {
+    throw new Error("Video not found");
+  }
+
+  return {
+    message: "successful",
+    data: videos,
+    success: true,
+  };
+};
 
 // video/:videoId mock api
 // 임시 videoId로 비디오 판별
