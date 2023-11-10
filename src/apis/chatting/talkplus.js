@@ -115,7 +115,6 @@ export const leaveChannel = async (channelId) => {
   try {
     const data = await client.leaveChannel({
       channelId: channelId,
-      deleteChannelIfEmpty: true,
     });
     return data;
   } catch (error) {
