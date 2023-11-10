@@ -2,10 +2,12 @@ import axios from "axios";
 import Error from "../components/common/Error";
 const REFRESH_URL = "/users/refresh";
 
+axios.defaults.withCredentials = true;
+
 // instance 생성
+
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: { "Content-Type": "application/json" },
   timeout: 1000 * 5,
 });
 
@@ -51,6 +53,9 @@ instance.interceptors.response.use(
           config.headers["Authorization"] = `${accessToken.replace(/"/g, "")}`;
           return instance(config);
         } else if (data?.status === "error") {
+          // 토스트로 로그인 시간이 만료되었습니다. 다시 로그인 후 시도해주세요
+          // 강제 로그아웃
+          // 로그인 페이지로 리다이렉트
           // Refresh Token 실패시 (리프레쉬 토큰 만료 등)로그아웃 등의 처리가 필요
           // dispatch(ueslogout());
           console.log(data?.message);

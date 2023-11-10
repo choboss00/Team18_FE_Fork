@@ -42,7 +42,7 @@ const router = createBrowserRouter(
       {/* 공통 레이아웃 */}
       <Route element={<Layout />}>
         <Route path="videos" element={<VideoListPage />} />
-        <Route path="videos/:videoId" element={<VideoDetailPage />} />
+        <Route path="videos/:videoID" element={<VideoDetailPage />} />
         <Route path="mentoring/posts" element={<Posts />} />
         <Route path="mentoring/post/:postId" element={<Post />} />
         <Route path="chatting/rooms" element={<ChattingListPage />} />

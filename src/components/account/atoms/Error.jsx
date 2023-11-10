@@ -1,6 +1,9 @@
 import Button from "../../common/Button";
 
-const Error = ({ errorMessage = "" }) => {
+const Error = ({ error, errorMessage }) => {
+  console.log(error);
+  console.log(errorMessage);
+
   return (
     <main className="mt-20 justify-center items-center flex flex-col">
       <div className="p-10 max-w-[500px] text-center">

@@ -120,16 +120,22 @@ const SignupForm = ({ inputProps }) => {
           setOpen(true);
         } else {
           // 회원 가입 실패
-          console.error("sign up failed");
+          console.error("sign up failed", error);
         }
       } else {
+        // email과 password 검사 실패
         console.log(error);
       }
     } catch (error) {
       // 에러 처리
-      console.error(error);
       // 회원 가입 요청 실패
-      console.error("register request failed");
+      // 잘못 된 input 값 입력 했을 때 -> 오류 메세지 출력, 토스트로 띄우기
+      const errors = error?.response?.data?.data;
+      Object.entries(errors).forEach(([key, message]) => {
+        console.log(`${key}: ${message}`);
+      });
+
+      console.error("register request failed", error);
     }
   };
 

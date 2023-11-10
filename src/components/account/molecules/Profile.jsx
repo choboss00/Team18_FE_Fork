@@ -19,7 +19,7 @@ const Profile = ({ data }) => {
     <main className="w-full p-6">
       <section className="border-b w-full flex justify-center items-center">
         <Title className="p-2">
-          <span class="material-symbols-outlined text-4xl">
+          <span className="material-symbols-outlined text-4xl">
             home_and_garden
           </span>
           {userName}
@@ -39,7 +39,7 @@ const Profile = ({ data }) => {
           <FlagTag>{profile.country}</FlagTag>
 
           <Tag>{profile.role}</Tag>
-          {profile.categorylist.map((val, index) => (
+          {profile.categoryList.map((val, index) => (
             <Tag key={index}>{val}</Tag>
           ))}
         </div>
