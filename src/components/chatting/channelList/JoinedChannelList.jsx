@@ -1,16 +1,6 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ChannelListItem from "./ChannelListItem";
-import {
-  getJoinedChannels,
-  leaveChannel,
-} from "../../../apis/chatting/talkplus";
+import { getJoinedChannels } from "../../../apis/chatting/talkplus";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
@@ -18,7 +8,6 @@ import useDebounce from "../../../hooks/useDebounce";
 import SearchInput from "./SearchInput";
 
 const JoinedChannelList = () => {
-  const queryClient = useQueryClient();
   const [searchCategory, setSearchCategory] = useState("");
   const [searchSubCategory, setSearchSubCategory] = useState("");
 

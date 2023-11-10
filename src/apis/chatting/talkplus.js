@@ -91,7 +91,7 @@ export const joinChannel = async (channelId) => {
 };
 
 export const createChannel = async (data) => {
-  const { name, imageUrl = "", content = "", category } = data;
+  const { name, imageUrl, content, category } = data;
   try {
     const data = await client.createChannel({
       channelId: uuid(name, uuid.DNS),

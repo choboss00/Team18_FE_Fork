@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useState } from "react";
 import { client, login } from "../../apis/chatting/talkplus";
 import { useSetAtom } from "jotai";
 import { userIdAtom } from "../../store/chatting/chatting";

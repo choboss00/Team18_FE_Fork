@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useState } from "react";
 import PublicChannelList from "../../components/chatting/channelList/PublicChannelList";
 import JoinedChannelList from "../../components/chatting/channelList/JoinedChannelList";
 import { useAtomValue, useSetAtom } from "jotai";
