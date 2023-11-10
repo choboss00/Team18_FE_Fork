@@ -14,7 +14,7 @@ const Error = ({ error, errorMessage }) => {
         <Button
           color="white"
           size="xl"
-          onClick={() => window.location.reload()}
+          onClick={() => window.location.reload(true)}
         >
           <span className="material-symbols-outlined relative -bottom-1 text-2xl font-bold">
             refresh
