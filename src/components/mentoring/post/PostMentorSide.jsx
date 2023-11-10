@@ -31,23 +31,15 @@ export default function PostMentorSide({ data }) {
     }, {})
   );
 
-  const handleCheckBoxChenage = (e) => {
+  const handleCheckBoxChange = (e) => {
     const name = e.target.name;
     if (name === "all") {
-      if (Object.keys(checks).every((val) => checks[val] === true))
-        setChecks(
-          Object.keys(checks).reduce(
-            (acc, key) => ({ ...acc, [key]: false }),
-            {}
-          )
-        );
-      else
-        setChecks(
-          Object.keys(checks).reduce(
-            (acc, key) => ({ ...acc, [key]: true }),
-            {}
-          )
-        );
+      setChecks(
+        Object.keys(checks).reduce(
+          (acc, key) => ({ ...acc, [key]: e.target.checked }),
+          {}
+        )
+      );
     } else {
       setChecks((prev) => ({ ...prev, [name]: !prev[name] }));
     }
@@ -153,7 +145,7 @@ export default function PostMentorSide({ data }) {
           <img
             className="w-56 p-8 rounded-full"
             src={data.writerDTO.profileImage}
-            alt={`작성자 프로필 이미지`}
+            alt="작성자 프로필 이미지"
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
             <h1 className="text-4xl font-bold text-green-700">{data.title}</h1>
@@ -193,7 +185,7 @@ export default function PostMentorSide({ data }) {
                   name="all"
                   className="accent-green-600"
                   checked={Object.values(checks).every((val) => val === true)}
-                  onChange={handleCheckBoxChenage}
+                  onChange={handleCheckBoxChange}
                 />
               </th>
               <th className="p-2 text-left font-medium">Name</th>
@@ -213,7 +205,7 @@ export default function PostMentorSide({ data }) {
                     name={connection.connectionId}
                     className="accent-green-600"
                     checked={checks[connection.connectionId]}
-                    onChange={handleCheckBoxChenage}
+                    onChange={handleCheckBoxChange}
                     disabled={
                       connection.connectionState !== connectionState.AWAIT
                     }

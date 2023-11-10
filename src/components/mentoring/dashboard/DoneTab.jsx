@@ -58,13 +58,16 @@ export default function DoneTab() {
                 className="bg-white border"
                 onClick={handleMentorClick}
               >
-                <td className="p-2 text-left space-x-2">
+                <td className="p-2 text-left space-x-2 flex items-center">
                   <img
                     className="inline w-8 rounded-full"
                     src={post.mentor.profileImage}
                     alt={`${post.mentor.mentorId} 프로필 이미지`}
                   ></img>
-                  <span className="font-medium">{post.mentor.name}</span>
+                  <div className="inline-flex flex-col">
+                    <span className="font-medium">{post.mentor.name}</span>
+                    <span className="text-xs text-gray-500">{post.title}</span>
+                  </div>
                 </td>
                 <td>
                   <FlagTag>{post.mentor.country}</FlagTag>
