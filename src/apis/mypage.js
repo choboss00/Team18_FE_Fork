@@ -11,6 +11,10 @@ export const userInfo = () => {
   return instance.get("/profiles");
 };
 
+export const simpleUserInfo = () => {
+  return instance.get("/profiles/simple");
+};
+
 export const editInfo = (formData) => {
   return instance.put("/profiles", formData);
 };
