@@ -7,16 +7,11 @@ import { convertDateToAge } from "../../../utils/age";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
-import Fallback from "../../common/Fallback";
-import Loader from "../../common/Loader";
-import Error from "../../common/Error";
-import ProfileModal from "./ProfileModal";
+import CreateProfileModal from "./CreateProfileModal";
 
 export default function DoneTab() {
   const navigate = useNavigate();
-
   const [isModal, setIsModal] = useState(false);
-
   const [modalUid, setModalUid] = useState(null);
 
   const { data } = useQuery({
@@ -161,13 +156,11 @@ export default function DoneTab() {
           ))}
         </tbody>
       </table>
-      <Fallback Loader={Loader} Error={Error} errorMessage="ERROR">
-        <ProfileModal
-          isModal={isModal}
-          setIsModal={setIsModal}
-          uid={modalUid}
-        />
-      </Fallback>
+      <CreateProfileModal
+        isModal={isModal}
+        setIsModal={setIsModal}
+        uid={modalUid}
+      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -12,17 +12,12 @@ import { convertDateToAge } from "../../../utils/age";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 import Button from "../../common/Button";
-import Fallback from "../../common/Fallback";
-import Loader from "../../common/Loader";
-import Error from "../../common/Error";
-import ProfileModal from "./ProfileModal";
+import CreateProfileModal from "./CreateProfileModal";
 
 export default function ContactTabMenteeSide() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   const [isModal, setIsModal] = useState(false);
-
   const [modalUid, setModalUid] = useState(null);
 
   const { data } = useQuery({
@@ -178,13 +173,11 @@ export default function ContactTabMenteeSide() {
           Cancel
         </Button>
       </div>
-      <Fallback Loader={Loader} Error={Error} errorMessage="ERROR">
-        <ProfileModal
-          isModal={isModal}
-          setIsModal={setIsModal}
-          uid={modalUid}
-        />
-      </Fallback>
+      <CreateProfileModal
+        isModal={isModal}
+        setIsModal={setIsModal}
+        uid={modalUid}
+      />
     </>
   );
 }
