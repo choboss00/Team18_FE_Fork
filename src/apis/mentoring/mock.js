@@ -98,62 +98,65 @@ export const postData = {
 
 export const postCountsData = { contactCount: 3, doneCount: 3 };
 
-export const ContactsData = {
+export const ContactsData = [1, 2, 3].map((val) => ({
   postId: 1,
   title: "글 제목",
-  mentor: {
+  writerDTO: {
     mentorId: 1,
     profileImage: IMAGE_URL,
     name: "John Doe",
     country: "US",
+    birthDate: "2002-10-30",
     role: "MENTOR",
     favorites: ["IDOL", "Game"],
-    birthDate: "2002-10-30",
   },
+  // mentee용
+  connectionId: val,
+  // mentor용
   mentees: [
     {
-      contactId: 1,
-      connectionState: "await",
+      connectionId: 1,
+      state: "AWAIT",
       mentee: {
         menteeId: 2,
-        name: "Jane",
         profileImage: IMAGE_URL,
+        name: "Jane",
         country: "DK",
-        favorites: ["Game", "Sports"],
-        role: "MENTEE",
         birthDate: "1999-07-16",
+        role: "MENTEE",
+        favorites: ["Game", "Sports"],
       },
     },
     {
-      contactId: 2,
-      connectionState: "accept",
+      connectionId: 2,
+      state: "ACCEPT",
       mentee: {
         menteeId: 3,
-        name: "Miho",
         profileImage: IMAGE_URL,
+        name: "Miho",
         country: "JP",
-        favorites: ["Game", "K-POP"],
-        role: "MENTEE",
         birthDate: "2007-03-25",
+        role: "MENTEE",
+        favorites: ["Game", "K-POP"],
       },
     },
     {
-      contactId: 3,
-      connectionState: "refuse",
+      connectionId: 3,
+      state: "REFUSE",
       mentee: {
         menteeId: 4,
-        name: "Michael",
         profileImage: IMAGE_URL,
+        name: "Michael",
         country: "US",
-        favorites: ["Sports", "Movie"],
-        role: "MENTEE",
         birthDate: "1985-11-15",
+        role: "MENTEE",
+        favorites: ["Sports", "Movie"],
       },
     },
   ],
-};
+}));
 
-export const DonesData = [1, 2, 3].map(() => ({
+export const DonesData = [1, 2, 3].map((val) => ({
   postId: 1,
   title: "글 제목",
   mentor: {
@@ -161,45 +164,45 @@ export const DonesData = [1, 2, 3].map(() => ({
     profileImage: IMAGE_URL,
     name: "John Doe",
     country: "US",
+    birthDate: "2002-10-30",
     role: "MENTOR",
     favorites: ["IDOL", "Game"],
-    birthDate: "2002-10-30",
   },
   mentees: [
     {
       doneId: 1,
       mentee: {
         menteeId: 2,
-        name: "Jane",
         profileImage: IMAGE_URL,
-        country: "DK",
-        favorites: ["Game", "Sports"],
-        role: "MENTEE",
+        name: "Jane",
         birthDate: "1999-07-16",
+        country: "DK",
+        role: "MENTEE",
+        favorites: ["Game", "Sports"],
       },
     },
     {
       doneId: 2,
       mentee: {
         menteeId: 3,
-        name: "Miho",
         profileImage: IMAGE_URL,
+        name: "Miho",
         country: "JP",
-        favorites: ["Game", "K-POP"],
-        role: "MENTEE",
         birthDate: "2007-03-25",
+        role: "MENTEE",
+        favorites: ["Game", "K-POP"],
       },
     },
     {
       doneId: 3,
       mentee: {
         menteeId: 4,
-        name: "Michael",
         profileImage: IMAGE_URL,
+        name: "Michael",
         country: "US",
-        favorites: ["Sports", "Movie"],
-        role: "MENTEE",
         birthDate: "1985-11-15",
+        role: "MENTEE",
+        favorites: ["Sports", "Movie"],
       },
     },
   ],
