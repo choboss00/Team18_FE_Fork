@@ -37,7 +37,7 @@ const ChattingRoomsPage = () => {
             </Link>
             <div className="flex flex-col w-[1000px] max-w-full h-fit my-6 relative">
               <span
-                className="material-symbols-outlined w-full bg-white font-semibold text-3xl p-2 border-b-2 text-end"
+                className="material-symbols-outlined w-full bg-white font-semibold text-3xl p-2 border-b-2 text-end cursor-pointer"
                 onClick={() => setIsChannelDetailModalOpen((prev) => !prev)}
               >
                 menu
