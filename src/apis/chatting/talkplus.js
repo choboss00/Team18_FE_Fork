@@ -6,12 +6,12 @@ export const client = new TalkPlus.Client({
   appId: import.meta.env.VITE_TALKPLUS_APP_ID,
 });
 
-export const login = async () => {
+export const login = async ({ userId, username, profileImageUrl }) => {
   try {
     const { user } = await client.loginAnonymous({
-      userId: "TEST2",
-      username: "쿼카",
-      profileImageUrl: "https://picsum.photos/id/500/40",
+      userId: String(userId),
+      username,
+      profileImageUrl,
     });
     return user;
   } catch (error) {
@@ -24,25 +24,20 @@ export const getPublicChannels = async ({
   searchValue,
   searchSubValue,
 }) => {
-  try {
-    const body = { limit: 30 };
-    if (lastChannelId) {
-      body.lastChannelId = lastChannelId;
-    }
-    if (searchValue && searchValue.length > 0) {
-      body.category = searchValue;
-    }
-
-    if (searchSubValue && searchSubValue.length > 0) {
-      body.subcategory = searchSubValue;
-    }
-
-    const data = await client.getPublicChannels(body);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return [];
+  const body = { limit: 30 };
+  if (lastChannelId) {
+    body.lastChannelId = lastChannelId;
   }
+  if (searchValue && searchValue.length > 0) {
+    body.category = searchValue;
+  }
+
+  if (searchSubValue && searchSubValue.length > 0) {
+    body.subcategory = searchSubValue;
+  }
+
+  const data = await client.getPublicChannels(body);
+  return data;
 };
 
 export const getChannelDetail = async (channelId) => {
