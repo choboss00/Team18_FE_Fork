@@ -15,6 +15,10 @@ export const simpleUserInfo = () => {
   return instance.get("/profiles/simple");
 };
 
+export const editInfo = (formData) => {
+  return instance.put("/profiles", formData);
+};
+
 // // 임시 uid 로 판별
 // export const userInfo = async () => {
 //   await new Promise((resolve) => setTimeout(resolve, 500));
