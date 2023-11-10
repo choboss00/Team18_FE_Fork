@@ -11,51 +11,48 @@ const VideoGrid = React.forwardRef(
   ({ videos, hasNextPage, isFetchingNextPage, error }, ref) => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    console.log(videos);
 
-    useEffect(() => {
-      setOpen(videos[0]?.success === false);
-    }, [videos]);
+    // useEffect(() => {
+    //   setOpen(videos[0]?.success === false);
+    // }, [videos]);
 
-    const handleOk = () => {
-      navigate("/", { replace: true });
-    };
+    // const handleOk = () => {
+    //   navigate("/", { replace: true });
+    // };
 
-    const handleClose = (event, reason) => {
-      if (reason !== "clickaway") {
-        setOpen(false);
-        navigate("/");
-      }
-    };
+    // const handleClose = (event, reason) => {
+    //   if (reason !== "clickaway") {
+    //     setOpen(false);
+    //     navigate("/");
+    //   }
+    // };
 
     if (error) {
       return <Error errorMessage={error.errorMessage} />;
     }
 
-    if (videos[0]?.success === false) {
-      return (
-        <Toast
-          open={open}
-          severity="info"
-          handleOk={handleOk}
-          handleClose={handleClose}
-          message="No video information for that category. Please check and try again."
-        >
-          <Button color="inherit" size="small" onClick={handleOk}>
-            OKAY
-          </Button>
-        </Toast>
-      );
-    }
+    // if (videos[0]?.success === false) {
+    //   return (
+    //     <Toast
+    //       open={open}
+    //       severity="info"
+    //       handleOk={handleOk}
+    //       handleClose={handleClose}
+    //       message="No video information for that category. Please check and try again."
+    //     >
+    //       <Button color="inherit" size="small" onClick={handleOk}>
+    //         OKAY
+    //       </Button>
+    //     </Toast>
+    //   );
+    // }
 
     return (
       <>
         <Grid>
-          {videos.map((page, i) => (
-            <React.Fragment key={i}>
-              {page?.videos?.response?.map((video) => (
-                <VideoCard key={video.videoId} video={video} />
-              ))}
-            </React.Fragment>
+          {videos.map((video, index) => (
+            <VideoCard key={index} video={video} />
           ))}
         </Grid>
         <div ref={ref} style={{ height: "100px" }}>

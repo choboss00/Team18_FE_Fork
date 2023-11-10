@@ -22,16 +22,14 @@ const VideoList = () => {
   const { data, error, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useInfiniteQuery(
       ["getVideos", category],
-      ({ pageParam = 1 }) => {
+      ({ pageParam = 0 }) => {
         const categoryId = nameToCategoryId(category);
-        return getVideos.fetchPostingsListWithScroll(pageParam, categoryId);
+        return getVideos(pageParam, categoryId);
       },
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (lastPage.last) return undefined;
-          return allPages.length + 1;
-          // const lastPageData = allPages[allPages.length - 1];
-          // return lastPageData.last ? undefined : lastPageData.pageData.page + 1;
+          if (!lastPage.isLast) return lastPage.nextPage;
+          return undefined;
         },
         onSuccess: (data) => {
           console.log(data);
@@ -47,13 +45,7 @@ const VideoList = () => {
     }
   }, [inView, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
-  // 현재 응답 데이터의 page 값을 직접 조회하여 접근
-  // const lastPageData = data?.pages[data?.pages.length - 1];
-  // const currentPageData = lastPageData?.pageData?.videoAllResponseDTO;
-  // const isLastPage = lastPageData?.last;
-  // const allVideos = data?.pages
-  //   .map((page) => page.pageData.videoAllResponseDTO)
-  //   .flat();
+  const videos = data?.pages.map((page) => page.videos).flat();
 
   return (
     <>
@@ -79,10 +71,8 @@ const VideoList = () => {
                     className="border-2 bg-white mb-10"
                   />
                   <VideoGrid
-                    // videos={allVideos}
-                    videos={data?.pages}
+                    videos={videos}
                     fetchNextPage={fetchNextPage}
-                    // last={isLastPage}
                     hasNextPage={hasNextPage}
                     isFetchingNextPage={isFetchingNextPage}
                     ref={ref}

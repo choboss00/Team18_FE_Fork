@@ -4,9 +4,10 @@ import Title from "../../account/atoms/Title";
 import Tag from "../../common/Tag";
 
 const VideoCard = ({ video, className, ...props }) => {
+  console.log(video);
   return (
     <Card
-      to={`/videos/${video.videoId}`}
+      to={`/videos/${video.videoID}`}
       className={`justify-center items-center flex flex-col mt-10 ${className}`}
     >
       <Image
