@@ -59,19 +59,19 @@ const InformationForm = ({ data }) => {
     { keyName: "Country", value: codeToName(info?.country) },
     { keyName: "bio", value: info?.introduction },
     { keyName: "Role", value: info?.role },
-    // { keyName: "Interests", value: info?.categoryList.join(", ") },
+    { keyName: "Interests", value: info?.categoryList.join(", ") },
   ];
 
   return (
     <div className="min-w-[50%] flex justify-center items-center flex-col">
       <section className="p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5 border-b">
-          My Information
           <img
-            className="w-7 rounded-full inline-block mb-2 ml-2"
+            className="max-w-[60px] rounded-xl inline-block mb-2 mr-6"
             src={info?.profileImage || defaultProfileImage}
             alt="Profile Image"
           ></img>
+          My Information
         </Title>
         {userInfo.map((item, index) => (
           <KeyValueComponent

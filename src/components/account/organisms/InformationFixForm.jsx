@@ -13,6 +13,7 @@ import Title from "../atoms/Title";
 import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
+import { passwordCheck } from "../../../apis/user";
 
 const InformationFixForm = ({ data, inputProps }) => {
   const info = data?.data?.data;
@@ -43,6 +44,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const lastName = watch("lastName");
   const phone = watch("phone");
   const password = watch("password");
+  const newPassword = watch("newPassword");
   const passwordCheck = watch("passwordcheck");
   const birthDate = watch("birthDate");
   const introduction = watch("introduction");
@@ -74,9 +76,28 @@ const InformationFixForm = ({ data, inputProps }) => {
     setCategoryList(newCategoryList);
   };
 
+  const handlePasswordCheck = async (password) => {
+    try {
+      const response = await passwordCheck(password);
+
+      console.log("Response:", response);
+      return true;
+    } catch (error) {
+      if (error?.response?.data?.status === "fail") {
+        setError(
+          "password",
+          { message: "please enter your origin password" },
+          { shouldFocus: true }
+        );
+        return false;
+      }
+      return false;
+    }
+  };
+
   const handlePasswordConfirm = () => {
-    if (password && passwordCheck) {
-      if (password !== passwordCheck) {
+    if (newPassword && passwordCheck) {
+      if (newPassword !== passwordCheck) {
         setError(
           "passwordcheck",
           { message: "Passwords do not match" },
@@ -96,31 +117,38 @@ const InformationFixForm = ({ data, inputProps }) => {
     const submitData = new FormData();
 
     if (profileImage instanceof File) {
-      submitData.append("profileImage", profileImage);
+      submitData.append("file", profileImage);
     } else {
-      submitData.append("profileImage", profileImage);
+      submitData.append("file", profileImage);
     }
 
     submitData.append(
       "requestDTO",
-      JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        password: password,
-        role: role,
-        country: nameToCode(country),
-        birthDate: birthDate ? dayjs(birthDate).format("YYYY-MM-DD") : "",
-        categoryList: categoryList,
-        phone: phone,
-        introduction: introduction,
-      })
+      new Blob(
+        [
+          JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            password: newPassword,
+            role: role,
+            country: nameToCode(country),
+            birthDate: birthDate ? dayjs(birthDate).format("YYYY-MM-DD") : "",
+            categoryList: categoryList,
+            phone: phone,
+            introduction: introduction,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
     );
 
     setChangedValues(submitData);
   }, [
     firstName,
     lastName,
-    password,
+    newPassword,
     country,
     birthDate,
     phone,
@@ -142,9 +170,10 @@ const InformationFixForm = ({ data, inputProps }) => {
   });
 
   const onSubmit = (formData) => {
+    const OriginPasswordCheck = handlePasswordCheck(password);
     const passwordIsValid = handlePasswordConfirm();
 
-    if (passwordIsValid) {
+    if (passwordIsValid && OriginPasswordCheck) {
       mutation.mutate(changedValues);
     }
   };
