@@ -7,7 +7,6 @@ import {
 import { useSetAtom } from "jotai";
 
 import ChannelListItem from "./ChannelListItem";
-import { chattingRoomIdAtom } from "../../../store/chatting/chatting";
 import {
   getJoinedChannels,
   leaveChannel,
@@ -20,7 +19,6 @@ import SearchInput from "./SearchInput";
 
 const JoinedChannelList = () => {
   const queryClient = useQueryClient();
-  const setChattingRoomId = useSetAtom(chattingRoomIdAtom);
   const [searchCategory, setSearchCategory] = useState("");
   const [searchSubCategory, setSearchSubCategory] = useState("");
 

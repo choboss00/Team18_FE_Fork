@@ -1,11 +1,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { client, login } from "../../apis/chatting/talkplus";
 import { useSetAtom } from "jotai";
-import {
-  userIdAtom,
-  userNameAtom,
-  userProfileImageUrlAtom,
-} from "../../store/chatting/chatting";
+import { userIdAtom } from "../../store/chatting/chatting";
 import { Link, useParams } from "react-router-dom";
 import MessageList from "../../components/chatting/channelRoom/MessageList";
 import MessageInput from "../../components/chatting/channelRoom/MessageInput";

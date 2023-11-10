@@ -5,8 +5,6 @@ import { useAtomValue, useSetAtom } from "jotai";
 import {
   currentChannelTypeAtom,
   userIdAtom,
-  userNameAtom,
-  userProfileImageUrlAtom,
 } from "../../store/chatting/chatting";
 import { login } from "../../apis/chatting/talkplus";
 import Tabs from "../../components/chatting/channelList/Tabs";
@@ -19,26 +17,8 @@ import Error from "../../components/common/Error";
 const ChattingListPage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const channelType = useAtomValue(currentChannelTypeAtom);
-
   const setUserId = useSetAtom(userIdAtom);
-  const setUserProfileImageUrl = useSetAtom(userProfileImageUrlAtom);
-  const setUserName = useSetAtom(userNameAtom);
 
-  const handleLogin = () => {
-    login()
-      .then((res) => {
-        setUserId(res.id);
-        setUserProfileImageUrl(res.profileImageUrl);
-        setUserName(res.username);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   return (
     <Fallback
