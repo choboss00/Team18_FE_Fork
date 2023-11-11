@@ -18,6 +18,14 @@ import Loader from "../../common/Loader";
 const VideoList = () => {
   const { ref, inView } = useInView();
   const [category, setCategory] = useState("IDOL");
+  const [openToastError, setOpenToastError] = useState(false);
+  const [toastErrorMessage, setToastErrorMessage] = useState("");
+
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpenToastError(false);
+    }
+  };
 
   const handleOptionChange = (selectedCategory) => {
     setCategory(selectedCategory);
@@ -37,6 +45,12 @@ const VideoList = () => {
         onSuccess: (data) => {
           console.log(data);
         },
+        onError: (error) => {
+          setOpenToastError(true);
+          setToastErrorMessage(
+            "Error !  Unable to load Videos. Try again in a minute"
+          );
+        },
 
         retry: false,
       }
@@ -49,7 +63,6 @@ const VideoList = () => {
   }, [inView, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   const videos = data?.pages.map((page) => page.videos).flat();
-  console.log(error);
 
   return (
     <>
@@ -63,11 +76,11 @@ const VideoList = () => {
           Error={ToastError}
           errorMessage="Error! Unable to load Videos. Try again in a minute "
         >
-          {error ? (
-            <Fallback
-              Loader={Loader}
-              Error={ToastError}
-              errorMessage={error.errorMessage}
+          {error || openToastError ? (
+            <ToastError
+              open={openToastError}
+              handleClose={handleClose}
+              errorMessage={toastErrorMessage}
             />
           ) : (
             <ErrorBoundary>
