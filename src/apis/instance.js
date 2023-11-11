@@ -30,10 +30,7 @@ instance.interceptors.request.use(
 
 // 응답 인터셉터 설정
 instance.interceptors.response.use(
-  (response) => {
-    console.dir(response);
-    return response;
-  },
+  (response) => response,
   async (error) => {
     // const setError = useSetAtom(errorAtom);
     const { config, response } = error;
