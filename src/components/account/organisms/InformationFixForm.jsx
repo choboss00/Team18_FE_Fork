@@ -14,6 +14,8 @@ import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
 import { passwordCheck } from "../../../apis/user";
+import Toast from "../../common/Toast";
+import ToastError from "../../common/ToastError";
 
 const InformationFixForm = ({ data, inputProps }) => {
   const info = data?.data?.data;
@@ -47,8 +49,26 @@ const InformationFixForm = ({ data, inputProps }) => {
   const passwordcheck = watch("passwordcheck");
   const birthDate = watch("birthDate");
   const introduction = watch("introduction");
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [openToastError, setOpenToastError] = useState(false);
+  const [toastErrorMessage, setToastErrorMessage] = useState("");
   const [profileImage, setProfileImage] = useState(info?.profileImage);
+
+  const handleOk = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpen(false);
+      navigate("/mypage/information");
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpenToastError(false);
+      setOpen(false);
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -158,11 +178,16 @@ const InformationFixForm = ({ data, inputProps }) => {
 
   const mutation = useMutation(editInfo, {
     onSuccess: () => {
-      alert("정보가 성공적으로 수정되었습니다.");
-      navigate("/mypage/information");
+      setOpen(true);
+      setSeverity("success");
+      setMessage("Edit Success");
+      setTimeout(() => {
+        handleOk();
+      }, 1500);
     },
     onError: () => {
-      alert("정보 수정에 실패했습니다.");
+      setOpenToastError(true);
+      setToastErrorMessage("Edit failed");
     },
   });
 
@@ -176,7 +201,9 @@ const InformationFixForm = ({ data, inputProps }) => {
         mutation.mutate(changedValues);
       }
     } catch (error) {
-      console.error("register request failed", error);
+      setOpenToastError(true);
+      setToastErrorMessage(error?.response?.data?.message || "Edit failed");
+      console.error("Edit", error);
     }
   };
 
@@ -293,6 +320,20 @@ const InformationFixForm = ({ data, inputProps }) => {
           </main>
         </form>
       </FormProvider>
+      {openToastError && (
+        <ToastError
+          open={openToastError}
+          handleClose={handleClose}
+          errorMessage={toastErrorMessage}
+        />
+      )}
+      <Toast
+        open={open}
+        handleClose={handleClose}
+        severity={severity}
+        message={message}
+        autoHideDuration={3000}
+      />
     </>
   );
 };

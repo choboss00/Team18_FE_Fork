@@ -1,13 +1,12 @@
 import React from "react";
 import Toast from "./Toast";
 
-export default function ToastError({ errorMessage }) {
-  const [open, setOpen] = React.useState(true);
-
+export default function ToastError({ open, handleClose, errorMessage }) {
   return (
     <Toast
       open={open}
-      autoHideDuration={10000}
+      handleClose={handleClose}
+      autoHideDuration={3000}
       message={errorMessage}
       severity="error"
       sx={{ backgroundColor: "#F9NC60" }}
