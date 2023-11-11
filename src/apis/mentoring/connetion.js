@@ -1,38 +1,87 @@
 import { instance } from "../instance";
-import { mockResponse } from "./mock";
+import {
+  isMock,
+  mockResponse,
+  postCountsData,
+  ContactsData,
+  DonesData,
+} from "./mock";
 
-export async function getConnectiontsReq() {
-  return await instance.get("/contacts");
+export async function getPostCountsReq() {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(postCountsData);
+  } else {
+    return await instance.get("contacts/postCounts");
+  }
 }
 
-export async function addConnectionReq(pid) {
-  // return await instance.post(`/contacts/${pid}`);
-
-  // api 구현 전까지 mock 데이터 반환
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(null);
+export async function getContactConnectionsReq() {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(ContactsData);
+  } else {
+    return await instance.get("/contacts");
+  }
 }
 
-export async function deleteConnectionReq(uids) {
-  // return await instance.delete(`/contacts/`);
-
-  // api 구현 전까지 mock 데이터 반환
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(null);
+export async function getDoneConnectionsReq() {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(DonesData);
+  } else {
+    return await instance.get("/contacts/done");
+  }
 }
 
-export async function acceptConnectionReq(uids) {
-  // return await instance.patch(`/contacts/accept`);
-
-  // api 구현 전까지 mock 데이터 반환
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(null);
+export async function addConnectionReq(data) {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(null);
+  } else {
+    const { menteeId, mentorId, mentorPostId } = data;
+    return await instance.post("/contacts", {
+      menteeId,
+      mentorId,
+      mentorPostId,
+    });
+  }
 }
 
-export async function refuseConnectionReq(uids) {
-  // return await instance.patch(`/contacts/refuse`);
+export async function deleteConnectionReq(cids) {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(null);
+  } else {
+    const queryParam = cids
+      .reduce((acc, cid) => `${acc}${cid},`, "?connectionId=")
+      .slice(0, -1);
+    return await instance.delete(`/contacts${queryParam}`);
+  }
+}
 
-  // api 구현 전까지 mock 데이터 반환
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(null);
+export async function acceptConnectionReq(cids) {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(null);
+  } else {
+    const reqData = cids.reduce(
+      (acc, cid) => [...acc, { connectionId: cid }],
+      []
+    );
+    return await instance.post("/contacts/accept", reqData);
+  }
+}
+
+export async function refuseConnectionReq(cids) {
+  if (isMock) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockResponse(null);
+  } else {
+    const reqData = cids.reduce(
+      (acc, cid) => [...acc, { connectionId: cid }],
+      []
+    );
+    return await instance.patch("/contacts/refuse", reqData);
+  }
 }
