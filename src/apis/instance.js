@@ -1,8 +1,6 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const REFRESH_URL = "/users/refresh";
-
 axios.defaults.withCredentials = true;
 
 // instance 생성
@@ -18,14 +16,6 @@ instance.interceptors.request.use(
     const token = localStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `${token.replace(/"/g, "")}`;
-      // try {
-      //   const response = await instance.get('/profiles/simple');
-      //   if (response.data) {
-      //     setUserProfile(response.data); // Jotai 상태 업데이트
-      //   }
-      // } catch (error) {
-      //   console.error('프로필 데이터를 가져오는 데 실패했습니다:', error);
-      // }
     } else {
       console.log("해당 요청에는 token이 담기지 않았습니다.");
     }
