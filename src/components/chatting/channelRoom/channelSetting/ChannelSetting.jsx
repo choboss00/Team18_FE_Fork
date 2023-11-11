@@ -29,9 +29,7 @@ const ChannelSetting = ({ channelId }) => {
             handleCancel={handleCancel}
           />
         ) : (
-          <>
-            <ChannelInfo channelInfo={channelInfo} handleEdit={handleEdit} />
-          </>
+          <ChannelInfo channelInfo={channelInfo} handleEdit={handleEdit} />
         )}
       </div>
     </Suspense>
