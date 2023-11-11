@@ -26,7 +26,6 @@ const InformationFixForm = ({ data, inputProps }) => {
   const methods = useForm({
     defaultValues: {
       ...defaultValues,
-      password: "",
       birthDate: dayjs(info?.birthDate),
     },
   });
@@ -45,7 +44,7 @@ const InformationFixForm = ({ data, inputProps }) => {
   const phone = watch("phone");
   const password = watch("password");
   const newPassword = watch("newPassword");
-  const passwordCheck = watch("passwordcheck");
+  const passwordcheck = watch("passwordcheck");
   const birthDate = watch("birthDate");
   const introduction = watch("introduction");
 
@@ -76,28 +75,26 @@ const InformationFixForm = ({ data, inputProps }) => {
     setCategoryList(newCategoryList);
   };
 
-  const handlePasswordCheck = async (password) => {
+  const handleOriginPassword = async (password) => {
     try {
       const response = await passwordCheck(password);
 
       console.log("Response:", response);
       return true;
     } catch (error) {
-      if (error?.response?.data?.status === "fail") {
-        setError(
-          "password",
-          { message: "please enter your origin password" },
-          { shouldFocus: true }
-        );
-        return false;
-      }
+      console.log(error);
+      setError(
+        "password",
+        { message: "It's wrong. Enter the existing password you were using" },
+        { shouldFocus: true }
+      );
       return false;
     }
   };
 
   const handlePasswordConfirm = () => {
-    if (newPassword && passwordCheck) {
-      if (newPassword !== passwordCheck) {
+    if (newPassword && passwordcheck) {
+      if (newPassword !== passwordcheck) {
         setError(
           "passwordcheck",
           { message: "Passwords do not match" },
@@ -169,12 +166,17 @@ const InformationFixForm = ({ data, inputProps }) => {
     },
   });
 
-  const onSubmit = (formData) => {
-    const OriginPasswordCheck = handlePasswordCheck(password);
-    const passwordIsValid = handlePasswordConfirm();
+  const onSubmit = async (formData) => {
+    try {
+      //email과 password 값 유효 먼저 체크
+      const OriginPasswordCheck = await handleOriginPassword(password);
+      const passwordIsValid = await handlePasswordConfirm(passwordcheck);
 
-    if (passwordIsValid && OriginPasswordCheck) {
-      mutation.mutate(changedValues);
+      if (passwordIsValid && OriginPasswordCheck) {
+        mutation.mutate(changedValues);
+      }
+    } catch (error) {
+      console.error("register request failed", error);
     }
   };
 

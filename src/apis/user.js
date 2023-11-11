@@ -1,5 +1,5 @@
 import { instance } from "./instance";
-// import { mockUsers, mockResponse } from "../components/account/mockUser";
+import { mockUsers, mockResponse } from "../components/account/mockUser";
 
 export const emailCheck = (data) => {
   const email = data;

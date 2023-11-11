@@ -11,6 +11,9 @@ import Dropdown from "../../common/Dropdown";
 import { CATEGORY } from "../../account/constants/TAGLIST";
 import Title from "../../account/atoms/Title";
 import { nameToCategoryId } from "../utils/categoryId";
+import ToastError from "../../common/Toast";
+import Fallback from "../../common/Fallback";
+import Loader from "../../common/Loader";
 
 const VideoList = () => {
   const { ref, inView } = useInView();
@@ -46,6 +49,7 @@ const VideoList = () => {
   }, [inView, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   const videos = data?.pages.map((page) => page.videos).flat();
+  console.log(error);
 
   return (
     <>
@@ -53,12 +57,18 @@ const VideoList = () => {
         You can choose a video
       </Title>
       <Title className="mb-20">Videos by Category</Title>
-      <main className="w-[70%]">
-        <ErrorBoundary
-          fallback={<Error errorMessage="Failed to load video list" />}
+      <main className="w-[77%]">
+        <Fallback
+          Loader={Loader}
+          Error={ToastError}
+          errorMessage="Error! Unable to load Videos. Try again in a minute "
         >
           {error ? (
-            <Error errorMessage={error.message} />
+            <Fallback
+              Loader={Loader}
+              Error={ToastError}
+              errorMessage={error.errorMessage}
+            />
           ) : (
             <ErrorBoundary>
               <Suspense fallback={<VideoSkeleton />}>
@@ -70,6 +80,7 @@ const VideoList = () => {
                     onSelectedChange={handleOptionChange}
                     className="border-2 bg-white mb-10"
                   />
+
                   <VideoGrid
                     videos={videos}
                     fetchNextPage={fetchNextPage}
@@ -82,7 +93,7 @@ const VideoList = () => {
               </Suspense>
             </ErrorBoundary>
           )}
-        </ErrorBoundary>
+        </Fallback>
       </main>
     </>
   );

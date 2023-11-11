@@ -1,8 +1,8 @@
 import HistoryCard from "../molecules/HistoryCard";
 
 const HistoryForm = ({ data }) => {
-  const videos = data?.data?.data?.response;
-  console.log(videos);
+  const videos = data;
+
   return (
     <>
       <main className="w-full flex flex-col justify-center items-center">
