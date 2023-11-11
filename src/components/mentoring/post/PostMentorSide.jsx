@@ -69,7 +69,9 @@ export default function PostMentorSide({ data }) {
     if (window.confirm("Are you sure you want to delete this post?")) {
       deleteMutate(data.postId, {
         onSuccess: () => {
-          toast("Successfully deleted.");
+          toast("Successfully deleted.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({ queryKey: ["posts"] });
           navigate("/mentoring/posts");
         },
@@ -82,7 +84,9 @@ export default function PostMentorSide({ data }) {
       doneMutate(data.postId, {
         onSuccess: (res) => {
           console.dir(res);
-          toast("Successfully closed.");
+          toast("Successfully closed.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({ queryKey: ["post"] });
         },
       });
@@ -98,7 +102,9 @@ export default function PostMentorSide({ data }) {
           }, []),
           {
             onSuccess: () => {
-              toast("Successfully accepted.");
+              toast("Successfully accepted.", {
+                className: "bg-[#5A906E] text-[#F2F7F5]",
+              });
               queryClient.invalidateQueries({
                 queryKey: ["post"],
               });
@@ -112,7 +118,10 @@ export default function PostMentorSide({ data }) {
             },
           }
         );
-    } else toast("No mentees have been selected.");
+    } else
+      toast("No mentees have been selected.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handleRefuseClick = () => {
@@ -125,7 +134,9 @@ export default function PostMentorSide({ data }) {
           }, []),
           {
             onSuccess: () => {
-              toast("Successfully refused.");
+              toast("Successfully refused.", {
+                className: "bg-[#5A906E] text-[#F2F7F5]",
+              });
               queryClient.invalidateQueries({
                 queryKey: ["post"],
               });
@@ -139,7 +150,10 @@ export default function PostMentorSide({ data }) {
             },
           }
         );
-    } else toast("No mentees have been selected.");
+    } else
+      toast("No mentees have been selected.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   return (

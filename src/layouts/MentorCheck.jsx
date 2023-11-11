@@ -21,7 +21,9 @@ export default function MentorCheck() {
   useEffectOnce(() => {
     if (!(isLoading || isError))
       if (!isMentor) {
-        toast("This service is only accessible to mentors.");
+        toast("This service is only accessible to mentors.", {
+          className: "bg-[#5A906E] text-[#F2F7F5]",
+        });
         navigate("mentoring/posts", { replace: true });
       }
   }, [data]);

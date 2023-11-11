@@ -82,7 +82,9 @@ export default function ContactTabMentorSide() {
           }, []),
           {
             onSuccess: () => {
-              toast("Successfully accepted.");
+              toast("Successfully accepted.", {
+                className: "bg-[#5A906E] text-[#F2F7F5]",
+              });
               queryClient.invalidateQueries({
                 queryKey: ["contacts"],
               });
@@ -98,7 +100,10 @@ export default function ContactTabMentorSide() {
             },
           }
         );
-    } else toast("No mentees have been selected.");
+    } else
+      toast("No mentees have been selected.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handleRefuseClick = () => {
@@ -111,7 +116,9 @@ export default function ContactTabMentorSide() {
           }, []),
           {
             onSuccess: () => {
-              toast("Successfully refused.");
+              toast("Successfully refused.", {
+                className: "bg-[#5A906E] text-[#F2F7F5]",
+              });
               queryClient.invalidateQueries({
                 queryKey: ["contacts"],
               });
@@ -127,7 +134,10 @@ export default function ContactTabMentorSide() {
             },
           }
         );
-    } else toast("No mentees have been selected.");
+    } else
+      toast("No mentees have been selected.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handlePostClick = (e) => {

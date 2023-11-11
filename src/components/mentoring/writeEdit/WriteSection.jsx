@@ -40,15 +40,16 @@ export default function WriteSection() {
     if (inputValue.title && inputValue.content) {
       mutate(inputValue, {
         onSuccess: (res) => {
-          console.dir(res);
-          toast("Successfully written.");
-          // navigate("/mentoring/posts");
-        },
-        onError: (err) => {
-          console.dir(err);
+          toast("Successfully written.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
+          navigate(`/mentoring/post/${res.data.data.postId}`);
         },
       });
-    } else toast("No title or content has been written.");
+    } else
+      toast("No title or content has been written.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handleCancelClick = () => {

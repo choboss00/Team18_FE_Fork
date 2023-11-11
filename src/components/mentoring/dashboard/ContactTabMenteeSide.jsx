@@ -63,7 +63,9 @@ export default function ContactTabMenteeSide() {
           }, []),
           {
             onSuccess: () => {
-              toast("Successfully canceled.");
+              toast("Successfully canceled.", {
+                className: "bg-[#5A906E] text-[#F2F7F5]",
+              });
               queryClient.invalidateQueries({
                 queryKey: ["contacts"],
               });
@@ -76,7 +78,10 @@ export default function ContactTabMenteeSide() {
           }
         );
       }
-    } else toast("No mentors have been selected.");
+    } else
+      toast("No mentors have been selected.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handlePostClick = (e) => {

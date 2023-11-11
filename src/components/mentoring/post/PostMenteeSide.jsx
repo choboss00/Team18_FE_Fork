@@ -42,7 +42,9 @@ export default function PostMenteeSide({ data }) {
     if (auth) {
       addMutate(reqData, {
         onSuccess: () => {
-          toast("Successfully applied.");
+          toast("Successfully applied.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({
             queryKey: ["post"],
           });
@@ -62,7 +64,9 @@ export default function PostMenteeSide({ data }) {
     if (window.confirm("Are you sure you want to cancel?"))
       deleteMutate([myConnection.connectionId], {
         onSuccess: () => {
-          toast("Successfully canceled.");
+          toast("Successfully canceled.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({
             queryKey: ["post"],
           });
