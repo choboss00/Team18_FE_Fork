@@ -2,23 +2,27 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useAtomValue } from "jotai";
 
 import {
   getContactConnectionsReq,
   deleteConnectionReq,
 } from "../../../apis/mentoring/connetion";
 import { convertDateToAge } from "../../../utils/age";
+import { profileImageAtom } from "../../../store";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 import Button from "../../common/Button";
 import CreateProfileModal from "./CreateProfileModal";
+import NotPost from "./NotPost";
 
 export default function ContactTabMenteeSide() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isModal, setIsModal] = useState(false);
   const [modalUid, setModalUid] = useState(null);
+  const defaultImage = useAtomValue(profileImageAtom);
 
   const { data } = useQuery({
     queryKey: ["contacts"],
@@ -50,26 +54,28 @@ export default function ContactTabMenteeSide() {
   };
 
   const handleCancelClick = () => {
-    if (window.confirm("Are you sure you want to cancel?")) {
-      deleteMutate(
-        Object.keys(checks).reduce((acc, key) => {
-          if (checks[key] === true) return [...acc, key];
-          else return [...acc];
-        }, []),
-        {
-          onSuccess: () => {
-            toast("Successfully canceled.");
-            queryClient.invalidateQueries({
-              queryKey: ["contacts"],
-            });
-            setChecks(
-              data.data.data.reduce((acc, post) => {
-                return { ...acc, [post.connectionId]: false };
-              }, {})
-            );
-          },
-        }
-      );
+    if (Object.values(checks).some((val) => val)) {
+      if (window.confirm("Are you sure you want to cancel?")) {
+        deleteMutate(
+          Object.keys(checks).reduce((acc, key) => {
+            if (checks[key] === true) return [...acc, key];
+            else return [...acc];
+          }, []),
+          {
+            onSuccess: () => {
+              toast("Successfully canceled.");
+              queryClient.invalidateQueries({
+                queryKey: ["contacts"],
+              });
+              setChecks(
+                data.data.data.reduce((acc, post) => {
+                  return { ...acc, [post.connectionId]: false };
+                }, {})
+              );
+            },
+          }
+        );
+      }
     } else toast("No mentors have been selected.");
   };
 
@@ -95,7 +101,10 @@ export default function ContactTabMenteeSide() {
                 type="checkbox"
                 name="all"
                 className="accent-green-600"
-                checked={Object.values(checks).every((val) => val === true)}
+                checked={
+                  Object.values(checks).length !== 0 &&
+                  Object.values(checks).every((val) => val === true)
+                }
                 onChange={handleCheckBoxChange}
               />
             </th>
@@ -126,8 +135,8 @@ export default function ContactTabMenteeSide() {
               </td>
               <td className="p-2 text-left space-x-2 flex items-center">
                 <img
-                  className="inline w-8 rounded-full"
-                  src={post.writerDTO.profileImage}
+                  className="inline object-fill w-8 h-8 rounded-full"
+                  src={post.writerDTO.profileImage || defaultImage}
                   alt={`${post.writerDTO.mentorId} 프로필 이미지`}
                 ></img>
                 <div className="inline-flex flex-col">
@@ -168,6 +177,7 @@ export default function ContactTabMenteeSide() {
           ))}
         </tbody>
       </table>
+      {data.data.data.length === 0 && <NotPost />}
       <div className="mt-4 text-right">
         <Button color="white" size="sm" onClick={handleCancelClick}>
           Cancel

@@ -2,7 +2,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { getUser } from "../apis/mentoring/post";
+import { getUserInfoReq } from "../apis/mentoring/post";
 import { useEffectOnce } from "../hooks/useEffectOnce";
 import { userRole } from "../constants/mentoring";
 
@@ -12,8 +12,8 @@ import Error from "../components/common/Error";
 export default function MentorCheck() {
   const navigate = useNavigate();
   const { isLoading, isError, data } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
+    queryKey: ["userInfo"],
+    queryFn: getUserInfoReq,
   });
 
   const isMentor = data?.data.data.role === userRole.MENTOR;

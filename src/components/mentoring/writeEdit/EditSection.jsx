@@ -20,7 +20,11 @@ export default function EditSection() {
     queryFn: () => getPostReq(postId),
   });
 
-  const { mutate } = useMutation({ mutationFn: editPostReq });
+  const { mutate } = useMutation({
+    mutationFn: (edit) => {
+      return editPostReq(postId, edit);
+    },
+  });
 
   const { inputValue, handleInputChange } = useInputsState({
     title: data.data.data.title,

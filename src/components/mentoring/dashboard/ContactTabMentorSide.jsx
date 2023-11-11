@@ -2,25 +2,29 @@ import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useAtomValue } from "jotai";
 
 import {
-  acceptConnectionReq,
   getContactConnectionsReq,
+  acceptConnectionReq,
   refuseConnectionReq,
 } from "../../../apis/mentoring/connetion";
 import { convertDateToAge } from "../../../utils/age";
 import { connectionState } from "../../../constants/mentoring";
+import { profileImageAtom } from "../../../store";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 import Button from "../../common/Button";
 import CreateProfileModal from "./CreateProfileModal";
+import NotPost from "./NotPost";
 
 export default function ContactTabMentorSide() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isModal, setIsModal] = useState(false);
   const [modalUid, setModalUid] = useState(null);
+  const defaultImage = useAtomValue(profileImageAtom);
 
   const { data } = useQuery({
     queryKey: ["contacts"],
@@ -148,7 +152,10 @@ export default function ContactTabMentorSide() {
                 type="checkbox"
                 name="all"
                 className="accent-green-600"
-                checked={Object.values(checks).every((val) => val === true)}
+                checked={
+                  Object.values(checks).length !== 0 &&
+                  Object.values(checks).every((val) => val === true)
+                }
                 onChange={handleCheckBoxChange}
               />
             </th>
@@ -174,8 +181,8 @@ export default function ContactTabMentorSide() {
                 <td></td>
                 <td className="p-2 text-left space-x-2">
                   <img
-                    className="inline w-8 rounded-full"
-                    src={post.writerDTO.profileImage}
+                    className="inline object-fill w-8 h-8 rounded-full"
+                    src={post.writerDTO.profileImage || defaultImage}
                     alt={`${post.writerDTO.mentorId} 프로필 이미지`}
                   ></img>
                   <span className="font-medium">{post.title}</span>
@@ -224,8 +231,8 @@ export default function ContactTabMentorSide() {
                     </td>
                     <td className="p-2 text-left space-x-2">
                       <img
-                        className="inline w-8 rounded-full"
-                        src={connection.mentee.profileImage}
+                        className="inline object-fill w-8 h-8 rounded-full"
+                        src={connection.mentee.profileImage || defaultImage}
                         alt={`${connection.mentee.menteeId} 프로필 이미지`}
                       ></img>
                       <span className="font-medium">
@@ -266,7 +273,8 @@ export default function ContactTabMentorSide() {
             </Fragment>
           ))}
         </tbody>
-      </table>{" "}
+      </table>
+      {data.data.data.length === 0 && <NotPost />}
       <div className="mt-4 text-right space-x-2">
         <Button color="white" size="sm" onClick={handleAcceptClick}>
           Accept

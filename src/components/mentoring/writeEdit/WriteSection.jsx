@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import { useInputsState } from "../../../hooks/useInputsState";
-import { getUser, addPostReq } from "../../../apis/mentoring/post";
+import { getUserInfoReq, addPostReq } from "../../../apis/mentoring/post";
 
 import MentorCard from "./MentorCard";
 import Button from "../../common/Button";
@@ -15,9 +15,14 @@ export default function WriteSection() {
     content: "",
   });
 
-  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
+  const { data } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfoReq,
+  });
 
-  const { mutate } = useMutation({ mutationFn: addPostReq });
+  const { mutate } = useMutation({
+    mutationFn: addPostReq,
+  });
 
   const handleTitleChange = (e) => {
     const title = e.target.value;
@@ -35,8 +40,12 @@ export default function WriteSection() {
     if (inputValue.title && inputValue.content) {
       mutate(inputValue, {
         onSuccess: (res) => {
+          console.dir(res);
           toast("Successfully written.");
-          navigate(`/mentoring/post/${res.data.data.postId}`);
+          // navigate("/mentoring/posts");
+        },
+        onError: (err) => {
+          console.dir(err);
         },
       });
     } else toast("No title or content has been written.");

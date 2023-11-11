@@ -43,7 +43,10 @@ instance.interceptors.request.use(
 
 // 응답 인터셉터 설정
 instance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.dir(response);
+    return response;
+  },
   async (error) => {
     const { config, response } = error;
     if (

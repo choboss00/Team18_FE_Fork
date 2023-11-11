@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 import toast from "react-hot-toast";
 
 import { deletePostReq, donePostReq } from "../../../apis/mentoring/post";
@@ -10,22 +11,25 @@ import {
 } from "../../../apis/mentoring/connetion";
 import { connectionState } from "../../../constants/mentoring";
 import { convertDateToAge } from "../../../utils/age";
+import { profileImageAtom } from "../../../store";
 
 import Button from "../../common/Button";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
+import NotPost from "./NotPost";
 
 export default function PostMentorSide({ data }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const defaultImage = useAtomValue(profileImageAtom);
 
   const isDelete = !data.connections.some(
-    (connection) => connection.connectionState !== connectionState.AWAIT
+    (connection) => connection.state !== connectionState.AWAIT
   );
 
   const [checks, setChecks] = useState(
     data.connections.reduce((acc, connection) => {
-      if (connection.connectionState === connectionState.AWAIT)
+      if (connection.state === connectionState.AWAIT)
         return { ...acc, [connection.connectionId]: false };
       else return acc;
     }, {})
@@ -76,9 +80,10 @@ export default function PostMentorSide({ data }) {
   const handleDoneClick = () => {
     if (window.confirm("Are you sure you want to close this post?"))
       doneMutate(data.postId, {
-        onSuccess: () => {
+        onSuccess: (res) => {
+          console.dir(res);
           toast("Successfully closed.");
-          queryClient.invalidateQueries({ queryKey: ["posts"] });
+          queryClient.invalidateQueries({ queryKey: ["post"] });
         },
       });
   };
@@ -95,11 +100,11 @@ export default function PostMentorSide({ data }) {
             onSuccess: () => {
               toast("Successfully accepted.");
               queryClient.invalidateQueries({
-                queryKey: ["post", data.postId],
+                queryKey: ["post"],
               });
               setChecks(
                 data.connections.reduce((acc, connection) => {
-                  if (connection.connectionState === connectionState.AWAIT)
+                  if (connection.state === connectionState.AWAIT)
                     return { ...acc, [connection.connectionId]: false };
                   else return acc;
                 }, {})
@@ -122,11 +127,11 @@ export default function PostMentorSide({ data }) {
             onSuccess: () => {
               toast("Successfully refused.");
               queryClient.invalidateQueries({
-                queryKey: ["post", data.postId],
+                queryKey: ["post"],
               });
               setChecks(
                 data.connections.reduce((acc, connection) => {
-                  if (connection.connectionState === connectionState.AWAIT)
+                  if (connection.state === connectionState.AWAIT)
                     return { ...acc, [connection.connectionId]: false };
                   else return acc;
                 }, {})
@@ -143,8 +148,8 @@ export default function PostMentorSide({ data }) {
         {/* 상단 - 멘토 정보 및 멘토링 제목 */}
         <div className="w-full h-fit flex">
           <img
-            className="w-56 p-8 rounded-full"
-            src={data.writerDTO.profileImage}
+            className="flex-shrink-0 object-fill w-56 h-56 p-8 rounded-full"
+            src={data.writerDTO.profileImage || defaultImage}
             alt="작성자 프로필 이미지"
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
@@ -184,7 +189,10 @@ export default function PostMentorSide({ data }) {
                   type="checkbox"
                   name="all"
                   className="accent-green-600"
-                  checked={Object.values(checks).every((val) => val === true)}
+                  checked={
+                    Object.values(checks).length !== 0 &&
+                    Object.values(checks).every((val) => val === true)
+                  }
                   onChange={handleCheckBoxChange}
                 />
               </th>
@@ -206,41 +214,38 @@ export default function PostMentorSide({ data }) {
                     className="accent-green-600"
                     checked={checks[connection.connectionId]}
                     onChange={handleCheckBoxChange}
-                    disabled={
-                      connection.connectionState !== connectionState.AWAIT
-                    }
+                    disabled={connection.state !== connectionState.AWAIT}
                   />
                 </td>
                 <td className="p-2 text-left space-x-2">
                   <img
-                    className="inline w-8 rounded-full"
-                    src={connection.menteeDTO.profileImage}
-                    alt={`${connection.menteeDTO.menteeId} 프로필 이미지`}
+                    className="inline object-fill w-8 h-8 rounded-full"
+                    src={connection.mentee.profileImage || defaultImage}
+                    alt={`${connection.mentee.menteeId} 프로필 이미지`}
                   ></img>
-                  <span className="font-medium">
-                    {connection.menteeDTO.name}
-                  </span>
+                  <span className="font-medium">{connection.mentee.name}</span>
                 </td>
                 <td>
-                  <FlagTag>{connection.menteeDTO.country}</FlagTag>
+                  <FlagTag>{connection.mentee.country}</FlagTag>
                 </td>
                 <td className="space-x-2">
-                  {connection.menteeDTO.interests.map((interest, index) => (
+                  {connection.mentee.interests.map((interest, index) => (
                     <Tag key={`menteetag-${index}`}>{interest}</Tag>
                   ))}
                 </td>
                 <td>
                   <Tag>
-                    {convertDateToAge(connection.menteeDTO.birthDate) + ""}
+                    {convertDateToAge(connection.mentee.birthDate) + ""}
                   </Tag>
                 </td>
                 <td>
-                  <Tag>{connection.connectionState}</Tag>
+                  <Tag>{connection.state}</Tag>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {data.connections.length === 0 && <NotPost />}
         {/* 최하단 멘토링 신청자 관리 */}
         <div className="mt-4 text-right space-x-2">
           <Button color="white" size="sm" onClick={handleAcceptClick}>
