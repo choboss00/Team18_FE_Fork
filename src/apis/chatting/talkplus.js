@@ -54,6 +54,7 @@ export const getPublicChannels = async ({
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      getPublicChannels({ lastChannelId, searchValue, searchSubValue });
     }
   }
 };
@@ -67,6 +68,7 @@ export const getChannelDetail = async (channelId) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      getChannelDetail(channelId);
     }
   }
 };
@@ -93,6 +95,7 @@ export const getJoinedChannels = async ({
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      getJoinedChannels({ lastChannelId, searchValue, searchSubValue });
     }
   }
 };
@@ -109,6 +112,7 @@ export const joinChannel = async (channelId) => {
     }
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      joinChannel(channelId);
     }
   }
 };
@@ -132,6 +136,7 @@ export const createChannel = async (data) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      createChannel(data);
     }
   }
 };
@@ -145,6 +150,7 @@ export const leaveChannel = async (channelId) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      leaveChannel(channelId);
     }
   }
 };
@@ -166,6 +172,7 @@ export const updateChannel = async (channelId, data) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      updateChannel(channelId, data);
     }
   }
 };
@@ -189,6 +196,7 @@ export const getMessages = async ({ channelId, lastMessageId }) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      getMessages({ channelId, lastMessageId });
     }
   }
 };
@@ -204,6 +212,7 @@ export const addMessageText = async (channelId, messageText) => {
   } catch (error) {
     if (error.code === ERROR_CODE.UNAUTHORIZED) {
       relogin();
+      addMessageText(channelId, messageText);
     }
   }
 };
